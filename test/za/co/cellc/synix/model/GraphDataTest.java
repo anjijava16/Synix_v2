@@ -59,7 +59,7 @@ public class GraphDataTest {
         String sql = "SELECT Period_Start_Time,100*(decode((NVL(SUM(BCCH_UPTIME),0) + NVL(SUM(BCCH_DOWNTIME),0)), 0, 0,\n"
                 + "SUM(BCCH_UPTIME)/(NVL(SUM(BCCH_UPTIME),0) +\n"
                 + "NVL(SUM(BCCH_DOWNTIME),0)))) FROM N2_CELL_AVAIL WHERE Period_Start_Time >= to_date('" + dtFrom + "','dd/mm/yyyy hh24:mi:ss') AND Period_Start_Time <= to_date('" + dtTo + "','dd/mm/yyyy hh24:mi:ss') AND  Upper(Period) = 'DAILY' AND  Upper(LEVEL_) = 'CONTROLLER' AND BSC_GID = '694806002' GROUP BY Period_Start_Time ORDER BY Period_Start_Time";
-        String expected = "2014/03/28 00:00:00.0,9.61214618098188572185091651180929690154E01\\n2014/03/29 00:00:00.0,9.76996988869880071359844248097793529744E01\\n2014/03/30 00:00:00.0,9.67663015061967900014784311321537135666E01\\n";
+        String expected = "9.61214618098188572185091651180929690154E01\\n9.76996988869880071359844248097793529744E01\\n9.67663015061967900014784311321537135666E01\\n";
         String result = "";
         try {
             stmnt = con.createStatement();

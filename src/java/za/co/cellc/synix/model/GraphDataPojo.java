@@ -5,6 +5,8 @@
  */
 package za.co.cellc.synix.model;
 
+import java.util.List;
+
 /**
  *
  * @author Pierre.Venter
@@ -12,19 +14,25 @@ package za.co.cellc.synix.model;
 public class GraphDataPojo {
 
     String label;
-    String data;
+    List<String> data;
+    List<String> dateTime;
 
-    public GraphDataPojo(String data, String label) {
+    public GraphDataPojo(List<String> data, List<String> dateTime, String label) {
         this.label = label;
         this.data = data;
+        this.dateTime = dateTime;
     }
 
     public String getLabel() {
         return label;
     }
 
-    public String getData() {
+    public List<String> getData() {
         return data;
+    }
+
+    public List<String> getDateTime() {
+        return dateTime;
     }
 
 }

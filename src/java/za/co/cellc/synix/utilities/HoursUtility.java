@@ -47,9 +47,9 @@ public class HoursUtility {
     private void buildHoursList() throws Exception {
         DateListMaker dm = new DateListMaker();
         if (period.equalsIgnoreCase(Constants.Periods.HOURLY.value())) {
-            hours.addAll(dm.getListOfDateHours(fromDate, toDate, DAILY));
-        } else if (period.equalsIgnoreCase(Constants.Periods.DAILY.value())) {
             hours.addAll(dm.getListOfDateHours(fromDate, toDate, HOURLY));
+        } else if (period.equalsIgnoreCase(Constants.Periods.DAILY.value())) {
+            hours.addAll(dm.getListOfDateHours(fromDate, toDate, DAILY));
         } else {
             throw new Exception("Invalid period: " + period);
         }

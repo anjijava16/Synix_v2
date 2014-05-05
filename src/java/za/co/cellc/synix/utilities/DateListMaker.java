@@ -26,11 +26,11 @@ public class DateListMaker {
         this.daily = daily;
         List<String> listOfHours = new ArrayList<>();
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat(Constants.JSP_DATE_FORMAT);
             Date startDate = (Date) formatter.parse(fromDate);
             Date endDate = (Date) formatter.parse(toDate);
             List<Date> listOfDates = listOfDates(startDate, endDate);
-            listOfHours.addAll(listOfHours(listOfDates, "dd/MM/yyyy"));
+            listOfHours.addAll(listOfHours(listOfDates, Constants.JAVA_DATE_FORMAT));
         } catch (ParseException ex) {
             System.out.println("Error getting List of DateHours: " + ex.getMessage());
             throw new Exception("Error getting List of DateHours: " + ex.getMessage());
@@ -51,10 +51,11 @@ public class DateListMaker {
     }
 
     private List<String> listOfHours(List<Date> listOfDates, String format) {
-        SimpleDateFormat formatter = new SimpleDateFormat(format); // "yyyyMMdd");
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
         List<String> listOfHours = new ArrayList<>();
         for (Date date : listOfDates) {
             String hrs = formatter.format(date);
+            hrs = dropHoursFromDateString(hrs);
             int maxHr = daily ? 1 : 24;
             for (int hr = 0; hr < maxHr; hr++) {
                 if (hr > 9) {
@@ -67,4 +68,8 @@ public class DateListMaker {
         return listOfHours;
     }
 
+    private String dropHoursFromDateString(String d) {
+        String ar[] = d.split(" ");
+        return ar[0];
+    }
 }

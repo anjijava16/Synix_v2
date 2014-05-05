@@ -38,6 +38,9 @@ public class QueryManagerThreadTest {
     private static String selectionStr;
     private String dtFrom = "28/03/2014 00:00:00";
     private String dtTo = "30/03/2014 00:00:00";
+    private FormuladefPojo formulaDefPojo;
+    FormuladefPojo formulaDefPojo2;
+    boolean testPassed = false;
     private FormuladefPojo devPojo;
 
     @BeforeClass
@@ -50,10 +53,11 @@ public class QueryManagerThreadTest {
 
     @Before
     public void setUp() throws Exception {
+        selectionStr = ("&timeFrom=30/03/2014 00:00:00&timeTo=29/04/2014 23:00:00&divCounter=1&chartPageColumns=1&fillGraph=false&chartRollerPeriod=1&chartType=KPI&bsc=GTIBN1&bsc=GTIBN2&vendor=NSN&technology=2G&period=Daily");
         FormulaDefManager defMan = new FormulaDefManager(selectionStr, ISTEST);
         List<FormuladefPojo> defPojos = defMan.getFromulaDefPojos();
-        devPojo = defPojos.get(0);
-        selectionStr = ("&timeFrom=30/03/2014 00:00:00&timeTo=29/04/2014 23:00:00&divCounter=1&chartPageColumns=1&fillGraph=false&chartRollerPeriod=1&chartType=KPI&bsc=GTIBN1&bsc=GTIBN2&vendor=NSN&technology=2G&period=Daily");
+        formulaDefPojo = defPojos.get(0);
+        formulaDefPojo2 = defPojos.get(1);
     }
 
     @After
@@ -62,19 +66,34 @@ public class QueryManagerThreadTest {
 
     @Test
     public void doKpiQueryTest() {
-        QueryManagerThread thread = new QueryManagerThread(selectionStr, devPojo);
-
-        QueryBuilder qb = new QueryBuilder(devPojo, selectionStr, ISTEST);
         try {
-            Map<String, String> queriesMap = qb.getQueriesMap();
-            for (Map.Entry<String, String> entry : queriesMap.entrySet()) {
-                testPassed = entry.getValue().equalsIgnoreCase(expectedQs.get(0));
-                break;
-            }
+            List<Thread> threads = new ArrayList<>();
+            testPassed = true;
+            QueryManagerThread runnable = new QueryManagerThread(selectionStr, formulaDefPojo, Constants.PlotterTypes.LINE.value(), ISTEST);
+            QueryManagerThread runnable2 = new QueryManagerThread(selectionStr, formulaDefPojo2, Constants.PlotterTypes.LINE.value(), ISTEST);
+            threads.add(new Thread(runnable));
+            threads.add(new Thread(runnable2));
 
+            for (Thread t : threads) {
+                t.start();
+            }
+            while (!allThreadsDead(threads)) {
+                Thread.sleep(2000);
+            }
+            assertTrue(testPassed);
         } catch (Exception ex) {
-            Logger.getLogger(QueryBuilderTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QueryManagerThreadTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    private boolean allThreadsDead(List<Thread> threads) {
+        boolean dead = true;
+        for (Thread t : threads) {
+            if (t.isAlive()) {
+                return false;
+            }
+        }
+        return dead;
     }
 }

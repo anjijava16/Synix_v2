@@ -11,8 +11,9 @@ package za.co.cellc.synix.constants;
  */
 public class Constants {
 
-    public static final String DB_DATE_FORMAT = "dd/mm/yyyy hh24:mi:ss";
-    public static final String JAVA_DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
+      public static final String DB_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+     public static final String JAVA_DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
+   public static final String JSP_DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
     public static final String DB_CATALOG_NAME = "synix_p_resource";
     public static final String DATE_TIME_COL = "Period_Start_Time";
     public static final int CHART_TITLE = 0;
