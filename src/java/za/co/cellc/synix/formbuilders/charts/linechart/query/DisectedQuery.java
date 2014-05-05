@@ -80,7 +80,7 @@ public class DisectedQuery implements DisectionInterface {
 
     private void setSeries() {
         series = new GraphLabel();
-        series.createSeriesObjects(rs, dataSet, plotter);
+//        series.createSeriesObjects(rs, dataSet, plotter);
     }
 
     private void setRs(String query) {
