@@ -1,0 +1,103 @@
+/* Any demo specific styling needed for this tutorial only */
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+}
+
+#appLayout {
+    height: 100%;
+}
+#leftCol {
+    width: 18em;
+}
+
+.claro .demoLayout .edgePanel {
+    background-color: #E6E6E6;
+    padding: 0px;
+}
+.claro{
+    padding: 0px;
+}
+.claro .demoLayout .filterPanel {
+    /*background-color: #d0e9fc;*/
+    background-color: #E0E0E0;
+}
+.claro .demoLayout {
+    background-color: #D8D8D8;
+}
+.claro .demoLayout .wwClass {
+    background-color: #F8F8F8;
+}
+
+#viewsChart {
+    width: 550px;
+    height: 550px;
+}
+.wfm 
+/*{ width:500px }*/ 
+
+ul { list-style:none; } 
+
+/*li { padding-top:10px }*/ 
+
+ul, li { float:left } 
+
+ul { width:80% } 
+
+.expand { width:15px;height:15px; } 
+
+.collapse { width:15px;height:15px;display:none }
+
+/*
+.collapsibleList li{
+    list-style-image:url('../images/icon-cell.png');
+    cursor:auto;
+}
+
+li.collapsibleListOpen{
+    list-style-image:url('../images/Minus.png');
+    cursor:pointer;
+}
+
+li.collapsibleListClosed{
+    list-style-image:url('../images/Plus.png');
+    cursor:pointer;
+}*/
+.dijitCommonsIcon {
+    background-image: url('../images/commonIconsObjActEnabled.png'); 
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+}
+.dijitChartIcon {
+    background-image: url('../images/tab-icon-34h.png'); 
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+}
+.dijitLeaf { 
+    background-image: url('../images/chart0.png'); 
+    /*background-repeat: no-repeat;*/
+    width: 25px;
+    height: 10px;
+    /*background-position: -272px;*/ 
+}.dijitLeaf2 { 
+    background-image: url('../images/dollar.png'); 
+    /*background-repeat: no-repeat;*/
+    width: 15px;
+    height: 25px;
+    /*background-position: -272px;*/ 
+}
+.dijitFolderOpened,
+.dijitFolderClosed,
+.dijitDisabled .dijitFolderOpened,
+.dijitDisabled .dijitIconFolderOpen{background-image: none;width: 0px;}
+.dijitChartIcon_old { background-position: -270px; }
+.dijitUserIcon { background-position: -446px; }
+/*.dijitIconFolderClosed, .dijitFolderClosed { background-position: none; }*/
+.many{
+}

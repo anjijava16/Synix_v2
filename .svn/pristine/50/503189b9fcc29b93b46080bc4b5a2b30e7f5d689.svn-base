@@ -1,0 +1,121 @@
+* {
+    outline: none !important;
+}
+
+
+
+body {
+    margin: 0;
+    padding: 2em;
+    font-family: Lucida Sans,Lucida Grande,Arial !important;
+    font-size: 12px !important;
+    background: white;
+    color: #333;
+}
+
+button {
+    -webkit-transition: background-color 0.2s linear;
+    border-radius:4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+    background-color: #E4F2FF;
+    background-image: url("../css/claro/form/images/button.png");
+    background-position: center top;
+    background-repeat: repeat-x;
+    border: 1px solid #769DC0;
+    padding: 2px 8px 4px;
+    font-size:1em;
+}
+
+button:hover {
+    background-color: #AFD9FF;
+    color: #000000;
+}
+
+h1 {
+    font-size:1.5em;
+}
+
+.break
+{
+    float:none;
+    clear:both;
+}
+/*#chartTab{
+        background: url('../images/download.gif');
+    background: url('../images/loading.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1;
+}*/
+.loadingImg{
+    /*    background: url('../images/download.gif');*/
+    background: url('../images/loading.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 200px;
+    z-index: 100;
+}
+
+thead.fixedHeader  {
+
+    /*    background: #C0C0C0;*/
+    /*    border-left: 1px solid #808080;*/
+    /*background-image: url('../images/bg_1024x768.gif');*/
+    background-color: #F5F5F5;
+    background-repeat: no-repeat;
+    /* border-right: 1px solid #ffff66; */
+    /*    border-top: 1px solid #808080;*/
+    font-weight: normal;
+    padding: 0px 0px;
+    text-align: left;
+
+}
+.header {
+    position: relative;
+    left: -8px;
+    z-index: 1;
+    background: url('../images/globalheader_bg.png');
+    width: 102%;
+    height: 50px;
+    background-repeat:no-repeat;
+    background-size: cover
+}
+.welcome_backGround {
+    position: absolute;
+    height: 500px;
+    width: 90%;
+    /*float: left;*/
+    /*margin-top: 0px;*/
+    /*background: url('../images/synix_welcome2.jpg');*/
+    background-size: auto;
+    background-repeat:no-repeat;
+}
+.btsNamesListBox {
+    /*color: #bb0000;*/
+    font-size: 1em;
+    overflow: visible;
+    width: 400px;
+    /*background: url('../images/loading.gif');*/
+    text-align: left;
+    /* better to use em proportional size for display than pt */
+}
+.cell_Filters_listbox_div{
+    /*width: 180px;*/
+    overflow-x: auto;
+}
+.bsc_rnc_Filters_panel{
+    width: 180px;
+/*    overflow-x: auto;*/
+}
+
+.imgcenter{
+    display: block;
+    margin:0 auto;
+    text-align:center;
+    top: 5px;
+    height: 40px;
+    z-index: 100;
+}
+/*.comboPeriodClass { width: 50px; 
+                    background-color: #F5F5F5;}*/
