@@ -5,7 +5,6 @@
  */
 package za.co.cellc.synix.model;
 
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,10 +15,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import za.co.cellc.synix.constants.Constants;
-import za.co.cellc.synix.controllers.FormuladefPojo;
-import za.co.cellc.synix.controllers.JSON_Parser;
-import za.co.cellc.synix.dbconnection.ProductionTestSingleton;
+import za.co.cellc.synix.controllers.FormulaDefPojo;
 import za.co.cellc.synix.persistance.Database;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -27,14 +25,15 @@ import za.co.cellc.synix.persistance.Database;
  */
 public class FormulaDefManager {
 
-    private String selectionStr;
+//    private String selectionStr;
     private String vendor;
     private String technology;
     private static boolean test = false;
+    private HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
 
-    public FormulaDefManager(String selectionStr,boolean test) {
-        this.selectionStr = selectionStr;
-        this.test=test;
+    public FormulaDefManager(boolean test) {
+//        this.selectionStr = selectionStr;
+        this.test = test;
         try {
             decodeSelectionStr();
         } catch (Exception ex) {
@@ -43,15 +42,15 @@ public class FormulaDefManager {
         }
     }
 
-    public List<FormuladefPojo> getFromulaDefPojos() {
-        List<FormuladefPojo> formulaDefPojos = createFormulaDefPojos();
+    public List<FormulaDefPojo> getFromulaDefPojos() {
+        List<FormulaDefPojo> formulaDefPojos = createFormulaDefPojos();
         return formulaDefPojos;
     }
 
-    private List<FormuladefPojo> createFormulaDefPojos() {
+    private List<FormulaDefPojo> createFormulaDefPojos() {
         Statement stmnt = null;
         ResultSet rs = null;
-        List<FormuladefPojo> formulaDefPojos = new ArrayList<>();
+        List<FormulaDefPojo> formulaDefPojos = new ArrayList<>();
         try {
             String sql = makeQuery();
             stmnt = Database.getInstance(test).getCon().createStatement();
@@ -62,7 +61,7 @@ public class FormulaDefManager {
                 for (int i = 0; i < colCount; i++) {
                     map.put(Constants.FORMULA_DEFS_FIELDS[i], rs.getString(i + 1));
                 }
-                FormuladefPojo defPojo = new FormuladefPojo(map);
+                FormulaDefPojo defPojo = new FormulaDefPojo(map);
                 formulaDefPojos.add(defPojo);
             }
         } catch (Exception ex) {
@@ -87,9 +86,8 @@ public class FormulaDefManager {
     }
 
     private void decodeSelectionStr() throws Exception {
-        JSON_Parser jp = new JSON_Parser();
-        vendor = jp.getValuesForObject("vendor", selectionStr).get(0);
-        technology = jp.getValuesForObject("technology", selectionStr).get(0);
+        vendor = htmlIp.getVendor();
+        technology = htmlIp.getTechnology();
     }
 
     private String makeQuery() {
@@ -101,10 +99,20 @@ public class FormulaDefManager {
         }
         sql.deleteCharAt(sql.length() - 1);
         sql.append(" FROM FORMULA_DEFS WHERE VENDOR = '");
-        sql.append(vendor);
+        sql.append(getVendor());
         sql.append("' AND TECHNOLOGY = '");
         sql.append(technology).append("'");
-        sql.append(" AND IS_ENABLED = '1'");
+
+        sql.append(" AND IS_ENABLED = '");
+        sql.append(getEnabledState()).append("'");
         return sql.toString();
+    }
+
+    private String getEnabledState() {
+        return test ? "9" : "1";
+    }
+
+    private String getVendor() {
+        return test ? "Test" : vendor;
     }
 }

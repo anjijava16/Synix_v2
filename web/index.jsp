@@ -9,7 +9,7 @@ and open the template in the editor.
 
 <!DOCTYPE HTML>
 <html lang="en">
-    <%
+    <%        
         String theLogin = (String) session.getAttribute("theLogin");
         String thePassword = (String) session.getAttribute("loginpassword");
         String theLevel = (String) session.getAttribute("level");
@@ -24,7 +24,7 @@ and open the template in the editor.
             authenticated = true;
 
         } else if (login != null && password != null) {
-            Authenticate auth = new Authenticate(login, password);
+            Authenticate auth = new Authenticate(login, password,false);
             authenticated = auth.passwordAuthenticate();
             if (authenticated) {
                 session.setAttribute("theLogin", login);
@@ -237,12 +237,18 @@ and open the template in the editor.
         </script>  
 
     </head>
-    <body class="claro">
-        <%            if (theLogin == null || !authenticated) {
+    <body class="claro">        
+        <% String errorMessage;  
+        if (theLogin == null || !authenticated) {
+            errorMessage = "Authentication falied. Please try again.";
+            session.setAttribute("errorMessage", errorMessage);
         %>
+        
         <jsp:forward page="login.jsp" />
         <%
-            }
+            }else{
+            errorMessage=" ";
+        }
         %>
         <!-- basic preloader: -->
         <div id="loader" style="display:block;"><div id="loaderInner" style="direction:ltr;white-space:nowrap;overflow:visible;">Loading ... </div></div>

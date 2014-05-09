@@ -8,15 +8,22 @@ package za.co.cellc.synix.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import za.co.cellc.synix.controllers.FormuladefPojo;
-import za.co.cellc.synix.controllers.QueryBuilder;
+import za.co.cellc.synix.constants.Constants;
+import za.co.cellc.synix.controllers.FormulaDefPojo;
+import za.co.cellc.synix.controllers.MultiEntryQueryMapBuilder;
+import za.co.cellc.synix.controllers.QueryMapBuilder;
+import za.co.cellc.synix.model.adaptors.Adaptor;
+import za.co.cellc.synix.model.adaptors.AdaptorFactory;
 import za.co.cellc.synix.persistance.Database;
 import za.co.cellc.synix.utilities.HoursUtility;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -24,10 +31,10 @@ import za.co.cellc.synix.utilities.HoursUtility;
  */
 public class QueryManagerThread implements Runnable {
 
+    private int MAP_TYPE = Constants.SINGLE_ENTRY_MAP_TYPE;//or MULTI_ENTRY_MAP_TYPE
     private boolean test = false;
     private List<String> hours = new ArrayList<>();
-    private String selectionStr;
-    private FormuladefPojo devPojo;
+    private FormulaDefPojo devPojo;
     private Map<String, String> queriesMap;
     private List<GraphData> gdObjects = new ArrayList<>();
     private List<String> labelNames = new ArrayList<>();
@@ -35,38 +42,59 @@ public class QueryManagerThread implements Runnable {
     private Statement stmnt;
     private ResultSet rs;
     private String plotter;
+    private HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
+    private HoursUtility hUtil = new HoursUtility();
 
-    QueryManagerThread(String selectionStr, FormuladefPojo devPojo, String plotter, boolean test) throws Exception {
-        this.selectionStr = selectionStr;
+    public QueryManagerThread(FormulaDefPojo devPojo, String plotter, boolean test) throws Exception {
         this.devPojo = devPojo;
         this.test = test;
         this.plotter = plotter;
     }
 
+    @Override
+    public void run() {
+        try {
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss:SS");
+            Date d1 = new Date();
+            System.out.println("Thread " + devPojo.getChartTitle() + " starting. " + (d1));
+
+            setHours();
+            setQueriesMap();
+            buildGraphDataPojos();
+
+            Date d2 = new Date();
+            long diff = d2.getTime() - d1.getTime();
+            long duration = diff / 1000;
+            System.out.println("Thread " + devPojo.getChartTitle() + " done. " + duration + "secs");
+        } catch (Exception ex) {
+            Logger.getLogger(QueryManagerThread.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error running thread for pojo with ChartTitle: " + devPojo.getChartTitle() + ex.getMessage());
+        }
+    }
+
     private void setHours() {
-        HoursUtility hrs = new HoursUtility(selectionStr);
+        HoursUtility hrs = new HoursUtility();
         hours.addAll(hrs.getHours());
     }
 
     private void setQueriesMap() throws Exception {
-        QueryBuilder qb = new QueryBuilder(devPojo, selectionStr, test);
-        queriesMap = qb.getQueriesMap();
+        QueryMapBuilder qmb = QueryMapBuilderFactory.create(devPojo, MAP_TYPE, test);
+        queriesMap = qmb.getQueriesMap();
     }
 
     private void buildGraphDataPojos() throws Exception {
         for (Map.Entry<String, String> entry : queriesMap.entrySet()) {
             String query = entry.getValue();
+            System.out.println(hUtil.timeStamp() + " start loop: " + query + "\n");
             List<String> elementNames = new ArrayList<>();
             elementNames.add(entry.getKey());
             setRsFromQuery(query);
-            GraphData gd = new GraphData();
-            gd.dataFromRS(rs);
-            gdObjects.add(gd);
-            GraphLabel gl = new GraphLabel();
-            gl.createSeriesObjects(gd, plotter, elementNames);
-            labelNames.add(gl.toString());
+            Adaptor adaptor = AdaptorFactory.create(Constants.NON_AGGREGATION_ADAPTOR, rs, test);
+            gdObjects.addAll(adaptor.getGdList());
+            labelNames.add(adaptor.getGraphLabels());
             stmnt.close();
             rs.close();
+            System.out.println(hUtil.timeStamp() + " end loop: " + query + "\n");
         }
         String dataStr = concatenateGraphData();
         String labels = concatenateGraphLabels();
@@ -81,7 +109,7 @@ public class QueryManagerThread implements Runnable {
                 concatSb.append(",");
                 concatSb.append(gd.getValueForDateTime(hr));
             }
-            concatSb.append("\n");
+            concatSb.append("\\n");
         }
         return concatSb.toString();
     }
@@ -120,9 +148,12 @@ public class QueryManagerThread implements Runnable {
 
     private void setRsFromQuery(String q) throws Exception {
         try {
-            System.out.println("\nq=" + q);
+//            System.out.println("\nq=" + q);
+            System.out.println(hUtil.timeStamp() + " start q: " + q + "\n");
             stmnt = Database.getInstance(test).getCon().createStatement();
             rs = stmnt.executeQuery(q);
+            System.out.println(hUtil.timeStamp() + " end q: " + q + "\n");
+
         } catch (SQLException ex) {
             Logger.getLogger(QueryManagerThread.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Error creating statement: " + ex.getMessage());
@@ -130,15 +161,4 @@ public class QueryManagerThread implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
-        try {
-            setHours();
-            setQueriesMap();
-            buildGraphDataPojos();
-        } catch (Exception ex) {
-            Logger.getLogger(QueryManagerThread.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Error running thread for pojo with ChartTitle: " + devPojo.getChartTitle() + ex.getMessage());
-        }
-    }
 }

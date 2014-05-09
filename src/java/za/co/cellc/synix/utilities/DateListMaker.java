@@ -30,7 +30,7 @@ public class DateListMaker {
             Date startDate = (Date) formatter.parse(fromDate);
             Date endDate = (Date) formatter.parse(toDate);
             List<Date> listOfDates = listOfDates(startDate, endDate);
-            listOfHours.addAll(listOfHours(listOfDates, Constants.JAVA_DATE_FORMAT));
+            listOfHours.addAll(listOfHours(listOfDates, Constants.GRAPH_DATE_FORMAT));
         } catch (ParseException ex) {
             System.out.println("Error getting List of DateHours: " + ex.getMessage());
             throw new Exception("Error getting List of DateHours: " + ex.getMessage());

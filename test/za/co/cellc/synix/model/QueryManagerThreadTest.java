@@ -23,8 +23,8 @@ import za.co.cellc.synix.controllers.PrintUtils;
 import za.co.cellc.synix.persistance.Database;
 import org.junit.Test;
 import za.co.cellc.synix.constants.Constants;
-import za.co.cellc.synix.controllers.FormuladefPojo;
-import za.co.cellc.synix.controllers.QueryBuilder;
+import za.co.cellc.synix.controllers.FormulaDefPojo;
+import za.co.cellc.synix.controllers.MultiEntryQueryMapBuilder;
 import za.co.cellc.synix.controllers.QueryBuilderTest;
 
 /**
@@ -38,10 +38,10 @@ public class QueryManagerThreadTest {
     private static String selectionStr;
     private String dtFrom = "28/03/2014 00:00:00";
     private String dtTo = "30/03/2014 00:00:00";
-    private FormuladefPojo formulaDefPojo;
-    FormuladefPojo formulaDefPojo2;
+    private FormulaDefPojo formulaDefPojo;
+    FormulaDefPojo formulaDefPojo2;
     boolean testPassed = false;
-    private FormuladefPojo devPojo;
+    private FormulaDefPojo devPojo;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -54,8 +54,8 @@ public class QueryManagerThreadTest {
     @Before
     public void setUp() throws Exception {
         selectionStr = ("&timeFrom=30/03/2014 00:00:00&timeTo=29/04/2014 23:00:00&divCounter=1&chartPageColumns=1&fillGraph=false&chartRollerPeriod=1&chartType=KPI&bsc=GTIBN1&bsc=GTIBN2&vendor=NSN&technology=2G&period=Daily");
-        FormulaDefManager defMan = new FormulaDefManager(selectionStr, ISTEST);
-        List<FormuladefPojo> defPojos = defMan.getFromulaDefPojos();
+        FormulaDefManager defMan = new FormulaDefManager( ISTEST);
+        List<FormulaDefPojo> defPojos = defMan.getFromulaDefPojos();
         formulaDefPojo = defPojos.get(0);
         formulaDefPojo2 = defPojos.get(1);
     }
@@ -69,8 +69,8 @@ public class QueryManagerThreadTest {
         try {
             List<Thread> threads = new ArrayList<>();
             testPassed = true;
-            QueryManagerThread runnable = new QueryManagerThread(selectionStr, formulaDefPojo, Constants.PlotterTypes.LINE.value(), ISTEST);
-            QueryManagerThread runnable2 = new QueryManagerThread(selectionStr, formulaDefPojo2, Constants.PlotterTypes.LINE.value(), ISTEST);
+            QueryManagerThread runnable = new QueryManagerThread( formulaDefPojo, Constants.PlotterTypes.LINE.value(), ISTEST);
+            QueryManagerThread runnable2 = new QueryManagerThread( formulaDefPojo2, Constants.PlotterTypes.LINE.value(), ISTEST);
             threads.add(new Thread(runnable));
             threads.add(new Thread(runnable2));
 

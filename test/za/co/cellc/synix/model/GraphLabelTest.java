@@ -23,8 +23,9 @@ import za.co.cellc.synix.controllers.PrintUtils;
 import za.co.cellc.synix.persistance.Database;
 import org.junit.Test;
 import za.co.cellc.synix.constants.Constants;
-import za.co.cellc.synix.controllers.FormuladefPojo;
-import za.co.cellc.synix.controllers.QueryBuilder;
+import za.co.cellc.synix.controllers.FormulaDefPojo;
+import za.co.cellc.synix.controllers.MultiEntryQueryMapBuilder;
+import za.co.cellc.synix.controllers.QueryMapBuilder;
 
 /**
  *
@@ -57,6 +58,7 @@ public class GraphLabelTest {
 
     @Test
     public void createSeriesObjectsTest() {
+        int mapType = Constants.SINGLE_ENTRY_MAP_TYPE;
         boolean testPassed = false;
         Statement stmnt = null;
         ResultSet rs = null;
@@ -73,9 +75,9 @@ public class GraphLabelTest {
             GraphData gd = new GraphData();
             gd.dataFromRS(rs);
 
-            FormulaDefManager defMan = new FormulaDefManager(selectionStr, ISTEST);
-            List<FormuladefPojo> defPojos = defMan.getFromulaDefPojos();
-            QueryBuilder qb = new QueryBuilder(defPojos.get(0), selectionStr, ISTEST);
+            FormulaDefManager defMan = new FormulaDefManager( ISTEST);
+            List<FormulaDefPojo> defPojos = defMan.getFromulaDefPojos();
+            QueryMapBuilder qb = QueryMapBuilderFactory.create(defPojos.get(0), mapType, ISTEST);
             Map<String, String> queriesMap = qb.getQueriesMap();
             for (Map.Entry<String, String> entry : queriesMap.entrySet()) {
                 List<String> labels = new ArrayList<>();

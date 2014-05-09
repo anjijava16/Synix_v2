@@ -13,19 +13,19 @@ import java.util.List;
  */
 public class GraphDataPojo {
 
-    String label;
+//    String label;
     List<String> data;
     List<String> dateTime;
 
-    public GraphDataPojo(List<String> data, List<String> dateTime, String label) {
-        this.label = label;
+    public GraphDataPojo(List<String> data, List<String> dateTime) {
+//        this.label = label;
         this.data = data;
         this.dateTime = dateTime;
     }
 
-    public String getLabel() {
-        return label;
-    }
+//    public String getLabel() {
+//        return label;
+//    }
 
     public List<String> getData() {
         return data;

@@ -17,6 +17,7 @@
             session.setAttribute("loginname", "");;
             session.setAttribute("isAdmin", "false");
             session.setAttribute("level", "-1");
+            session.setAttribute("errorMessage", " ");
         %>
     </head>
     <body>

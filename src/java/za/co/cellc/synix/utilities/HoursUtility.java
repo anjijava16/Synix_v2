@@ -5,12 +5,15 @@
  */
 package za.co.cellc.synix.utilities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.controllers.JSON_Parser;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -20,14 +23,14 @@ public class HoursUtility {
 
     private final boolean DAILY = true;
     private final boolean HOURLY = false;
-    private String selectionStr;
+//    private String selectionStr;
     private List<String> hours = new ArrayList<>();
     private String fromDate;
     private String toDate;
     private String period;
+    private HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
 
-    public HoursUtility(String selection) {
-        this.selectionStr = selection;
+    public HoursUtility() {
         try {
             decodeSelection();
             buildHoursList();
@@ -38,10 +41,9 @@ public class HoursUtility {
     }
 
     private void decodeSelection() throws Exception {
-        JSON_Parser jp = new JSON_Parser();
-        fromDate = jp.getValuesForObject("timeFrom", selectionStr).get(0);
-        toDate = jp.getValuesForObject("timeTo", selectionStr).get(0);
-        period = jp.getValuesForObject("period", selectionStr).get(0);
+        fromDate = htmlIp.getFromDate();
+        toDate = htmlIp.getToDate();
+        period = htmlIp.getPeriod();
     }
 
     private void buildHoursList() throws Exception {
@@ -57,6 +59,12 @@ public class HoursUtility {
 
     public List<String> getHours() {
         return hours;
+    }
+
+    public String timeStamp() {
+        Date d1 = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss:SS");
+        return sdf.format(d1);
     }
 
 }

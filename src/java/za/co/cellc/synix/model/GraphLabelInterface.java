@@ -16,7 +16,7 @@ public interface GraphLabelInterface {
 
     public void createSeriesObjects(GraphData ds, String plotter, List<String> labelName);
 
-    public List<GraphLabelObject> getSeriesObjects();
+//    public List<GraphLabelObject> getSeriesObjects();
 
     public String toString();
 }

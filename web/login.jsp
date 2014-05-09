@@ -10,6 +10,10 @@
 <head>
     <title>Login Page</title>
     <%
+        String theErrorMessage = (String) session.getAttribute("errorMessage");
+        if (theErrorMessage == null) {
+            theErrorMessage = " ";
+        }
         session.setAttribute("theLogin", "");
         session.setAttribute("isAdmin", "false");
         session.setAttribute("level", "-1");
@@ -51,6 +55,11 @@
             <tr>
                 <td style="text-align: center" colspan="2">
                     <input type="submit" value="Submit" name="B1" style="text-align: center">
+                </td>
+            </tr>
+            <tr style="border: 1px #000000">
+                <td colspan="2" style="text-align: center">
+                    <h3><%=theErrorMessage%></h3>
                 </td>
             </tr>
             <tr style="border: 1px #000000">

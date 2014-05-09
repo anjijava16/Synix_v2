@@ -15,7 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import za.co.cellc.synix.formbuilders.charts.worstCells.WC_Chart;
+//import za.co.cellc.synix.formbuilders.charts.worstCells.WC_Chart;
 import za.co.cellc.synix.formbuilders.formatting.AjaxInputFormatter;
 
 /**
@@ -56,10 +56,10 @@ public class WorstCellsChartServlet extends HttpServlet {
     }
 
     private String getChartsHTML() {
-        List<String> divCounters = extractFromJSON("divCounter");
-        int i = Integer.parseInt(divCounters.get(0));
-        WC_Chart wc_chart = new WC_Chart();
-        return wc_chart.drawCharts(sb, i,false);
+//        List<String> divCounters = extractFromJSON("divCounter");
+//        int i = Integer.parseInt(divCounters.get(0));
+//        WC_Chart wc_chart = new WC_Chart();
+        return "";// wc_chart.drawCharts(sb, i,false);
     }
 
     private List<String> extractFromJSON(String objectName) {

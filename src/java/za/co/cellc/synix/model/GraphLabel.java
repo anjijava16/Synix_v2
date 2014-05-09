@@ -24,21 +24,21 @@ public class GraphLabel implements GraphLabelInterface {
 
     @Override
     public void createSeriesObjects(GraphData gd, String plotter, List<String> labelNames) {
-        try {
-            setLabels(labelNames);
-            for (int i = 0; i < labels.size(); i++) {
-                seriesObjects.add(new GraphLabelObject(labels.get(i), plotter, gd.getDataForColumn(i)));
-            }
-            setSeriesY_Axis();
-        } catch (SQLException ex) {
-            Logger.getLogger(GraphData.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            setLabels(labelNames);
+//            for (int i = 0; i < labels.size(); i++) {
+//                seriesObjects.add(new GraphLabelObject(labels.get(i), plotter, gd.getDataForColumn(i)));
+//            }
+//            setSeriesY_Axis();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(GraphData.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
-    @Override
-    public List<GraphLabelObject> getSeriesObjects() {
-        return seriesObjects;
-    }
+//    @Override
+//    public List<GraphLabelObject> getSeriesObjects() {
+//        return seriesObjects;
+//    }
 
     @Override
     public String toString() {
