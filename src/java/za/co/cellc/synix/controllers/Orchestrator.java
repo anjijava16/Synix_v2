@@ -20,7 +20,7 @@ public class Orchestrator {
 
     private List<Thread> threads = new ArrayList<>();
     private boolean test;
-    private List<FormulaDefPojo> formulaDefPojos;
+    private List<FormuladefPojo> formulaDefPojos;
     private List<GraphConstructPojo> graphConstructPojos;
 
     public List<GraphConstructPojo> getGraphConstructPojos(boolean test) throws Exception {
@@ -44,7 +44,7 @@ public class Orchestrator {
     }
 
     private void spawnQueryManagerThreads() throws Exception {
-        for (FormulaDefPojo fdp : formulaDefPojos) {
+        for (FormuladefPojo fdp : formulaDefPojos) {
             QueryManagerThread runnable = new QueryManagerThread(fdp, Constants.PlotterTypes.LINE.value(), test);
             threads.add(new Thread(runnable));
         }

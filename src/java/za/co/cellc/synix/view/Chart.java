@@ -7,7 +7,7 @@ package za.co.cellc.synix.view;
 
 import java.util.List;
 import za.co.cellc.synix.controllers.FormulaDefController;
-import za.co.cellc.synix.controllers.FormulaDefPojo;
+import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.Orchestrator;
 import za.co.cellc.synix.model.GraphConstructPojo;
 import za.co.cellc.synix.model.GraphConstructsSingleton;
@@ -22,7 +22,7 @@ public class Chart {
     boolean test = false;
     int divIndex;
     private List<GraphConstructPojo> graphConstructPojos;
-    private List<FormulaDefPojo> formulaDefPojos;
+    private List<FormuladefPojo> formulaDefPojos;
     private HtmlInputProcessor hip;
 
     public Chart(StringBuilder selectionSb, int divIndex, boolean test) throws Exception {
@@ -76,7 +76,7 @@ public class Chart {
         return sb.toString();
     }
 
-    private GraphConstructPojo getMatchingGraphConstructPojo(FormulaDefPojo fdp) throws Exception {
+    private GraphConstructPojo getMatchingGraphConstructPojo(FormuladefPojo fdp) throws Exception {
         String chartTitle = fdp.getChartTitle();
         for (GraphConstructPojo gcp : graphConstructPojos) {
             if (gcp.equals(chartTitle)) {

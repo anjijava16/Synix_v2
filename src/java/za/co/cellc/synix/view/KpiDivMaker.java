@@ -4,7 +4,7 @@
  */
 package za.co.cellc.synix.view;
 
-import za.co.cellc.synix.controllers.FormulaDefPojo;
+import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.model.GraphConstructPojo;
 
 /**
@@ -18,7 +18,7 @@ public class KpiDivMaker {
     private int divIndex;
     private String width = 100 + "%";
 //    private int chartIndex = 0;
-    private FormulaDefPojo formulaDef;
+    private FormuladefPojo formulaDef;
     private String header;
 
     public KpiDivMaker(int divIndex) {
@@ -30,7 +30,7 @@ public class KpiDivMaker {
         return header;
     }
 
-    public String getChartDivs(FormulaDefPojo formulaDef, GraphConstructPojo gcp,int chartIndex) {
+    public String getChartDivs(FormuladefPojo formulaDef, GraphConstructPojo gcp,int chartIndex) {
         this.formulaDef = formulaDef;
         StringBuilder out = new StringBuilder();
 

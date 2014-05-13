@@ -11,7 +11,7 @@ package za.co.cellc.synix.controllers;
  */
 public class QueryMapBuilderFactory {
 
-    public static QueryMapBuilder create(FormulaDefPojo defPojo, int mapType, boolean test) throws Exception {
+    public static QueryMapBuilder create(FormuladefPojo defPojo, int mapType, boolean test) throws Exception {
         if (mapType == 1) {
             return new SingleEntryQueryMapBuilder(defPojo, test);
         } else if (mapType == 2) {

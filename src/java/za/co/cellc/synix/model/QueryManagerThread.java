@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import za.co.cellc.synix.constants.Constants;
-import za.co.cellc.synix.controllers.FormulaDefPojo;
+import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.MultiEntryQueryMapBuilder;
 import za.co.cellc.synix.controllers.QueryMapBuilder;
 import za.co.cellc.synix.model.adaptors.Adaptor;
@@ -36,7 +36,7 @@ public class QueryManagerThread implements Runnable {
 //    private int MAP_TYPE = Constants.SINGLE_ENTRY_MAP_TYPE;//or MULTI_ENTRY_MAP_TYPE
     private boolean test = false;
     private List<String> hours = new ArrayList<>();
-    private FormulaDefPojo devPojo;
+    private FormuladefPojo devPojo;
     private Map<String, String> queriesMap;
     private List<GraphData> gdObjects = new ArrayList<>();
     private List<String> labelNames = new ArrayList<>();
@@ -48,7 +48,7 @@ public class QueryManagerThread implements Runnable {
     private HoursUtility hUtil = new HoursUtility();
     private Connection con;
 
-    public QueryManagerThread(FormulaDefPojo devPojo, String plotter, boolean test) throws Exception {
+    public QueryManagerThread(FormuladefPojo devPojo, String plotter, boolean test) throws Exception {
         this.devPojo = devPojo;
         this.test = test;
         this.plotter = plotter;

@@ -18,7 +18,7 @@ import za.co.cellc.synix.constants.Constants;
  */
 public class MultiEntryQueryMapBuilder extends QueryMapBuilder {
 
-    public MultiEntryQueryMapBuilder(FormulaDefPojo defPojo, boolean test) throws Exception {
+    public MultiEntryQueryMapBuilder(FormuladefPojo defPojo, boolean test) throws Exception {
         super(defPojo, test);
         this.defPojo = defPojo;
     }

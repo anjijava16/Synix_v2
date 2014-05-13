@@ -4,7 +4,7 @@
  */
 package za.co.cellc.synix.view;
 
-import za.co.cellc.synix.controllers.FormulaDefPojo;
+import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.model.GraphConstructPojo;
 
 /**
@@ -16,7 +16,7 @@ public class KpiContentMaker {
     private String WORST_CELL_ANNOTATION = "WORST_CELL";
 //    private StringBuilder sb;
     private int divIndex;
-    private FormulaDefPojo formulaDef;
+    private FormuladefPojo formulaDef;
     private String technology;
     private String vendor;
     private String pages;
@@ -55,7 +55,7 @@ public class KpiContentMaker {
                 + "</div>";
     }
 
-    public StringBuilder getCharts(FormulaDefPojo formulaDef, GraphConstructPojo gcp, int chartIndex) {
+    public StringBuilder getCharts(FormuladefPojo formulaDef, GraphConstructPojo gcp, int chartIndex) {
         this.formulaDef = formulaDef;
         return createCharts(gcp, chartIndex);
     }

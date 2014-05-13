@@ -20,7 +20,7 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
 
     private StringBuilder mapKey = new StringBuilder();
 
-    public SingleEntryQueryMapBuilder(FormulaDefPojo defPojo, boolean test) throws Exception {
+    public SingleEntryQueryMapBuilder(FormuladefPojo defPojo, boolean test) throws Exception {
         super(defPojo, test);
         this.defPojo = defPojo;
     }

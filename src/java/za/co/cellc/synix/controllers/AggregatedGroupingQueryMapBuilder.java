@@ -19,7 +19,7 @@ import za.co.cellc.synix.constants.Constants;
  */
 public class AggregatedGroupingQueryMapBuilder extends QueryMapBuilder {
 
-    public AggregatedGroupingQueryMapBuilder(FormulaDefPojo defPojo, boolean test) throws Exception {
+    public AggregatedGroupingQueryMapBuilder(FormuladefPojo defPojo, boolean test) throws Exception {
         super(defPojo, test);
         this.defPojo = defPojo;
     }

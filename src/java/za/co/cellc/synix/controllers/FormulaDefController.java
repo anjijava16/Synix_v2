@@ -15,7 +15,7 @@ import za.co.cellc.synix.model.FormulaDefManager;
  */
 public class FormulaDefController {
 
-    public List<FormulaDefPojo> getFormulaDefPojos(boolean test) {
+    public List<FormuladefPojo> getFormulaDefPojos(boolean test) {
         FormulaDefManager fdm = new FormulaDefManager(test);
         return fdm.getFromulaDefPojos();
     }

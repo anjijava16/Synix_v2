@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import za.co.cellc.synix.constants.Constants;
-import za.co.cellc.synix.controllers.FormulaDefPojo;
+import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.persistance.Database;
 import za.co.cellc.synix.view.HtmlInputProcessor;
 
@@ -42,15 +42,15 @@ public class FormulaDefManager {
         }
     }
 
-    public List<FormulaDefPojo> getFromulaDefPojos() {
-        List<FormulaDefPojo> formulaDefPojos = createFormulaDefPojos();
+    public List<FormuladefPojo> getFromulaDefPojos() {
+        List<FormuladefPojo> formulaDefPojos = createFormulaDefPojos();
         return formulaDefPojos;
     }
 
-    private List<FormulaDefPojo> createFormulaDefPojos() {
+    private List<FormuladefPojo> createFormulaDefPojos() {
         Statement stmnt = null;
         ResultSet rs = null;
-        List<FormulaDefPojo> formulaDefPojos = new ArrayList<>();
+        List<FormuladefPojo> formulaDefPojos = new ArrayList<>();
         try {
             String sql = makeQuery();
             stmnt = Database.getInstance(test).getCon().createStatement();
@@ -61,7 +61,7 @@ public class FormulaDefManager {
                 for (int i = 0; i < colCount; i++) {
                     map.put(Constants.FORMULA_DEFS_FIELDS[i], rs.getString(i + 1));
                 }
-                FormulaDefPojo defPojo = new FormulaDefPojo(map);
+                FormuladefPojo defPojo = new FormuladefPojo(map);
                 formulaDefPojos.add(defPojo);
             }
         } catch (Exception ex) {
