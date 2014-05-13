@@ -19,6 +19,8 @@ var selected2GNSNCells = new Array();
 var selected2GNSNCellsGroups = new Array();
 var selected3GNSNCells = new Array();
 var selected3GNSNCellsGroups = new Array();
+var enabledCellGroups = new Array();
+//var enabled3GNSNCellsGroups = new Array();
 //var selected3GNSNCellsGroupIndexes = new Array();
 //var selected2GNSNCellsGroupIndexes = new Array();
 
@@ -195,7 +197,7 @@ function showFilters(tabName) {
             document.getElementById("2Gcell_Filters_search").style.display = "block";
             document.getElementById("cell_Filters2G_listbox_div").style.display = "block";
             displayDijitButton("aggregate2GCellsButton", true);
-            showSelectedCellsToGroup("btsNamesListBox", false);
+            addSelectedCellsToGroup("btsNamesListBox", false);
         }
     }
     if (tabName === "3G SLA KPI" || tabName === "3G Revenue/Site") {
@@ -212,7 +214,7 @@ function showFilters(tabName) {
             document.getElementById("3Gcell_Filters_search").style.display = "block";
             document.getElementById("cell_Filters3G_listbox_div").style.display = "block";
             displayDijitButton("aggregate3GCellsButton", true);
-            showSelectedCellsToGroup("wbtsNamesListBox", false);
+            addSelectedCellsToGroup("wbtsNamesListBox", false);
         }
     }
     if (tabName === "Welcome") {
@@ -246,7 +248,9 @@ function displayDijitButton(id, display) {
         domStyle.set(registry.byId(id).domNode, 'display', state);
     });
 }
-function showSelectedCellsToGroup(listId, addSelectedValues) {
+function addSelectedCellsToGroup(listId, addSelectedValues) {
+//    clearSelected2GNSNCellsGroups();
+//    clearSelected3GNSNCellsGroups();
     if (addSelectedValues) {
         var values = getSelectedValuesFromSelect(listId);
         addValuesToCellGroup(values);
@@ -261,10 +265,11 @@ function showSelectedCellsToGroup(listId, addSelectedValues) {
             + "</tr>"
             + "</thead>";
     for (var i = 0; i < selectedCellsGroups.length; i++) {
+//        clearEnabledCellGroups();
         html += "<tbody>";
         html += "<tr>";
 //        html += "<td><input type='checkbox' id='chkBoxGroup_" + i + "' checked='checked' onclick='toggleCellGroup(\"chkBoxGroup_" + i + "\"," + i + ");'/></td>";
-        html += "<td><input type='checkbox' class='cellsChkBox_" + vendor[0] + "_" + technology[0] + "' id='" + i + "' checked='checked'/></td>";
+        html += "<td><input type='checkbox' class='cellsChkBox_" + vendor[0] + "_" + technology[0] + "' id=enabledBoxGroup_" + i + " checked='checked'/></td>";
         html += "<td><label>Group_" + i + "</label></td>";
         html += "<td>";
         for (var j = 0; j < selectedCells.length; j++) {
@@ -305,5 +310,36 @@ function addValuesToCellGroup(values) {
 function addArraytoArray(dest, source, groupId) {
     for (var i = 0; i < source.length; i++) {
         dest.push(source[i] + "~" + groupId);
+    }
+}
+function clearSelected2GNSNCellsGroups() {
+    var size = selected2GNSNCellsGroups.length;
+//    console.log(selected2GNSNCellsGroups);
+    for (var i = 0; i < size; i++) {
+        selected2GNSNCellsGroups.pop();
+    }
+}
+
+function clearSelected3GNSNCellsGroups() {
+    var size = selected3GNSNCellsGroups.length;
+//    console.log(selected3GNSNCellsGroups);
+    for (var i = 0; i < size; i++) {
+        selected3GNSNCellsGroups.pop();
+    }
+}
+
+function clearSelectedCells() {
+    var size = selectedCells.length;
+//    console.log(selectedCells);
+    for (var i = 0; i < size; i++) {
+        selectedCells.pop();
+    }
+}
+
+function clearEnabledCellGroups() {
+    var size = enabledCellGroups.length;
+//    console.log(selectedCells);
+    for (var i = 0; i < size; i++) {
+        enabledCellGroups.pop();
     }
 }

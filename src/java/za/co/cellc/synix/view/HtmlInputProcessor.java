@@ -22,6 +22,7 @@ public class HtmlInputProcessor {
     private List<String> toDate;
     private List<String> networkElements = new ArrayList<>();
     private boolean aggregated = false;
+    private boolean aggregationMultiGroup = false;
     private List<String> tech;
     private List<String> vendor;
     private String level;
@@ -53,6 +54,19 @@ public class HtmlInputProcessor {
 
     public String getPeriod() {
         return period;
+    }
+
+    public void clear() {
+        fromDate = new ArrayList<>();;
+        selectionSb = new StringBuilder();
+        toDate = new ArrayList<>();
+        networkElements = new ArrayList<>();
+        aggregated = false;
+        aggregationMultiGroup = false;
+        tech = new ArrayList<>();
+        vendor = new ArrayList<>();
+        level = "";
+        String period = "";
     }
 
     private HtmlInputProcessor() {
@@ -92,13 +106,17 @@ public class HtmlInputProcessor {
         return fromDate.get(0);
     }
 
+    public boolean isAggregationMultiGroup() {
+        return aggregationMultiGroup;
+    }
+
     private void parseJSON() throws Exception {
         tech = getDataFromJSON("TECHNOLOGY");
         vendor = getDataFromJSON("VENDOR");
         setLevel();
         setNe();
         setAggregated(networkElements);
-        addBasicGroupingToAggregatedElements();
+//        addBasicGroupingToAggregatedElements();
         setFromDate();
         setToDate();
         setPeriod();
@@ -118,7 +136,8 @@ public class HtmlInputProcessor {
                     networkElements.addAll(extractFromJSON("twoGNSNCellgroups"));
                 } else if (tech.get(0).equalsIgnoreCase("3G")) {
                     networkElements.addAll(extractFromJSON("threeGNSNCellgroups"));
-                } else if (networkElements.isEmpty()) {
+                }
+                if (networkElements.isEmpty()) {
                     networkElements.addAll(extractFromJSON("cells"));
                 }
                 break;
@@ -126,44 +145,46 @@ public class HtmlInputProcessor {
         }
     }
 
-    private void addBasicGroupingToAggregatedElements() {
-        String basicGrouping = Constants.GROUP_DELIMITER + "0";
-        if (aggregated) {
-            for (int i = 0; i < networkElements.size(); i++) {
-                if (!elementAlreadyGrouped(networkElements.get(i))) {
-                    networkElements.set(i, networkElements.get(i) + basicGrouping);
-                } else {
-                    removeUnselectedCellGroups();
-                }
-            }
-        }
-    }
+//    private void addBasicGroupingToAggregatedElements() {
+//        String basicGrouping = Constants.GROUP_DELIMITER + "0";
+//        if (aggregated) {
+//            for (int i = 0; i < networkElements.size(); i++) {
+//                if (!elementAlreadyGrouped(networkElements.get(i))) {
+//                    networkElements.set(i, networkElements.get(i) + basicGrouping);
+//                } else {
+//                    removeUnselectedCellGroups();
+//                }
+//            }
+//        }
+//    }
 
-    private void removeUnselectedCellGroups() {
-        List<String> selectedGroups = getDataFromJSON("selectedCellGroups");
-        for (int i = 0; i < networkElements.size(); i++) {
-            String g = getGroupFromNE(i);
-            if (!selectedGroups.contains(g)) {
-                networkElements.remove(i);
-            }
-        }
-    }
+//    private void removeUnselectedCellGroups() {
+//        List<String> selectedGroups = getDataFromJSON("selectedCellGroups");
+//        for (int i = 0; i < networkElements.size(); i++) {
+//            String g = getGroupFromNE(i);
+//            if (!selectedGroups.contains(g)) {
+//                networkElements.remove(i);
+//            }
+//        }
+//    }
 
-    private String getGroupFromNE(int i) {
-        String ar[] = networkElements.get(i).split(Constants.GROUP_DELIMITER);
-        return ar[1];
-    }
-
-    private boolean elementAlreadyGrouped(String e) {
-        return e.contains("~");
-    }
+//    private String getGroupFromNE(int i) {
+//        String ar[] = networkElements.get(i).split(Constants.GROUP_DELIMITER);
+//        return ar[1];
+//    }
+//
+//    private boolean elementAlreadyGrouped(String e) {
+//        return e.contains("~");
+//    }
 
     private void setAggregated(List<String> lst) {
+
         if (lst.contains("Aggregate")) {
             lst.remove("Aggregate");
             aggregated = true;
         } else if (!lst.isEmpty()) {
             aggregated = lst.get(0).contains("~");
+            aggregationMultiGroup = true;
         }
     }
 
@@ -203,17 +224,17 @@ public class HtmlInputProcessor {
         toDate = extractFromJSON("timeTo");
     }
 
-    private void setChartPageColumns() {
-        chartPageColumns = extractFromJSON("chartPageColumns").get(0);
-    }
-
-    private void setFillGraph() {
-        fillGraph = extractFromJSON("fillGraph").get(0);
-    }
-    
-    private void setRollerPeriod() {
-        rollerPeriod = extractFromJSON("chartRollerPeriod").get(0);
-    }
+//    private void setChartPageColumns() {
+//        chartPageColumns = extractFromJSON("chartPageColumns").get(0);
+//    }
+//
+//    private void setFillGraph() {
+//        fillGraph = extractFromJSON("fillGraph").get(0);
+//    }
+//
+//    private void setRollerPeriod() {
+//        rollerPeriod = extractFromJSON("chartRollerPeriod").get(0);
+//    }
 
     public String getChartPageColumns() {
         return chartPageColumns;
@@ -226,6 +247,5 @@ public class HtmlInputProcessor {
     public String getRollerPeriod() {
         return rollerPeriod;
     }
-    
-    
+
 }

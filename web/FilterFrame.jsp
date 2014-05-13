@@ -58,7 +58,7 @@
                     <button id="aggregate2GCellsButton" data-dojo-type="dijit/form/Button" type="button">Aggregate cells
                         <script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
                             require(["dojo/dom"], function(dom){
-                                showSelectedCellsToGroup("btsNamesListBox",true);
+                                addSelectedCellsToGroup("btsNamesListBox",true);
                             });
                         </script>
                     </button>
@@ -68,7 +68,7 @@
                     <button id="aggregate3GCellsButton" data-dojo-type="dijit/form/Button" type="button">Aggregate cells
                         <script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
                             require(["dojo/dom"], function(dom){
-                                showSelectedCellsToGroup("wbtsNamesListBox",true);
+                                addSelectedCellsToGroup("wbtsNamesListBox",true);
                             });
                         </script>
                     </button>

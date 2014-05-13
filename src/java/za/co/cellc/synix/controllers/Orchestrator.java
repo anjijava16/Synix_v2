@@ -29,6 +29,7 @@ public class Orchestrator {
         spawnQueryManagerThreads();
         waitForCompletion();
         setGraphConstructPojos();
+        
         return graphConstructPojos;
     }
 

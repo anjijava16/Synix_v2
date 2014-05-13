@@ -15,7 +15,7 @@ import za.co.cellc.synix.model.GraphData;
  *
  * @author Pierre.Venter
  */
-public class AggregationAdaptor extends Adaptor implements AdaptorInterface {
+public class AggregationMultiGroupAdaptor extends Adaptor implements AdaptorInterface {
 
     private String graphLabels;
     private List<String> neIDs = new ArrayList<>();
@@ -23,7 +23,7 @@ public class AggregationAdaptor extends Adaptor implements AdaptorInterface {
     private int DATE_TIME_IX = 0;
     private int VALUE_IX = 1;
 
-    public AggregationAdaptor(ResultSet rs, boolean test) throws Exception {
+    public AggregationMultiGroupAdaptor(ResultSet rs, boolean test) throws Exception {
         super(rs, test);
     }
 
@@ -40,11 +40,6 @@ public class AggregationAdaptor extends Adaptor implements AdaptorInterface {
 //        if (graphLabels == null) {
         convertSelectionToGraphLabels();
 //        }
-        return graphLabels;
-    }
-
-    public String getGraphLabels(int groupingID) {
-        convertSelectionToGraphLabels(groupingID);
         return graphLabels;
     }
 
@@ -86,21 +81,6 @@ public class AggregationAdaptor extends Adaptor implements AdaptorInterface {
         sb.append(Constants.DATE_TIME_COL);
         sb.append("'");
         sb.append(",'Aggregated Series'");
-//        for (String neId : neIDs) {
-//            sb.append(",'");
-//            sb.append(getNetworkElementName(neId));
-//            sb.append("'");
-//        }
-        graphLabels = sb.toString();
-    }
-
-    private void convertSelectionToGraphLabels(int groupId) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("'");
-        sb.append(Constants.DATE_TIME_COL);
-        sb.append("'");
-        sb.append(",'Group_");
-        sb.append(groupId).append("'");
 //        for (String neId : neIDs) {
 //            sb.append(",'");
 //            sb.append(getNetworkElementName(neId));

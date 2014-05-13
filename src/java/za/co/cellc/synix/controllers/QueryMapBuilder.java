@@ -20,7 +20,7 @@ import za.co.cellc.synix.view.HtmlInputProcessor;
 public class QueryMapBuilder {
 
     protected StringBuilder groupingParamter = new StringBuilder();
-    protected StringBuilder selectionPrefix= new StringBuilder();
+    protected StringBuilder selectionPrefix = new StringBuilder();
     protected boolean test;
     protected ElementNameSingleton elementNameSingleton;
     protected String dateClause;
@@ -80,7 +80,20 @@ public class QueryMapBuilder {
 
     protected List<String> getNeElements() throws Exception {
         List<String> elementNames = htmlIp.getNetworkElements();
+        if (htmlIp.isAggregated()) {
+            for (int i = 0; i < elementNames.size(); i++) {
+                String updatedEn = removeGroupingFromAggregatedNe(elementNames.get(i));
+                elementNames.set(i, updatedEn);
+            }
+        }
         return elementNames;
+    }
+
+    private String removeGroupingFromAggregatedNe(String neId) {
+        if (neId.contains("~")) {
+            return neId.substring(0, neId.indexOf("~"));
+        }
+        return neId;
     }
 
     private void setLevel() throws Exception {
@@ -114,19 +127,19 @@ public class QueryMapBuilder {
         query.append(orderByClause);
         return query.toString();
     }
- private void setSelectionPrefix() {
+
+    private void setSelectionPrefix() {
         if (!htmlIp.isAggregated()) {
             selectionPrefix.append(networkElementColumnName);
             selectionPrefix.append(",");
-            selectionPrefix.append("to_char(");
-            selectionPrefix.append(Constants.DATE_TIME_COL);
-            selectionPrefix.append(",'");
-            selectionPrefix.append(Constants.ORACLE_DATE_FORMAT);
-            selectionPrefix.append("')");
-        } else if (htmlIp.isAggregated()) {
-            selectionPrefix.append(Constants.DATE_TIME_COL);
         }
+        selectionPrefix.append("to_char(");
+        selectionPrefix.append(Constants.DATE_TIME_COL);
+        selectionPrefix.append(",'");
+        selectionPrefix.append(Constants.ORACLE_DATE_FORMAT);
+        selectionPrefix.append("')");
     }
+
     private void setGroupingParameter() {
         if (!htmlIp.isAggregated()) {
             groupingParamter.append(networkElementColumnName);

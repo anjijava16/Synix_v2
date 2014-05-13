@@ -15,10 +15,12 @@ public class Constants {
     public static final int AGGREGATION_ADAPTOR = 2;
     public static final int NON_AGGREGATION_ADAPTOR = 3;
     public static final int DRILL_DOWN_ADAPTOR = 4;
+    public static final int AGGREGATION_MULTI_GROUP_ADAPTOR = 5;
     public static final int SINGLE_ENTRY_MAP_TYPE = 1;
     public static final int MULTI_ENTRY_MAP_TYPE = 2;
-      public static final String ORACLE_DATE_FORMAT = "yyyy/MM/dd HH24:mi:ss";
-  public static final String DB_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final int AGGREGATED_GROUPING_MAP_TYPE = 3;
+    public static final String ORACLE_DATE_FORMAT = "yyyy/MM/dd HH24:mi:ss";
+    public static final String DB_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String JAVA_DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
     public static final String JSP_DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
     public static final String GRAPH_DATE_FORMAT = "yyyy/MM/dd HH:mm:ss";

@@ -28,7 +28,6 @@ public final class Database {
 
 //    private String DELIMITER = "~";
 //    private Statement executeQueryStmnt;
-
     public static synchronized Database getInstance(boolean test_) {
         test = test_;
         if (instance == null) {
@@ -57,6 +56,18 @@ public final class Database {
 
     public synchronized Connection getCon() {
         return con;
+    }
+
+    public synchronized Connection openNewConnection() {
+        Connection connnection;
+        DataSource catalogDS = getCatalogDS();
+        try {
+            connnection = catalogDS.getConnection();
+        } catch (SQLException ex) {
+            System.out.println("Error opening new connection: " + ex.getMessage());
+            throw new ExceptionInInitializerError(ex);
+        }
+        return connnection;
     }
 
     public javax.sql.DataSource getCatalogDS() {

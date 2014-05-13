@@ -5,6 +5,7 @@
  */
 package za.co.cellc.synix.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,11 +17,9 @@ import za.co.cellc.synix.constants.Constants;
  *
  * @author Pierre.Venter
  */
-public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
+public class AggregatedGroupingQueryMapBuilder extends QueryMapBuilder {
 
-    private StringBuilder mapKey = new StringBuilder();
-
-    public SingleEntryQueryMapBuilder(FormulaDefPojo defPojo, boolean test) throws Exception {
+    public AggregatedGroupingQueryMapBuilder(FormulaDefPojo defPojo, boolean test) throws Exception {
         super(defPojo, test);
         this.defPojo = defPojo;
     }
@@ -30,20 +29,68 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
         System.out.println(hUtil.timeStamp() + " getQueriesMap start");
         Map<String, String> queriesMap = new HashMap<>();
         try {
-            setSelectClause();
-            setFromClause();
-            setDateClause();
-            setWhereClause();
-            setGroupByClause();
-            setOrderByClause();
-            queriesMap.put(mapKey.toString(), makeQuery());
+            List<String> groupingNumbers = getGroupingNumbers();
+            for (String groupingNumber : groupingNumbers) {
+                List<String> elementNames = getElementNamesFromGroup(groupingNumber);
+                setSelectClause();
+                setFromClause();
+                setDateClause();
+                setWhereClause(elementNames);
+                setGroupByClause();
+                setOrderByClause();
+                String mapKey = getMapKey(groupingNumber);
+                queriesMap.put(mapKey.toString(), makeQuery());
+            }
+
         } catch (Exception ex) {
             System.out.println("Error building queries: " + ex.getMessage());
-            Logger.getLogger(SingleEntryQueryMapBuilder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AggregatedGroupingQueryMapBuilder.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception("Error building queries: ", ex);
         }
         System.out.println(hUtil.timeStamp() + " map built");
         return queriesMap;
+    }
+
+    private String getMapKey(String groupingNumber) {
+        StringBuilder mapKey = new StringBuilder();
+        mapKey.append("'");
+        mapKey.append(Constants.DATE_TIME_COL);
+        mapKey.append("','Group_").append(groupingNumber).append("'");
+        return mapKey.toString();
+    }
+
+    private List<String> getElementNamesFromGroup(String groupId) {
+        List<String> groupMemebers = new ArrayList<>();
+        List<String> names = htmlIp.getNetworkElements();
+        for (String n : names) {
+            if (n.endsWith("~" + groupId)) {
+                String s = stripGroupingHyphen(n);
+                groupMemebers.add(s);
+            }
+        }
+        return groupMemebers;
+    }
+
+    private String stripGroupingHyphen(String s) {
+        String[] ar = s.split("~");
+        return ar[0];
+    }
+
+    private List<String> getGroupingNumbers() {
+        List<String> groupNumbers = new ArrayList<>();
+        List<String> names = htmlIp.getNetworkElements();
+        for (String n : names) {
+            String groupingNumber = getGroupNumberFromElement(n);
+            if (!groupNumbers.contains(groupingNumber)) {
+                groupNumbers.add(groupingNumber);
+            }
+        }
+        return groupNumbers;
+    }
+
+    private String getGroupNumberFromElement(String element) {
+        String ar[] = element.split("~");
+        return ar[ar.length - 1];
     }
 
     private void setSelectClause() throws Exception {
@@ -76,9 +123,9 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
         orderByClause = sb.toString();
     }
 
-    private void setWhereClause() throws Exception {
+    private void setWhereClause(List<String> elementNames) throws Exception {
         int counter = 0;
-        List<String> networkElements = getNeElements();
+//        List<String> networkElements = getNeElements();
         StringBuilder sb = new StringBuilder();
         sb.append(" WHERE ");
         sb.append(dateClause);
@@ -87,15 +134,12 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
         sb.append(" AND ");
         sb.append(" Upper(LEVEL_) = '").append(level.toUpperCase()).append("'");
         sb.append(" AND (");
-        mapKey.append("'");
-        mapKey.append(Constants.DATE_TIME_COL);
-        mapKey.append("'");
-        for (String ne : networkElements) {
+        for (String ne : elementNames) {
             if (counter > 0) {
                 sb.append(" OR ");
             }
             setNetworkElementID(ne);//networkElementID
-            setMapKey("'" + ne + "'");
+//            setMapKey(counter, "'" + ne + "'");
             sb.append(networkElementColumnName);
             sb.append("='");
             sb.append(networkElementID);
@@ -106,11 +150,12 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
         whereClause = sb.toString();
     }
 
-    private void setMapKey(String v) throws Exception {
-        mapKey.append(",");
-        mapKey.append(v);
-    }
-
+//    private void setMapKey(int c, String v) throws Exception {
+//        if (c > 0) {
+//            mapKey.append(",");
+//        }
+//        mapKey.append(v);
+//    }
     private void setDateClause() throws Exception {
         String fromDate = htmlIp.getFromDate();
         String toDate = htmlIp.getToDate();

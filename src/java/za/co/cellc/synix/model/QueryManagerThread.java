@@ -5,6 +5,8 @@
  */
 package za.co.cellc.synix.model;
 
+import za.co.cellc.synix.controllers.QueryMapBuilderFactory;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -31,7 +33,7 @@ import za.co.cellc.synix.view.HtmlInputProcessor;
  */
 public class QueryManagerThread implements Runnable {
 
-    private int MAP_TYPE = Constants.SINGLE_ENTRY_MAP_TYPE;//or MULTI_ENTRY_MAP_TYPE
+//    private int MAP_TYPE = Constants.SINGLE_ENTRY_MAP_TYPE;//or MULTI_ENTRY_MAP_TYPE
     private boolean test = false;
     private List<String> hours = new ArrayList<>();
     private FormulaDefPojo devPojo;
@@ -44,6 +46,7 @@ public class QueryManagerThread implements Runnable {
     private String plotter;
     private HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
     private HoursUtility hUtil = new HoursUtility();
+    private Connection con;
 
     public QueryManagerThread(FormulaDefPojo devPojo, String plotter, boolean test) throws Exception {
         this.devPojo = devPojo;
@@ -78,27 +81,54 @@ public class QueryManagerThread implements Runnable {
     }
 
     private void setQueriesMap() throws Exception {
-        QueryMapBuilder qmb = QueryMapBuilderFactory.create(devPojo, MAP_TYPE, test);
+        int mapType = getMapType();
+        QueryMapBuilder qmb = QueryMapBuilderFactory.create(devPojo, mapType, test);
         queriesMap = qmb.getQueriesMap();
     }
 
+    private int getMapType() {
+        if (htmlIp.isAggregated()) {
+            if (htmlIp.isAggregationMultiGroup()) {
+                return Constants.AGGREGATED_GROUPING_MAP_TYPE;
+            } else {
+                return Constants.SINGLE_ENTRY_MAP_TYPE;
+            }
+        }
+        return Constants.SINGLE_ENTRY_MAP_TYPE;
+    }
+
     private void buildGraphDataPojos() throws Exception {
+        int count = 0;
         for (Map.Entry<String, String> entry : queriesMap.entrySet()) {
             String query = entry.getValue();
-            System.out.println(hUtil.timeStamp() + " start loop: " + query + "\n");
-            List<String> elementNames = new ArrayList<>();
-            elementNames.add(entry.getKey());
+            System.out.println(hUtil.timeStamp() + " start loop: " + count + " " + query + "\n");
+//            List<String> elementNames = new ArrayList<>();
+//            elementNames.add(entry.getKey());
             setRsFromQuery(query);
-            Adaptor adaptor = AdaptorFactory.create(Constants.NON_AGGREGATION_ADAPTOR, rs, test);
+            int factoryChoice = getFactoryChoice();
+            Adaptor adaptor = AdaptorFactory.create(factoryChoice, rs, test);
             gdObjects.addAll(adaptor.getGdList());
-            labelNames.add(adaptor.getGraphLabels());
-            stmnt.close();
-            rs.close();
-            System.out.println(hUtil.timeStamp() + " end loop: " + query + "\n");
+            labelNames.add(entry.getKey());
+//            labelNames.add(adaptor.getGraphLabels(count));
+            closeConnection();
+            System.out.println(hUtil.timeStamp() + " end loop: " + count + " " + query + "\n");
+            count++;
         }
         String dataStr = concatenateGraphData();
         String labels = concatenateGraphLabels();
-        saveGraphConstructs(dataStr, labels);
+        String title = devPojo.getChartTitle();
+        saveGraphConstructs(dataStr, labels, title);
+    }
+
+    private int getFactoryChoice() {
+        if (htmlIp.isAggregated()) {
+//            if (htmlIp.isAggregationMultiGroup()) {
+            return Constants.AGGREGATION_ADAPTOR;
+//            } else {
+//                return Constants.AGGREGATION_MULTI_GROUP_ADAPTOR;
+//            }
+        }
+        return Constants.NON_AGGREGATION_ADAPTOR;
     }
 
     private String concatenateGraphData() {
@@ -141,18 +171,18 @@ public class QueryManagerThread implements Runnable {
         return l.split(",");
     }
 
-    private void saveGraphConstructs(String dataStr, String labels) {
-        GraphConstructPojo gcp = new GraphConstructPojo(dataStr, labels);
+    private void saveGraphConstructs(String dataStr, String labels, String chartTitle) {
+        GraphConstructPojo gcp = new GraphConstructPojo(dataStr, labels, chartTitle);
         GraphConstructsSingleton.getInstance().addGraphDataPojo(gcp);
     }
 
     private void setRsFromQuery(String q) throws Exception {
         try {
-//            System.out.println("\nq=" + q);
-            System.out.println(hUtil.timeStamp() + " start q: " + q + "\n");
-            stmnt = Database.getInstance(test).getCon().createStatement();
+//            System.out.println(hUtil.timeStamp() + " start rsq: " + q + "\n");
+            con = Database.getInstance(test).openNewConnection();
+            stmnt = con.createStatement();
             rs = stmnt.executeQuery(q);
-            System.out.println(hUtil.timeStamp() + " end q: " + q + "\n");
+//            System.out.println(hUtil.timeStamp() + " end rsq: " + q + "\n");
 
         } catch (SQLException ex) {
             Logger.getLogger(QueryManagerThread.class.getName()).log(Level.SEVERE, null, ex);
@@ -161,4 +191,28 @@ public class QueryManagerThread implements Runnable {
         }
     }
 
+    private void closeConnection() throws Exception {
+        try {
+            stmnt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QueryManagerThread.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error closing statement: " + ex.getMessage());
+            throw new Exception("Error closing statement: " + ex.getMessage());
+        }
+        try {
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QueryManagerThread.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error closing resultset: " + ex.getMessage());
+            throw new Exception("Error closing resultset: " + ex.getMessage());
+        }
+
+        try {
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QueryManagerThread.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error closing connection: " + ex.getMessage());
+            throw new Exception("Error closing connection: " + ex.getMessage());
+        }
+    }
 }

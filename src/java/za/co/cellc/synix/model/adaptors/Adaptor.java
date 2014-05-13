@@ -54,6 +54,10 @@ public class Adaptor {
         return null;
     }
 
+    public String getGraphLabels(int groupingID) {
+        return null;
+    }
+
     private void setRsData() throws Exception {
         try {
             while (rs.next()) {

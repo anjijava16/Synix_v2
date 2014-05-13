@@ -36,8 +36,8 @@ public class GraphDataSingletonTest {
         String label = "GTIR1,GTIR2";
         List<String> data = Arrays.asList("9.61214618098188572185091651180929690154E0", "19.76996988869880071359844248097793529744E01", "9.67663015061967900014784311321537135666E01");
         List<String> dateTime = Arrays.asList("2014/03/28 00:00:00.0", "2014/03/29 00:00:00.0", "2014/03/30 00:00:00.0");
-        GraphDataPojo gdp = new GraphDataPojo(data, dateTime, label);
-        testPassed = gdp.getData() == (data) && gdp.getDateTime() == dateTime && gdp.getLabel().equalsIgnoreCase(label);
+        GraphDataPojo gdp = new GraphDataPojo(data, dateTime);
+        testPassed = gdp.getData() == (data) && gdp.getDateTime() == dateTime ;
         pUtils.printStatus(testPassed);
         assertTrue(testPassed);
     }
@@ -48,7 +48,7 @@ public class GraphDataSingletonTest {
         boolean testPassed = false;
         String label = "GTIR1,GTIR2";
         String data = "2014/04/20 00:00:00,99.0,80.1\n";
-        GraphConstructPojo gcp = new GraphConstructPojo(data, label);
+        GraphConstructPojo gcp = new GraphConstructPojo(data, label,"DUMMY_CHART_TITLE");
         testPassed = gcp.getData().equalsIgnoreCase(data) && gcp.getLabel().equalsIgnoreCase(label);
         GraphConstructsSingleton gdps = GraphConstructsSingleton.getInstance();
         gdps.addGraphDataPojo(gcp);
@@ -66,7 +66,7 @@ public class GraphDataSingletonTest {
         boolean testPassed = false;
         String label = "GTIR1,GTIR2";
         String data = "2014/04/20 00:00:00,99.0,80.1\n";
-        GraphConstructPojo gcp = new GraphConstructPojo(data, label);
+        GraphConstructPojo gcp = new GraphConstructPojo(data, label,"DUMMY_CHART_TITLE");
         testPassed = gcp.getData().equalsIgnoreCase(data) && gcp.getLabel().equalsIgnoreCase(label);
         GraphConstructsSingleton gdps = GraphConstructsSingleton.getInstance();
         gdps.addGraphDataPojo(gcp);

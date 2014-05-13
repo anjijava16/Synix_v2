@@ -23,13 +23,14 @@ public class Chart {
     int divIndex;
     private List<GraphConstructPojo> graphConstructPojos;
     private List<FormulaDefPojo> formulaDefPojos;
+    private HtmlInputProcessor hip;
 
     public Chart(StringBuilder selectionSb, int divIndex, boolean test) throws Exception {
 //        this.selectionStr = selectionSb;
         this.test = test;
         this.divIndex = divIndex;
         GraphConstructsSingleton.getInstance().clear();
-        HtmlInputProcessor hip = HtmlInputProcessor.getInstance();
+        hip = HtmlInputProcessor.getInstance();
         hip.processInput(selectionSb);
         setFormulaDefPojos();
     }
@@ -40,7 +41,12 @@ public class Chart {
         graphConstructPojos = orc.getGraphConstructPojos(test);
         sb.append(getKpiDiv());
         sb.append(getKpiContent());
+        clearSelectionSingleton();
         return sb.toString();
+    }
+
+    private void clearSelectionSingleton() {
+        hip.clear();
     }
 
     private void setFormulaDefPojos() {
@@ -58,15 +64,25 @@ public class Chart {
         return sb.toString();
     }
 
-    private String getKpiContent() {
+    private String getKpiContent() throws Exception {
         StringBuilder sb = new StringBuilder();
         KpiContentMaker kpiC = new KpiContentMaker(divIndex);
         sb.append(kpiC.getHeader());
         for (int i = 0; i < graphConstructPojos.size(); i++) {
-            sb.append(kpiC.getCharts(formulaDefPojos.get(i), graphConstructPojos.get(i), i));
+            GraphConstructPojo gcp = getMatchingGraphConstructPojo(formulaDefPojos.get(i));
+            sb.append(kpiC.getCharts(formulaDefPojos.get(i), gcp, i));
         }
         sb.append(kpiC.getFooter());
         return sb.toString();
     }
 
+    private GraphConstructPojo getMatchingGraphConstructPojo(FormulaDefPojo fdp) throws Exception {
+        String chartTitle = fdp.getChartTitle();
+        for (GraphConstructPojo gcp : graphConstructPojos) {
+            if (gcp.equals(chartTitle)) {
+                return gcp;
+            }
+        }
+        throw new Exception("Matching GraphConstructPojo not found: " + chartTitle);
+    }
 }

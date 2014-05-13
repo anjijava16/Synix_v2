@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
@@ -50,36 +52,43 @@ public class GraphDataTest {
     }
 
     @Test
-    public void dataFromRSTest() {
+    public void toStringTest() {
+        System.out.println("\n===========================\nGraphDataTest: toStringTest ");
         boolean testPassed = false;
-        Statement stmnt = null;
-        ResultSet rs = null;
-        System.out.println("\n===========================\nGraphDataTest: dataFromRSTest ");
-        Connection con = Database.getInstance(ISTEST).getCon();
-        String sql = "SELECT Period_Start_Time,100*(decode((NVL(SUM(BCCH_UPTIME),0) + NVL(SUM(BCCH_DOWNTIME),0)), 0, 0,\n"
-                + "SUM(BCCH_UPTIME)/(NVL(SUM(BCCH_UPTIME),0) +\n"
-                + "NVL(SUM(BCCH_DOWNTIME),0)))) FROM N2_CELL_AVAIL WHERE Period_Start_Time >= to_date('" + dtFrom + "','dd/mm/yyyy hh24:mi:ss') AND Period_Start_Time <= to_date('" + dtTo + "','dd/mm/yyyy hh24:mi:ss') AND  Upper(Period) = 'DAILY' AND  Upper(LEVEL_) = 'CONTROLLER' AND BSC_GID = '694806002' GROUP BY Period_Start_Time ORDER BY Period_Start_Time";
-        String expected = "9.61214618098188572185091651180929690154E01\\n9.76996988869880071359844248097793529744E01\\n9.67663015061967900014784311321537135666E01\\n";
+        List<String> dateTimeExpected = Arrays.asList("2014/03/30 00:00:00",
+                "2014/03/30 00:00:00");
+        List<String> dataExpected = Arrays.asList("9.98187359096121639644662154705223933187E01",
+                "9.67663015061967900014784311321537135666E01");
+        GraphData gd = new GraphData();
+        gd.setData(dataExpected);
+        gd.setDateTime(dateTimeExpected);
+
+        String expected = "9.98187359096121639644662154705223933187E01\\n9.67663015061967900014784311321537135666E01\\n";
         String result = "";
-        try {
-            stmnt = con.createStatement();
-            rs = stmnt.executeQuery(sql);
-            GraphData gd = new GraphData();
-            gd.dataFromRS(rs);
-            result = gd.toString();
-            testPassed = result.equalsIgnoreCase(expected);
-        } catch (SQLException ex) {
-            Logger.getLogger(GraphDataTest.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if (stmnt != null && rs != null) {
-                    stmnt.close();
-                    rs.close();
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(GraphDataTest.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        result = gd.toString();
+        testPassed = result.equalsIgnoreCase(expected);
+        System.out.println("Expected=" + expected + "\nResult  =" + result);
+        pUtils.printStatus(testPassed);
+        assertTrue(testPassed);
+
+    }
+
+    @Test
+    public void getValueForDateTimeTest() {
+        System.out.println("\n===========================\nGraphDataTest: getValueForDateTimeTest ");
+        boolean testPassed = false;
+        List<String> dateTimeExpected = Arrays.asList("2014/03/30 00:00:00",
+                "2014/03/30 23:00:00");
+        List<String> dataExpected = Arrays.asList("9.98187359096121639644662154705223933187E01",
+                "9.67663015061967900014784311321537135666E01");
+        GraphData gd = new GraphData();
+        gd.setData(dataExpected);
+        gd.setDateTime(dateTimeExpected);
+
+        String expected = "9.98187359096121639644662154705223933187E01\\n9.67663015061967900014784311321537135666E01";
+        String result = gd.getValueForDateTime(dateTimeExpected.get(0)) + "\\n" + gd.getValueForDateTime(dateTimeExpected.get(1));
+        testPassed = gd.getValueForDateTime(dateTimeExpected.get(0)).equals(dataExpected.get(0))
+                && gd.getValueForDateTime(dateTimeExpected.get(1)).equals(dataExpected.get(1));
         System.out.println("Expected=" + expected + "\nResult  =" + result);
         pUtils.printStatus(testPassed);
         assertTrue(testPassed);

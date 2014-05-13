@@ -124,7 +124,7 @@ function getNeFilter(fromCalendar, toCalendar, periodId) {
     } else {
         if (technology[0] === "2G") {
             neFilter.cells = getSelectedValuesFromSelect("btsNamesListBox");
-            neFilter.twoGNSNCellgroups = selected2GNSNCells;
+            neFilter.twoGNSNCellgroups = getSelectedCellGroups();
         }
         if (technology[0] === "3G") {
             neFilter.cells = getSelectedValuesFromSelect("wbtsNamesListBox");
@@ -139,6 +139,27 @@ function getNeFilter(fromCalendar, toCalendar, periodId) {
     neFilter.period = period;
 //    console.log(neFilter);
     return neFilter;
+}
+function getSelectedCellGroups() {
+    var selectedGroupIds = new Array();
+    var selectedCells = new Array();
+    for (var i = 0; i < selectedCellsGroups.length; i++) {
+        var idName = "enabledBoxGroup_" + i;
+        var ckBox = document.getElementById(idName);
+        if (ckBox.checked) {
+            selectedGroupIds.push(i);
+        }
+    }
+    console.log(selectedGroupIds);
+    for (var i = 0; i < selected2GNSNCells.length; i++) {
+        for (var j = 0; j < selectedGroupIds.length; j++) {
+            if (selected2GNSNCells[i].indexOf("~" + selectedGroupIds[j]) > 0) {
+                selectedCells.push(selected2GNSNCells[i]);
+            }
+        }
+    }
+    console.log(selectedCells);
+    return selectedCells;
 }
 
 function getFromDate(objectID) {

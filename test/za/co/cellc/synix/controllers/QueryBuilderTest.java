@@ -16,7 +16,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.model.FormulaDefManager;
-import za.co.cellc.synix.model.QueryMapBuilderFactory;
 import za.co.cellc.synix.persistance.Database;
 import za.co.cellc.synix.view.HtmlInputProcessor;
 

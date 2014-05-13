@@ -13,10 +13,20 @@ public class GraphConstructPojo {
 
     String data;
     String label;
+    String chartTitle;
 
-    public GraphConstructPojo(String data, String label) {
+    public GraphConstructPojo(String data, String label, String chartTitle) {
         this.data = data;
         this.label = label;
+        this.chartTitle = chartTitle;
+    }
+
+    public String getChartTitle() {
+        return chartTitle;
+    }
+
+    public void setChartTitle(String chartTitle) {
+        this.chartTitle = chartTitle;
     }
 
     public String getData() {
@@ -25,5 +35,9 @@ public class GraphConstructPojo {
 
     public String getLabel() {
         return label;
+    }
+
+    public boolean equals(String chartTitle) {
+        return this.chartTitle.equalsIgnoreCase(chartTitle);
     }
 }
