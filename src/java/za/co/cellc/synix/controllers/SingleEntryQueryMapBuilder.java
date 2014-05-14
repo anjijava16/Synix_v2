@@ -36,6 +36,7 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
             setWhereClause();
             setGroupByClause();
             setOrderByClause();
+            setMapKey();
             queriesMap.put(mapKey.toString(), makeQuery());
         } catch (Exception ex) {
             System.out.println("Error building queries: " + ex.getMessage());
@@ -87,15 +88,11 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
         sb.append(" AND ");
         sb.append(" Upper(LEVEL_) = '").append(level.toUpperCase()).append("'");
         sb.append(" AND (");
-        mapKey.append("'");
-        mapKey.append(Constants.DATE_TIME_COL);
-        mapKey.append("'");
         for (String ne : networkElements) {
             if (counter > 0) {
                 sb.append(" OR ");
             }
             setNetworkElementID(ne);//networkElementID
-            setMapKey("'" + ne + "'");
             sb.append(networkElementColumnName);
             sb.append("='");
             sb.append(networkElementID);
@@ -106,9 +103,20 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
         whereClause = sb.toString();
     }
 
-    private void setMapKey(String v) throws Exception {
-        mapKey.append(",");
-        mapKey.append(v);
+    private void setMapKey() throws Exception {
+        List<String> networkElements = getNeElements();
+        mapKey.append("'");
+        mapKey.append(Constants.DATE_TIME_COL);
+        mapKey.append("'");
+        if (htmlIp.isAggregated()) {
+            mapKey.append(",'Grouping'");
+        } else {
+            for (String ne : networkElements) {
+                mapKey.append(",'");
+                mapKey.append(ne);
+                mapKey.append("'");
+            }
+        }
     }
 
     private void setDateClause() throws Exception {

@@ -20,12 +20,12 @@ public class Authenticate {
     private boolean isAdmin = false;
     private UserLogin userLogin;
     private Connection con;
-    private boolean test=false;
+    private boolean test = false;
 
-    public Authenticate(String login, String password,boolean test) {
+    public Authenticate(String login, String password, boolean test) {
         this.login = login;
-        this.password = password;
-        this.test=test;
+        this.password = encrypt(password);
+        this.test = test;
         setCon();
     }
 
@@ -38,7 +38,20 @@ public class Authenticate {
     public Authenticate(Connection con, String login, String password) {
         this.con = con;
         this.login = login;
-        this.password = password;
+        this.password = encrypt(password);
+    }
+
+    private String stringToHex(String str) {
+        StringBuilder hexStr = new StringBuilder();
+        for (char c : str.toCharArray()) {
+            int val = c;
+            hexStr.append(Integer.toHexString(val));
+        }
+        return hexStr.toString();
+    }
+
+    public boolean equals(String password, String dbPassword) {
+        return dbPassword.equals(stringToHex(password));
     }
 
     public boolean authenticate() {
@@ -51,14 +64,17 @@ public class Authenticate {
     }
 
     public boolean passwordAuthenticate() {
-        Encryption crypto = new Encryption();
-        String encryptedPassword = crypto.otpEncrypt(password);
+//        String encryptedPassword = encrypt(password);
         ModelUtilities modelUtil = new ModelUtilities(con);
-        userLogin = modelUtil.getUserLogin(login, encryptedPassword);
-        if (userLogin != null && login.equals(userLogin.getUserId()) && encryptedPassword.equals(userLogin.getPassword()) && !userLogin.isDisabled) {
+        userLogin = modelUtil.getUserLogin(login, password);
+        if (userLogin != null && login.equals(userLogin.getUserId()) && password.equals(userLogin.getPassword()) && !userLogin.isDisabled) {
             return true;
         }
         return false;
+    }
+
+    private String encrypt(String password) {
+        return stringToHex(password);
     }
 
     public void setPassword(String userID, String password) {
@@ -89,6 +105,11 @@ public class Authenticate {
         return decodeSystem(UserLogin.SYSTEM_SYNIX);
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    
     public boolean isNet_LogAllowed() {
         if (userLogin == null) {
             return false;

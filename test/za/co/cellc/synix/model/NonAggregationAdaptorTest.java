@@ -24,7 +24,7 @@ import za.co.cellc.synix.controllers.PrintUtils;
 import za.co.cellc.synix.persistance.Database;
 import org.junit.Test;
 import za.co.cellc.synix.constants.Constants;
-import za.co.cellc.synix.controllers.FormulaDefPojo;
+import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.MultiEntryQueryMapBuilder;
 import za.co.cellc.synix.controllers.QueryMapBuilder;
 import za.co.cellc.synix.model.adaptors.Adaptor;
@@ -78,7 +78,7 @@ public class NonAggregationAdaptorTest {
             Connection con = Database.getInstance(ISTEST).getCon();
             stmnt = con.createStatement();
             rs = stmnt.executeQuery(sql);
-            Adaptor adaptor = AdaptorFactory.create(Constants.NON_AGGREGATION_ADAPTOR, rs, ISTEST);
+            Adaptor adaptor = AdaptorFactory.create(Constants.NON_AGGREGATION_ADAPTOR,"", rs, ISTEST);
             gdp.addAll(adaptor.getGdList());
             testPassed = gdp.get(0).getDateTime().get(0).equals(dateTimeExpected.get(0))
                     && gdp.get(1).getDateTime().get(0).equals(dateTimeExpected.get(1))

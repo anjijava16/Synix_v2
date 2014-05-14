@@ -102,14 +102,12 @@ public class QueryManagerThread implements Runnable {
         for (Map.Entry<String, String> entry : queriesMap.entrySet()) {
             String query = entry.getValue();
             System.out.println(hUtil.timeStamp() + " start loop: " + count + " " + query + "\n");
-//            List<String> elementNames = new ArrayList<>();
-//            elementNames.add(entry.getKey());
             setRsFromQuery(query);
-            int factoryChoice = getFactoryChoice();
-            Adaptor adaptor = AdaptorFactory.create(factoryChoice, rs, test);
+            int fc = getFactoryChoice();
+            String gn = extractGroupNameFromMapKey(entry.getKey());
+            Adaptor adaptor = AdaptorFactory.create(fc, gn, rs, test);
             gdObjects.addAll(adaptor.getGdList());
             labelNames.add(entry.getKey());
-//            labelNames.add(adaptor.getGraphLabels(count));
             closeConnection();
             System.out.println(hUtil.timeStamp() + " end loop: " + count + " " + query + "\n");
             count++;
@@ -118,6 +116,14 @@ public class QueryManagerThread implements Runnable {
         String labels = concatenateGraphLabels();
         String title = devPojo.getChartTitle();
         saveGraphConstructs(dataStr, labels, title);
+    }
+
+    private String extractGroupNameFromMapKey(String key) {
+        if (htmlIp.isAggregated()) {
+            String ar[] = key.split(",");
+            return stripQuotes(ar[ar.length - 1]);
+        }
+        return "";
     }
 
     private int getFactoryChoice() {
@@ -133,11 +139,23 @@ public class QueryManagerThread implements Runnable {
 
     private String concatenateGraphData() {
         StringBuilder concatSb = new StringBuilder();
+        List<String> uLabelNames = makeUniqueListOfElementNames();
         for (String hr : hours) {
             concatSb.append(hr);
-            for (GraphData gd : gdObjects) {
-                concatSb.append(",");
-                concatSb.append(gd.getValueForDateTime(hr));
+            for (int i = 0; i < uLabelNames.size(); i++) {
+                String labelName = uLabelNames.get(i);
+                boolean found = false;
+                for (GraphData gd : gdObjects) {
+                    if (gd.equals(labelName)) {
+                        concatSb.append(",");
+                        concatSb.append(gd.getValueForDateTime(hr));
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    concatSb.append(",");
+                }
             }
             concatSb.append("\\n");
         }
@@ -165,6 +183,21 @@ public class QueryManagerThread implements Runnable {
             }
         }
         return uniqueLabels;
+    }
+
+    private List<String> makeUniqueListOfElementNames() {
+        List<String> uElementNames = new ArrayList<>();
+        List<String> uLabelNames = makeUniqueListFromLabelNames();
+        for (String ul : uLabelNames) {
+            if (!ul.equalsIgnoreCase("'" + Constants.DATE_TIME_COL + "'")) {
+                uElementNames.add(stripQuotes(ul));
+            }
+        }
+        return uElementNames;
+    }
+
+    private String stripQuotes(String s) {
+        return s.replace("'", "");
     }
 
     private String[] splitLabels(String l) {

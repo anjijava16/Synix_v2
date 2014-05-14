@@ -23,7 +23,7 @@ import za.co.cellc.synix.controllers.PrintUtils;
 import za.co.cellc.synix.persistance.Database;
 import org.junit.Test;
 import za.co.cellc.synix.constants.Constants;
-import za.co.cellc.synix.controllers.FormulaDefPojo;
+import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.MultiEntryQueryMapBuilder;
 import za.co.cellc.synix.controllers.QueryMapBuilder;
 

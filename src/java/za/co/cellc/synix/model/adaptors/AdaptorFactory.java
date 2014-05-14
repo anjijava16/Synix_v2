@@ -15,12 +15,12 @@ import za.co.cellc.synix.constants.Constants;
  */
 public class AdaptorFactory {
 
-    public static Adaptor create(int choice, ResultSet rs, boolean test) throws Exception {
+    public static Adaptor create(int choice, String groupName, ResultSet rs, boolean test) throws Exception {
         switch (choice) {
             case Constants.LABEL_ADAPTOR:
                 return new LabelAdaptor(rs, test);
             case Constants.AGGREGATION_ADAPTOR:
-                return new AggregationAdaptor(rs, test);
+                return new AggregationAdaptor(rs, groupName, test);
             case Constants.NON_AGGREGATION_ADAPTOR:
                 return new NonAggregationAdaptor(rs, test);
             case Constants.DRILL_DOWN_ADAPTOR:

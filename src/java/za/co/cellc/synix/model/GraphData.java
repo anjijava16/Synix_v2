@@ -16,17 +16,25 @@ public class GraphData {
 //    private List<List> dateTimeDataList = new ArrayList<>();
     private List<String> data = new ArrayList<>();
     private List<String> dateTime = new ArrayList<>();
+    private String networkElementId;
 
 //    public void setDateTimeDataList(List<List> dateTimeDataList) {
 //        this.dateTimeDataList = dateTimeDataList;
 //    }
-
     public void setData(List<String> data) {
         this.data = data;
     }
 
     public void setDateTime(List<String> dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public String getNetworkElementId() {
+        return networkElementId;
+    }
+
+    public void setNetworkElementId(String networkElementId) {
+        this.networkElementId = networkElementId;
     }
 
     @Override
@@ -55,48 +63,14 @@ public class GraphData {
     public String getValueForDateTime(String hr) {
         int ix = dateTime.indexOf(hr);
         if (ix == -1) {
-            return null;
+            return "";
         } else {
             return data.get(ix);
         }
     }
 
-//    public List<String> getDataForColumn(int index) {
-//        List<String> l = new ArrayList<>();
-//        for (List d : dateTimeDataList) {
-//            l.add(d.get(index).toString());
-//        }
-//        return l;
-//    }
+    public boolean equals(String networkElementId) {
+        return this.networkElementId.equalsIgnoreCase(networkElementId);
+    }
 
-//    private void readRS(ResultSet rs) throws SQLException, Exception {
-//        int colCount = rs.getMetaData().getColumnCount();
-//        while (rs.next()) {
-//            List<String> rowVals = new ArrayList<>();
-//            for (int i = 1; i <= colCount; i++) {
-//                String resultString = rs.getString(i);
-//                if (i == DATE_COL_INDEX) {
-//                    resultString = addDateString(resultString);
-//                    dateTime.add(resultString);
-//                } else {
-//                    resultString = parseNullValue(resultString);
-//                    data.add(resultString);
-//                }
-//
-//                rowVals.add(parseNullValue(resultString));
-//            }
-//            dateTimeDataList.add(rowVals);
-//        }
-//    }
-//    private String parseNullValue(String v) {
-//        if (v == null) {
-//            return "";
-//        }
-//        return v;
-//    }
-//
-//    private String addDateString(String d) throws Exception {
-//        DateConvert dc = new DateConvert();
-//        return dc.convert(d, Constants.DB_DATE_FORMAT, Constants.GRAPH_DATE_FORMAT);
-//    }
 }

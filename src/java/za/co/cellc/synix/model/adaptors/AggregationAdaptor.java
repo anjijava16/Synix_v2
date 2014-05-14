@@ -22,9 +22,11 @@ public class AggregationAdaptor extends Adaptor implements AdaptorInterface {
     private String currentNeId = null;
     private int DATE_TIME_IX = 0;
     private int VALUE_IX = 1;
+    private String groupName;
 
-    public AggregationAdaptor(ResultSet rs, boolean test) throws Exception {
+    public AggregationAdaptor(ResultSet rs, String groupName, boolean test) throws Exception {
         super(rs, test);
+        this.groupName = groupName;
     }
 
     @Override
@@ -64,6 +66,7 @@ public class AggregationAdaptor extends Adaptor implements AdaptorInterface {
         GraphData gd = new GraphData();
         gd.setData(data);
         gd.setDateTime(dateTime);
+        gd.setNetworkElementId(groupName);
         return gd;
     }
 

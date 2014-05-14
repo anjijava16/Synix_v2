@@ -53,7 +53,7 @@ public class TestConnector {
     private void connect() throws Exception {
         try {
             Class.forName(dbDriver);
-            con = DriverManager.getConnection(dbURL + port + ":" + dbName, "synix", "synix_123");
+            con = DriverManager.getConnection(dbURL + port + ":" + dbName, "synix_p", "synix_p");
             System.out.println(" Connection to DB established");
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println(" Error connecting to DB! " + ex);

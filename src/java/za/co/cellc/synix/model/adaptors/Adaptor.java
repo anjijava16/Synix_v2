@@ -32,9 +32,11 @@ public class Adaptor {
     protected int columnCount;
     protected List<String> rsData = new ArrayList<String>();
     protected HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
+    protected boolean test;
 
     public Adaptor(ResultSet rs, boolean test) throws Exception {
         this.rs = rs;
+        this.test = test;
         ens = ElementNameSingeltonFactory.create(htmlIp.getTechnology(), htmlIp.getLevel(), test);
         try {
             columnCount = rs.getMetaData().getColumnCount();
@@ -47,6 +49,9 @@ public class Adaptor {
     }
 
     public List<GraphData> getGdList() throws Exception {
+        if (gdList.isEmpty()) {
+            return null;
+        }
         return gdList;
     }
 
@@ -56,6 +61,10 @@ public class Adaptor {
 
     public String getGraphLabels(int groupingID) {
         return null;
+    }
+
+    protected String getElementNameFromId(String id) {
+        return ens.getName(id);
     }
 
     private void setRsData() throws Exception {

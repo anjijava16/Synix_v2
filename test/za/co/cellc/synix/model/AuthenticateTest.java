@@ -27,8 +27,8 @@ public class AuthenticateTest {
     ModelUtilities modelUtilities;
     private UserLogin userLogin;
 
-    String USERID = "nickm";
-    String PASSWORD = "P@55w0rd";
+    String USERID = "unit test user";
+    String PASSWORD = "B1rdInC@t";
 
     public AuthenticateTest() {
 //        setUp();
@@ -92,6 +92,16 @@ public class AuthenticateTest {
     }
 
     @Test
+    public void passwordAuthenticateTest() {
+        System.out.println("\npasswordAuthenticate");
+        Authenticate instance = new Authenticate(con, USERID, PASSWORD);
+        boolean result = instance.passwordAuthenticate();
+        System.out.println("result=" + result);
+        assertTrue(result);
+        tearDown();
+    }
+
+    @Test
     public void testAuthenticateNegative() {
         System.out.println("\nauthenticate");
         Authenticate instance = new Authenticate(con, USERID, "XXZXDFSF");
@@ -140,7 +150,7 @@ public class AuthenticateTest {
     @Test
     public void testIsSynixAllowed() {
         System.out.println("\nisSynixAllowed");
-        Authenticate instance = new Authenticate(con, "pierrev", "123456");
+        Authenticate instance = new Authenticate(con, "pierrev", "B1rdInC@t");
         instance.authenticate();
         boolean result = instance.isSynixAllowed();
         System.out.println("result=" + result);
@@ -165,7 +175,7 @@ public class AuthenticateTest {
     @Test
     public void testIsNet_LogAllowed() {
         System.out.println("\nisNet_LogAllowed");
-        Authenticate instance = new Authenticate(con, USERID, PASSWORD);
+        Authenticate instance = new Authenticate(con, "test user", PASSWORD);
         instance.authenticate();
         boolean result = instance.isNet_LogAllowed();
         System.out.println("result=" + result);

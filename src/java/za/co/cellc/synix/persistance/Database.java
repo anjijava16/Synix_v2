@@ -59,13 +59,21 @@ public final class Database {
     }
 
     public synchronized Connection openNewConnection() {
-        Connection connnection;
-        DataSource catalogDS = getCatalogDS();
-        try {
-            connnection = catalogDS.getConnection();
-        } catch (SQLException ex) {
-            System.out.println("Error opening new connection: " + ex.getMessage());
-            throw new ExceptionInInitializerError(ex);
+        Connection connnection = null;
+        if (test) {
+            try {
+                connnection = ProductionTestSingleton.getInstance(0).getCon();
+            } catch (Exception ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            DataSource catalogDS = getCatalogDS();
+            try {
+                connnection = catalogDS.getConnection();
+            } catch (SQLException ex) {
+                System.out.println("Error opening new connection: " + ex.getMessage());
+                throw new ExceptionInInitializerError(ex);
+            }
         }
         return connnection;
     }

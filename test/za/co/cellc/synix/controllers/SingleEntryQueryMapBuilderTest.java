@@ -44,17 +44,18 @@ public class SingleEntryQueryMapBuilderTest {
 
     @Test
     public void getQueriesMapTest() {
-        String expectedKey = "GTIBN1,GTIBN2";
-        String expectedValue = "SELECT BSC_GID,Period_Start_Time,100*(decode((NVL(sum(BCCH_UPTIME),0) + NVL(sum(BCCH_DOWNTIME),0)), 0, 0,sum(BCCH_UPTIME)/(NVL(sum(BCCH_UPTIME),0) +NVL(sum(BCCH_DOWNTIME),0)))) FROM N2_CELL_AVAIL_CTRL_D_TEST WHERE Period_Start_Time >= to_date('30/03/2014 00:00:00','dd/mm/yyyy hh24:mi:ss') AND Period_Start_Time <= to_date('29/04/2014 23:00:00','dd/mm/yyyy hh24:mi:ss') AND  Upper(Period) = 'DAILY' AND  Upper(LEVEL_) = 'CONTROLLER' AND (BSC_GID='694806002' OR BSC_GID='676325002' ) GROUP BY BSC_GID,Period_Start_Time ORDER BY BSC_GID,Period_Start_Time";
+        Map<String, String> queriesMap = null;
+        String expectedKey = "'Period_Start_Time','GTIBN1','GTIBN2'";
+        String expectedValue = "SELECT BSC_GID,to_char(Period_Start_Time,'yyyy/MM/dd HH24:mi:ss'),100*(decode((NVL(sum(BCCH_UPTIME),0) + NVL(sum(BCCH_DOWNTIME),0)), 0, 0,sum(BCCH_UPTIME)/(NVL(sum(BCCH_UPTIME),0) +NVL(sum(BCCH_DOWNTIME),0)))) FROM N2_CELL_AVAIL_CTRL_D_TEST WHERE Period_Start_Time >= to_date('30/03/2014 00:00:00','dd/mm/yyyy hh24:mi:ss') AND Period_Start_Time <= to_date('29/04/2014 23:00:00','dd/mm/yyyy hh24:mi:ss') AND  Upper(Period) = 'DAILY' AND  Upper(LEVEL_) = 'CONTROLLER' AND (BSC_GID='694806002' OR BSC_GID='676325002' ) GROUP BY BSC_GID,Period_Start_Time ORDER BY BSC_GID,Period_Start_Time";
         int mapType = Constants.SINGLE_ENTRY_MAP_TYPE;
         boolean testPassed = false;
         System.out.println("\n===========================\nSingleEntryQueryMapBuilderTest: getQueriesMapTest ");
         FormulaDefManager defMan = new FormulaDefManager(ISTEST);
-        List<FormulaDefPojo> defPojos = defMan.getFromulaDefPojos();
+        List<FormuladefPojo> defPojos = defMan.getFromulaDefPojos();
         QueryMapBuilder qmb;
         try {
             qmb = QueryMapBuilderFactory.create(defPojos.get(0), mapType, true);
-            Map<String, String> queriesMap = qmb.getQueriesMap();
+            queriesMap = qmb.getQueriesMap();
             testPassed = queriesMap.containsKey(expectedKey);
             if (testPassed) {
                 testPassed = queriesMap.get(expectedKey).equals(expectedValue);
@@ -64,6 +65,8 @@ public class SingleEntryQueryMapBuilderTest {
             Logger.getLogger(SingleEntryQueryMapBuilderTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         pUtils.printStatus(testPassed);
+        System.out.println("Result: " + queriesMap.get(expectedKey));
+        System.out.println("expectedValue: " +expectedValue);
         assertTrue(testPassed);
     }
 

@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.model.GraphData;
 import za.co.cellc.synix.model.GraphDataPojo;
+import za.co.cellc.synix.model.network.elements.ElementNameSingeltonFactory;
+import za.co.cellc.synix.model.network.elements.ElementNameSingleton;
 
 /**
  *
@@ -51,12 +53,15 @@ public class NonAggregationAdaptor extends Adaptor implements AdaptorInterface {
     public void convertDataListToGraphDataObjects() throws Exception {
         List<String> data = new ArrayList<>();
         List<String> dateTime = new ArrayList<>();
+        String neId = "";
         for (String rsd : rsData) {
-            if (!foundNextNetworkElementId(rsd)) {
+            neId = getNetworkElementIdFromString(rsd);
+            if (!foundNextNetworkElementId(neId)) {
                 data.add(getValueFromString(rsd));
                 dateTime.add(getDateTimeFromString(rsd));
             } else {
-                GraphData gd = makeGraphDataObject(data, dateTime);
+                String uNe = getPenultimateNeIdFromList();
+                GraphData gd = makeGraphDataObject(uNe, data, dateTime);
                 gdList.add(gd);
                 data = new ArrayList<>();
                 dateTime = new ArrayList<>();
@@ -64,19 +69,29 @@ public class NonAggregationAdaptor extends Adaptor implements AdaptorInterface {
                 dateTime.add(getDateTimeFromString(rsd));
             }
         }
-        GraphData gd = makeGraphDataObject(data, dateTime);
+        GraphData gd = makeGraphDataObject(currentNeId, data, dateTime);
         gdList.add(gd);
     }
 
-    private GraphData makeGraphDataObject(List<String> data, List<String> dateTime) {
+    private GraphData makeGraphDataObject(String neId, List<String> data, List<String> dateTime) throws Exception {
         GraphData gd = new GraphData();
+        gd.setNetworkElementId(getElementNameFromId(neId));
         gd.setData(data);
         gd.setDateTime(dateTime);
         return gd;
     }
 
-    private boolean foundNextNetworkElementId(String rsd) {
-        String neId = getNetworkElementIdFromString(rsd);
+    private String getPenultimateNeIdFromList() throws Exception {
+        if (neIDs.size() > 1) {
+            return neIDs.get(neIDs.size() - 2);
+        } else if (neIDs.size() > 0) {
+            return neIDs.get(0);
+        }
+        throw new Exception("Error getting penultimate ID");
+    }
+
+    private boolean foundNextNetworkElementId(String neId) {
+//        String neId = getNetworkElementIdFromString(rsd);
         if (currentNeId == null) {
             currentNeId = neId;
             neIDs.add(neId);

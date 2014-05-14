@@ -123,8 +123,7 @@ public class ChartServlet extends HttpServlet {
         HttpSession session = httpRequest.getSession();
         String userId = (String) session.getAttribute("loginname");
         String password = (String) session.getAttribute("password");
-        Encryption crypt = new Encryption();
-        Authenticate auth = new Authenticate(userId, crypt.otpEncrypt(password), false);
+        Authenticate auth = new Authenticate(userId, password, false);
         return auth.authenticate();
     }
 
@@ -133,8 +132,11 @@ public class ChartServlet extends HttpServlet {
         String userId = (String) session.getAttribute("loginname");
         String password = (String) session.getAttribute("password");
         ModelUtilities mUtils = new ModelUtilities(Database.getInstance(false).getCon());
-        Encryption crypt = new Encryption();
-        return mUtils.getUserLogin(userId, crypt.otpEncrypt(password));
+        Authenticate auth = new Authenticate(userId, password, false);
+        if (auth.authenticate()) {
+            return mUtils.getUserLogin(userId, auth.getPassword());
+        }
+        return null;
     }
 
     private void setStringBuffer(HttpServletRequest request) throws IOException {
