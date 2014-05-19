@@ -22,6 +22,8 @@ public class Orchestrator {
     private boolean test;
     private List<FormuladefPojo> formulaDefPojos;
     private List<GraphConstructPojo> graphConstructPojos;
+    private int nrOfLiveThreads=0;
+    private int nrOfThreads=0;
 
     public List<GraphConstructPojo> getGraphConstructPojos(boolean test) throws Exception {
         this.test = test;
@@ -59,12 +61,30 @@ public class Orchestrator {
     }
 
     private boolean allThreadsDead(List<Thread> threads) {
+        int nrOfLiveThreads=0;
+        this.nrOfThreads=threads.size();
         boolean dead = true;
+        
         for (Thread t : threads) {
             if (t.isAlive()) {
-                return false;
+                nrOfLiveThreads++;
+                dead = false;
             }
         }
+        this.nrOfLiveThreads=nrOfLiveThreads;
         return dead;
     }
+    
+    public int getPercentageCompletion(){// as a percentage of the copmpleated threads (not live)
+        int pc=0;
+        
+        try{
+            pc=100*((nrOfThreads-nrOfLiveThreads)/nrOfThreads);
+        } catch (Exception e){
+            pc=0; //show zero progress if error with nr of threads
+        }
+        
+        return pc;
+    }
+    
 }

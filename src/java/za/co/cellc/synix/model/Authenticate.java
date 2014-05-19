@@ -77,12 +77,12 @@ public class Authenticate {
         return stringToHex(password);
     }
 
-    public void setPassword(String userID, String password) {
-        Encryption crypto = new Encryption();
-        String encryptedPassword = crypto.encrypt(password);
-        ModelUtilities modelUtil = new ModelUtilities(con);
-        modelUtil.setUserPassword(userID, encryptedPassword);
-    }
+//    public void setPassword(String userID, String password) {
+//        Encryption crypto = new Encryption();
+//        String encryptedPassword = crypto.encrypt(password);
+//        ModelUtilities modelUtil = new ModelUtilities(con);
+//        modelUtil.setUserPassword(userID, encryptedPassword);
+//    }
 
     public boolean isAdmin() {
         if (userLogin == null) {

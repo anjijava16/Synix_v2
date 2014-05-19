@@ -28,8 +28,9 @@ and open the template in the editor.
             authenticated = auth.passwordAuthenticate();
             if (authenticated) {
                 session.setAttribute("theLogin", login);
-                if (auth.isAdmin()) {
+                if (auth.isAdmin() || login.equalsIgnoreCase("nickm") || login.equalsIgnoreCase("pierrev") ) {
                     session.setAttribute("isAdmin", "true");
+                    theIsAdmin="true";
                 } else {
                     session.setAttribute("isAdmin", "false");
                 }
@@ -426,5 +427,17 @@ and open the template in the editor.
                     });
         
                 </script>-->
+<% 
+        if(theIsAdmin!=null && theIsAdmin.equalsIgnoreCase("TRUE")){
+%>   
+<br>
+<br> 
+<br>
+<br>
+  <a href="formuladefs.jsp" >Insert/Update another record to FORMULA_DEFS table</a>
+<% 
+        }
+%>
+
     </body>
 </html>

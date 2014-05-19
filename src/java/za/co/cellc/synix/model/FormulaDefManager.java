@@ -29,6 +29,7 @@ public class FormulaDefManager {
     private String vendor;
     private String technology;
     private static boolean test = false;
+    private String insertUpdateQuery;
     private HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
 
     public FormulaDefManager(boolean test) {
@@ -40,6 +41,10 @@ public class FormulaDefManager {
             Logger.getLogger(FormulaDefManager.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Error decoding selection string: " + ex.getMessage());
         }
+    }
+    public FormulaDefManager(boolean test,String insertUpdateQuery) {
+        this.test = test;
+        this.insertUpdateQuery=insertUpdateQuery;
     }
 
     public List<FormuladefPojo> getFromulaDefPojos() {
@@ -114,5 +119,21 @@ public class FormulaDefManager {
 
     private String getVendor() {
         return test ? "Test" : vendor;
+    }
+    
+    public void runInsertUpdateQuery() throws Exception{
+        
+        Statement stmnt = null;
+        try{
+        stmnt = Database.getInstance(test).getCon().createStatement();
+        stmnt.executeUpdate(insertUpdateQuery);
+        }catch(Exception ex){
+            String message ="failed to run InsertUpdateQuery:" + ex.getMessage()+" "+ex.getStackTrace();
+            Logger.getLogger(FormulaDefManager.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(message);
+            throw new Exception(message);
+        }
+        stmnt.close();
+        
     }
 }

@@ -1,6 +1,6 @@
 package za.co.cellc.synix.controllers;
 
-import org.apache.commons.codec.binary.Base64;
+//import org.apache.commons.codec.binary.Base64;
 
 public class Encryption {
 	final int OTP_PAD_SIZE = 256;// 48;
@@ -40,28 +40,27 @@ public class Encryption {
 		}
 	}
 	
-	public String encrypt(String message) {
-		String encrypted=otpEncrypt( message);
-		byte[] encryptedBytes=base64Encode(encrypted.getBytes());
-		
-		return new String(encryptedBytes);
-	}
+//	public String encrypt(String message) {
+//		String encrypted=otpEncrypt( message);
+//		byte[] encryptedBytes=base64Encode(encrypted.getBytes());
+//		
+//		return new String(encryptedBytes);
+//	}
 	
-	public String decrypt(String message)  throws Exception {
-		String decrypted=null;
-		byte[] decryptedBytes=base64Decode(message.getBytes());
-		try {
-			decrypted=new String(decryptedBytes);
-			decrypted=otpDecrypt(decrypted);
-		} catch (Exception e) {
-			System.out.println("decrypt failed to Decrypt string  with error" + e.getMessage() + " " + e.getCause());
-			e.getStackTrace();
-			throw new Exception( "decrypt failed to Decrypt string  with error ", e);
-		}
-		
-		return decrypted;
-		
-	}
+//	public String decrypt(String message)  throws Exception {
+//		String decrypted=null;
+//		byte[] decryptedBytes=base64Decode(message.getBytes());
+//		try {
+//			decrypted=new String(decryptedBytes);
+//			decrypted=otpDecrypt(decrypted);
+//		} catch (Exception e) {
+//			System.out.println("decrypt failed to Decrypt string  with error" + e.getMessage() + " " + e.getCause());
+//			e.getStackTrace();
+//			throw new Exception( "decrypt failed to Decrypt string  with error ", e);
+//		}
+//		
+//		return decrypted;		
+//	}
 	
 	public String otpEncrypt(String message) {
 		char theCh, ch;
@@ -110,19 +109,19 @@ public class Encryption {
 		}
 	}
 
-    private byte[] base64Encode(byte[] Databytes){
-
-    	byte[] bytes = Base64.encodeBase64(Databytes);
-    	return bytes;
-    }
+//    private byte[] base64Encode(byte[] Databytes){
+//
+//    	byte[] bytes = Base64.encodeBase64(Databytes);
+//    	return bytes;
+//    }
     
 
-    private byte[] base64Decode(byte[] Databytes){
-
-    	byte[] bytes = Base64.decodeBase64(Databytes);
-    	return bytes;
-    }
-	
+//    private byte[] base64Decode(byte[] Databytes){
+//
+//    	byte[] bytes = Base64.decodeBase64(Databytes);
+//    	return bytes;
+//    }
+//	
 	private int[] makeBuiltInOneTimePad(){
 		int[] builtInPad=
 		{80,50,234,221,203,51,160,188,71,163,220,79,164,239,202,249,210,89,27,44,57,247,241,200,193,254,231,

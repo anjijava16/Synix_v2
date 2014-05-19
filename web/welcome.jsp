@@ -4,6 +4,10 @@
     Author     : Pierre.Venter
 --%>
 
+<% 
+
+        String theIsAdmin = (String) session.getAttribute("isAdmin");
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -77,6 +81,14 @@
 
             <!--            <div id="footer" style="background-color:black;clear:both;text-align:center;">
                             Copyright © Cell C</div>-->
+<% 
+        if(theIsAdmin!=null && theIsAdmin.equalsIgnoreCase("TRUE")){
+%>   
+  <a href="formuladefs.jsp" >Insert/Update another record to FORMULA_DEFS table</a>
+  <br><br>
+<% 
+        }
+%>  
 
         </div>
 
@@ -84,5 +96,6 @@
         <!--        <div class="welcome_backGround">
                     <img src="images/synix_welcome2.jpg" />
                 </div>-->
+      
     </body>
 </html>
