@@ -84,7 +84,7 @@
 <% 
         if(theIsAdmin!=null && theIsAdmin.equalsIgnoreCase("TRUE")){
 %>   
-  <a href="formuladefs.jsp" >Insert/Update another record to FORMULA_DEFS Table</a>
+  <a href="formuladefs.jsp" >Insert/Update another record to FORMULA_DEFS table</a>
   <br><br>
 <% 
         }
