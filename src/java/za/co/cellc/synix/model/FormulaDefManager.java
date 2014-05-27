@@ -31,6 +31,7 @@ public class FormulaDefManager {
     private static boolean test = false;
     private String insertUpdateQuery;
     private HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
+    private int logicalGroup;
 
     public FormulaDefManager(boolean test) {
 //        this.selectionStr = selectionStr;
@@ -42,9 +43,10 @@ public class FormulaDefManager {
             System.out.println("Error decoding selection string: " + ex.getMessage());
         }
     }
-    public FormulaDefManager(boolean test,String insertUpdateQuery) {
+
+    public FormulaDefManager(boolean test, String insertUpdateQuery) {
         this.test = test;
-        this.insertUpdateQuery=insertUpdateQuery;
+        this.insertUpdateQuery = insertUpdateQuery;
     }
 
     public List<FormuladefPojo> getFromulaDefPojos() {
@@ -93,6 +95,7 @@ public class FormulaDefManager {
     private void decodeSelectionStr() throws Exception {
         vendor = htmlIp.getVendor();
         technology = htmlIp.getTechnology();
+        logicalGroup = htmlIp.getLogicalGroup();
     }
 
     private String makeQuery() {
@@ -108,6 +111,9 @@ public class FormulaDefManager {
         sql.append("' AND TECHNOLOGY = '");
         sql.append(technology).append("'");
 
+        sql.append(" AND LOGICAL_GROUP = ");
+        sql.append(logicalGroup);
+
         sql.append(" AND IS_ENABLED = '");
         sql.append(getEnabledState()).append("'");
         return sql.toString();
@@ -120,20 +126,20 @@ public class FormulaDefManager {
     private String getVendor() {
         return test ? "Test" : vendor;
     }
-    
-    public void runInsertUpdateQuery() throws Exception{
-        
+
+    public void runInsertUpdateQuery() throws Exception {
+
         Statement stmnt = null;
-        try{
-        stmnt = Database.getInstance(test).getCon().createStatement();
-        stmnt.executeUpdate(insertUpdateQuery);
-        }catch(Exception ex){
-            String message ="failed to run InsertUpdateQuery:" + ex.getMessage()+" "+ex.getStackTrace();
+        try {
+            stmnt = Database.getInstance(test).getCon().createStatement();
+            stmnt.executeUpdate(insertUpdateQuery);
+        } catch (Exception ex) {
+            String message = "failed to run InsertUpdateQuery:" + ex.getMessage() + " " + ex.getStackTrace();
             Logger.getLogger(FormulaDefManager.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(message);
             throw new Exception(message);
         }
         stmnt.close();
-        
+
     }
 }

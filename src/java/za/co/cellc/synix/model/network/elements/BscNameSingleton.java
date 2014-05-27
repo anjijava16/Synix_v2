@@ -14,7 +14,7 @@ public class BscNameSingleton extends ElementNameSingleton {
 //    private final String QUERY = "select distinct BSC_NAME,BSC_GID from S_TWOG_CELLS";
 
     public static synchronized ElementNameSingleton getInstance(boolean test_) {
-        QUERY = "select distinct BSC_NAME,BSC_GID from S_TWOG_CELLS";
+        QUERY = "select distinct BSC_NAME,BSC_GID from N2_CONTROLLERS_2G";
         test = test_;
         if (instance == null) {
             instance = new BscNameSingleton();

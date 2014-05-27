@@ -21,7 +21,7 @@ import za.co.cellc.synix.persistance.Database;
 public class RNC extends NE_Node {
 
     private int RNC_NAME = 1;
-    private String QUERY_RNC_NAMES = "select distinct RNC_NAME from S_THREEG_CELLS order by RNC_NAME";
+    private String QUERY_RNC_NAMES = "select distinct RNC_NAME from N2_CONTROLLERS_3G order by RNC_NAME";
 //   private String QUERY_RNC_NAMES = "select distinct RNC_NAME,WBTS_INSTANCE from T_THREEG_CELLS order by RNC_NAME,WBTS_INSTANCE";
     private List<String> rnc = new ArrayList<>();
 

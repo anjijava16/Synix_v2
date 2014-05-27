@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import za.co.cellc.synix.controllers.Encryption;
 import za.co.cellc.synix.controllers.JSON_Parser;
 import za.co.cellc.synix.formbuilders.charts.feature.Feature;
 //import za.co.cellc.synix.formbuilders.charts.linechart.Chart_old;
@@ -27,7 +26,6 @@ import za.co.cellc.synix.model.Authenticate;
 import za.co.cellc.synix.model.ModelUtilities;
 import za.co.cellc.synix.model.UserLogin;
 import za.co.cellc.synix.persistance.Database;
-import za.co.cellc.synix.view.Chart;
 
 /**
  *
@@ -87,6 +85,10 @@ public class ChartServlet extends HttpServlet {
         } else {
             response.getWriter().write("<p>User not authenticated!");
         }
+    }
+
+    public Double getProgressPercentage() {
+        return 0.0;
     }
 
     private String getRevenuePerSiteCharts() {

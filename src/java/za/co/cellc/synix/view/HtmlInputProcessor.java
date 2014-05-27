@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import za.co.cellc.synix.constants.Constants;
 
 /**
  *
@@ -27,6 +26,7 @@ public class HtmlInputProcessor {
     private List<String> vendor;
     private String level;
     private String period;
+    private int logicalGroup;
     private JSON_Parser jp;
 
     public static synchronized HtmlInputProcessor getInstance() {
@@ -120,6 +120,11 @@ public class HtmlInputProcessor {
         setFromDate();
         setToDate();
         setPeriod();
+        setLogicalGroup();
+    }
+
+    public int getLogicalGroup() {
+        return logicalGroup;
     }
 
     private void setNe() {
@@ -157,7 +162,6 @@ public class HtmlInputProcessor {
 //            }
 //        }
 //    }
-
 //    private void removeUnselectedCellGroups() {
 //        List<String> selectedGroups = getDataFromJSON("selectedCellGroups");
 //        for (int i = 0; i < networkElements.size(); i++) {
@@ -167,7 +171,6 @@ public class HtmlInputProcessor {
 //            }
 //        }
 //    }
-
 //    private String getGroupFromNE(int i) {
 //        String ar[] = networkElements.get(i).split(Constants.GROUP_DELIMITER);
 //        return ar[1];
@@ -176,7 +179,6 @@ public class HtmlInputProcessor {
 //    private boolean elementAlreadyGrouped(String e) {
 //        return e.contains("~");
 //    }
-
     private void setAggregated(List<String> lst) {
 
         if (lst.contains("Aggregate")) {
@@ -216,6 +218,16 @@ public class HtmlInputProcessor {
         }
     }
 
+    private void setLogicalGroup() throws Exception {
+        List<String> value = extractFromJSON("logicalGroup");
+        if (value.size() > 0) {
+            logicalGroup = Integer.valueOf(value.get(0));
+        } else {
+            System.out.println("Error getting logicalGroup: " + value);
+            throw new Exception("Error getting logicalGroup: " + value);
+        }
+    }
+
     private void setFromDate() {
         fromDate = extractFromJSON("timeFrom");
     }
@@ -235,7 +247,6 @@ public class HtmlInputProcessor {
 //    private void setRollerPeriod() {
 //        rollerPeriod = extractFromJSON("chartRollerPeriod").get(0);
 //    }
-
     public String getChartPageColumns() {
         return chartPageColumns;
     }

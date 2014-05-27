@@ -182,12 +182,13 @@ function showFilters(tabName) {
     selectedTabTitle = tabName;
     document.getElementById("filterTable").style.display = "block";
     hideAllFilters();
-    console.log(tabName);
-    if (tabName === "2G SLA KPI" || tabName === "2G Revenue/Site") {
+      if (tabName === "2G SLA KPI" || tabName === "2G Revenue/Site") {
         technology[0] = "2G";
         vendor[0] = "NSN";
         if (filterLevel === "BSC/RNC") {
-            document.getElementById("BSCfilter").style.display = "block";
+    console.log(tabName);
+    console.log(filterLevel);
+          document.getElementById("BSCfilter").style.display = "block";
             document.getElementById("2Gcell_Filters_search").style.display = "none";
             document.getElementById("cell_Filters2G_listbox_div").style.display = "none";
             document.getElementById("selectedCellsTable").innerHTML = "";

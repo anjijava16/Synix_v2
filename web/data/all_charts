@@ -4,11 +4,39 @@
     "children": [
         {
             "name": "2G",
-            "id": "NSN_2G_KPI_Charts"
+            "id": "NSN_2G_KPI_Charts",
+            "children": [
+                    {
+                        "name": "Accessibility",
+                        "id": "N2_Accessibility"
+                    },
+                    {
+                        "name": "Retainability",
+                        "id": "N2_Retainability"
+                    },
+                    {
+                        "name": "Traffic",
+                        "id": "N2_Traffic"
+                    }
+                        ]
         },
         {
             "name": "3G",
-            "id": "NSN_3G_KPI_Charts"
+            "id": "NSN_3G_KPI_Charts",
+            "children": [
+                    {
+                        "name": "Accessibility",
+                        "id": "N3_Accessibility"
+                    },
+                    {
+                        "name": "Retainability",
+                        "id": "N3_Retainability"
+                    },
+                    {
+                        "name": "Traffic",
+                        "id": "N3_Traffic"
+                    }
+                        ]
         }
 
     ]

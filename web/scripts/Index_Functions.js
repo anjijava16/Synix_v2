@@ -106,7 +106,7 @@ function getNeFilter(fromCalendar, toCalendar, periodId) {
     if (technology[0] === "3G") {
         divC.push(chartDivCounterNSN3G);
     }
-    chartPageColumns.push(1);
+    chartPageColumns.push(2);
     period.push(dijit.byId(periodId).get('value'));
     fillGraph.push(false);
     chartRollerPeriod.push(1);
@@ -137,6 +137,7 @@ function getNeFilter(fromCalendar, toCalendar, periodId) {
     neFilter.technology = technology;
     neFilter.selectedCellGroups = getSelectedCellGroupIndexes();
     neFilter.period = period;
+    neFilter.logicalGroup = logicalGroup;
 //    console.log(neFilter);
     return neFilter;
 }

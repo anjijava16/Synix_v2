@@ -2,6 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+var ACCESS_LOGICAL_GROUP_ID = 0;
+var RETAIN_LOGICAL_GROUP_ID = 1;
+var TRAFFIC_LOGICAL_GROUP_ID = 2;
+var logicalGroup = [];
 var technology = [];
 var vendor = [];
 var chartType = [];
@@ -12,12 +16,13 @@ function clearUserSelections() {
     technology = [];
     vendor = [];
     chartType = [];
+    logicalGroup = [];
 }
 require(["dojo/store/JsonRest", "dijit/Tree", "dijit/tree/dndSource", "dojo/query"],
         function(JsonRest, Tree, dndSource, query) {
 
             treeMenu = JsonRest({
-                target: "data/",                
+                target: "data/",
                 mayHaveChildren: function(object) {
                     // see if it has a children property
                     return "children" in object;
@@ -92,36 +97,60 @@ require(["dojo/store/JsonRest", "dijit/Tree", "dijit/tree/dndSource", "dojo/quer
                     // document.getElementById("nsn_2G").style.display = "none";
                 }
                 if (object.id === "NSN_2G_KPI_Charts") {
+//                    showFilters("NSN_2G_KPI_Charts");
+//                    vendor.push("NSN");
+//                    technology.push("2G");
+//                    chartType.push(KPI);
+//                    showEditorTab(1, 'chartTab_2G');
+//                    document.getElementById("filterFromDate").value = getPreviousDate(14);
+                } if (object.id === "N2_Accessibility") {
                     showFilters("NSN_2G_KPI_Charts");
                     vendor.push("NSN");
                     technology.push("2G");
                     chartType.push(KPI);
                     showEditorTab(1, 'chartTab_2G');
-                    document.getElementById("filterFromDate").value = getPreviousDate(30);
+                    document.getElementById("filterFromDate").value = getPreviousDate(14);
+                    logicalGroup.push(ACCESS_LOGICAL_GROUP_ID);
+                } if (object.id === "N2_Retainability") {
+//                    showFilters("NSN_2G_KPI_Charts");
+//                    vendor.push("NSN");
+//                    technology.push("2G");
+//                    chartType.push(KPI);
+//                    showEditorTab(1, 'chartTab_2G');
+//                    document.getElementById("filterFromDate").value = getPreviousDate(14);
+                    logicalGroup.push(RETAIN_LOGICAL_GROUP_ID);
+                }  if (object.id === "N2_Traffic") {
+//                    showFilters("NSN_2G_KPI_Charts");
+//                    vendor.push("NSN");
+//                    technology.push("2G");
+//                    chartType.push(KPI);
+//                    showEditorTab(1, 'chartTab_2G');
+//                    document.getElementById("filterFromDate").value = getPreviousDate(14);
+                    logicalGroup.push(TRAFFIC_LOGICAL_GROUP_ID);
                 }
-                if (object.id === "NSN_3G_KPI_Charts") {
+                else if (object.id === "NSN_3G_KPI_Charts") {
                     showFilters("NSN_3G_KPI_Charts");
                     vendor.push("NSN");
                     technology.push("3G");
                     chartType.push(KPI);
                     showEditorTab(2, 'chartTab_3G');
-                    document.getElementById("filterFromDate_NSN_3G").value = getPreviousDate(30);
+                    document.getElementById("filterFromDate_NSN_3G").value = getPreviousDate(14);
                 }
-                if (object.id === "NSN_2G_REV_AVAIL") {
+                else if (object.id === "NSN_2G_REV_AVAIL") {
                     showFilters("NSN_2G_REV_AVAIL");
                     vendor.push("NSN");
                     technology.push("2G");
                     chartType.push(REV_AVAIL);
                     showEditorTab(3, 'rev_avail_nsn_2G');
-                    document.getElementById("PeriodPicker_NSN_2G_REV_AVAIL_FromDate").value = getPreviousDate(30);
+                    document.getElementById("PeriodPicker_NSN_2G_REV_AVAIL_FromDate").value = getPreviousDate(14);
                 }
-                if (object.id === "NSN_3G_REV_AVAIL") {
+                else if (object.id === "NSN_3G_REV_AVAIL") {
                     showFilters("NSN_3G_REV_AVAIL");
                     vendor.push("NSN");
                     technology.push("3G");
                     chartType.push(REV_AVAIL);
                     showEditorTab(4, 'rev_avail_nsn_3G');
-                    document.getElementById("PeriodPicker_NSN_3G_REV_AVAIL_FromDate").value = getPreviousDate(30);
+                    document.getElementById("PeriodPicker_NSN_3G_REV_AVAIL_FromDate").value = getPreviousDate(14);
                 }
                 if (object.id === "rawData") {
                     var tabs = new Array();

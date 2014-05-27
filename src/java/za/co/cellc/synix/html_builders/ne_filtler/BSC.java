@@ -23,7 +23,7 @@ public class BSC extends NE_Node {
     private int BSC_NAME = 1;
 //    private int BTS_INSTANCE = 2;
 //    private String QUERY_BSC_NAMES = "select distinct BSC_NAME,BTS_INSTANCE from T_TWOG_CELLS order by BSC_NAME,BTS_INSTANCE";
-    private String QUERY_BSC_NAMES = "select distinct BSC_NAME from S_TWOG_CELLS order by BSC_NAME";
+    private String QUERY_BSC_NAMES = "select distinct BSC_NAME from N2_CONTROLLERS_2G order by BSC_NAME";
     private List<String> bsc = new ArrayList<>();
 //    private List<String> bts = new ArrayList<>();
 //    Database db = new Database();

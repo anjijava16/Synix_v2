@@ -1,0 +1,18 @@
+{
+    "name": "3G",
+    "id": "NSN_3G_KPI_Charts",
+    "children": [
+                    {
+                        "name": "Accessibility",
+                        "id": "N3_Accessibility"
+                    },
+                    {
+                        "name": "Retainability",
+                        "id": "N3_Retainability"
+                    },
+                    {
+                        "name": "Traffic",
+                        "id": "N3_Traffic"
+                    }
+                        ]
+} 

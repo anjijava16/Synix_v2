@@ -39,7 +39,7 @@ public class WBtsNamesServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
 //    private String QUERY_BTS_NAMES = "select distinct BTS_NAME from S_TWOG_CELLS where BTS_NAME != 'null' and BTS_NAME like 'ABBOTS%' order by BTS_NAME";
-    private String QUERY_WBTS_NAMES = "select distinct WCEL_NAME from S_THREEG_CELLS where WCEL_NAME != 'null' order by WCEL_NAME";
+    private String QUERY_WBTS_NAMES = "select distinct WCEL_NAME from N2_CELLS_3G where WCEL_NAME != 'null' order by WCEL_NAME";
     private List<String> wbtsName = new ArrayList<>();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
