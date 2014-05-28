@@ -37,13 +37,15 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
             setGroupByClause();
             setOrderByClause();
             setMapKey();
-            queriesMap.put(mapKey.toString(), makeQuery());
+            String q=makeQuery();
+            queriesMap.put(mapKey.toString(), q);
+            System.out.println("Query=> " + q);
         } catch (Exception ex) {
             System.out.println("Error building queries: " + ex.getMessage());
             Logger.getLogger(SingleEntryQueryMapBuilder.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception("Error building queries: ", ex);
         }
-        System.out.println(hUtil.timeStamp() + " map built");
+//        System.out.println(hUtil.timeStamp() + " map built");
         return queriesMap;
     }
 
@@ -84,9 +86,9 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
         sb.append(" WHERE ");
         sb.append(dateClause);
         sb.append(" AND ");
-        sb.append(" Upper(Period) = '").append(period.toUpperCase()).append("'");
+        sb.append(" Period = '").append(period.toUpperCase()).append("'");
         sb.append(" AND ");
-        sb.append(" Upper(LEVEL_) = '").append(level.toUpperCase()).append("'");
+        sb.append(" LEVEL_ = '").append(level.toUpperCase()).append("'");
         sb.append(" AND (");
         for (String ne : networkElements) {
             if (counter > 0) {

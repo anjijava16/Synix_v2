@@ -77,7 +77,7 @@ public class AggregationAdaptorTest {
         String resultData = "";
         String expectedDateTime = "";
         String expectedData = "";
-        String sql = "SELECT to_char(PERIOD_START_TIME,'yyyy/MM/dd HH24:mi:ss'),100*(DECODE((NVL(SUM(BCCH_UPTIME),0) + NVL(SUM(BCCH_DOWNTIME),0)), 0, 0,SUM(BCCH_UPTIME)/(NVL(SUM(BCCH_UPTIME),0) +NVL(SUM(BCCH_DOWNTIME),0)))) FROM N2_CELL_AVAIL_CTRL_D_TEST WHERE PERIOD_START_TIME >= TO_DATE('30/03/2014 00:00:00','dd/mm/yyyy hh24:mi:ss') AND PERIOD_START_TIME <= TO_DATE('01/04/2014 23:00:00','dd/mm/yyyy hh24:mi:ss') AND  UPPER(PERIOD) = 'DAILY' AND  UPPER(LEVEL_) = 'CONTROLLER' AND (BSC_GID='694806002' OR BSC_GID='676325002' ) GROUP BY PERIOD_START_TIME ORDER BY PERIOD_START_TIME";
+        String sql = "SELECT to_char(PERIOD_START_TIME,'yyyy/MM/dd HH24:mi:ss'),100*(DECODE((NVL(SUM(BCCH_UPTIME),0) + NVL(SUM(BCCH_DOWNTIME),0)), 0, 0,SUM(BCCH_UPTIME)/(NVL(SUM(BCCH_UPTIME),0) +NVL(SUM(BCCH_DOWNTIME),0)))) FROM N2_CELL_AVAIL_CTRL_D_TEST WHERE PERIOD_START_TIME >= TO_DATE('30/03/2014 00:00:00','dd/mm/yyyy hh24:mi:ss') AND PERIOD_START_TIME <= TO_DATE('01/04/2014 23:00:00','dd/mm/yyyy hh24:mi:ss') AND  PERIOD = 'DAILY' AND  LEVEL_ = 'CONTROLLER' AND (BSC_GID='694806002' OR BSC_GID='676325002' ) GROUP BY PERIOD_START_TIME ORDER BY PERIOD_START_TIME";
         selectionStr = "&timeFrom=30/03/2014 00:00:00&timeTo=01/04/2014 23:00:00&divCounter=1&chartPageColumns=1&fillGraph=false&chartRollerPeriod=1&chartType=KPI&bsc=GTIBN1&bsc=GTIBN2&vendor=NSN&technology=2G&period=Daily";
         try {
             HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));

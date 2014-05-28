@@ -39,6 +39,7 @@ public class ChartServlet extends HttpServlet {
     private int REVENUE_PER_SITE_USER_MIN_LEVEL = 3;
     private StringBuilder sb;
     private HttpServletRequest httpRequest;
+    private Chart chart = null;
     private String errorMessage = "A critical error has occured. Error log: ";
 //    private String JSON_DELIMITER = "&";
 //    private String SPACE_CHARS = "%20";
@@ -87,8 +88,14 @@ public class ChartServlet extends HttpServlet {
         }
     }
 
-    public Double getProgressPercentage() {
-        return 0.0;
+    public int getPercentageCompletion() {
+        int value;
+        try {
+            value = chart.getPercentageCompletion();
+        } catch (Exception e) {
+            value = 0;
+        }
+        return value;
     }
 
     private String getRevenuePerSiteCharts() {
@@ -149,7 +156,7 @@ public class ChartServlet extends HttpServlet {
     private String getChartsHTML() throws Exception {
         List<String> divCounters = extractFromJSON("divCounter");
         int i = Integer.parseInt(divCounters.get(0));
-        Chart chart = new Chart(sb, i, false);
+        chart = new Chart(sb, i, false);
         return chart.getHtml();
     }
 

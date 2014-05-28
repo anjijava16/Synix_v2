@@ -240,7 +240,7 @@ and open the template in the editor.
     </head>
     <body class="claro">        
         <% String errorMessage;  
-        if (theLogin == null || !authenticated) {
+        if (theLogin != null && !authenticated) {
             errorMessage = "Authentication falied. Please try again.";
             session.setAttribute("errorMessage", errorMessage);
         %>

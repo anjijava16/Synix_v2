@@ -8,13 +8,8 @@ package za.co.cellc.synix.model.adaptors;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.model.GraphData;
-import za.co.cellc.synix.model.GraphDataPojo;
-import za.co.cellc.synix.model.network.elements.ElementNameSingeltonFactory;
-import za.co.cellc.synix.model.network.elements.ElementNameSingleton;
 
 /**
  *

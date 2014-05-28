@@ -383,62 +383,6 @@ function strContainsStr(baseStr, testStr) {
     return baseStr.indexOf(testStr) !== -1;
 }
 
-//function outputSelected(opt) {
-//    var sel = getSelected(opt);
-//    var strSel = "";
-//    for (var item in sel)       
-//        strSel += sel[item].value + "\n";
-//    alert("Selected Items:\n" + strSel);
-//}
-//function getSelected(opt) {
-//    var selected = new Array();
-//    var index = 0;
-//    for (var intLoop = 0; intLoop < opt.length; intLoop++) {
-//        if ((opt[intLoop].selected) ||
-//            (opt[intLoop].checked)) {
-//            index = selected.length;
-//            //selected[index] = opt[intLoop].value;
-//            selected[index] = intLoop;
-//        }
-//    }
-//    return selected;
-//}
-
-//function loadCharts(RCcheckboxList,CLUSTERScheckboxList,SITEScheckboxList){
-//    xmlhttp = getHttpObject();
-////    console.log(CLUSTERScheckboxList);
-////    console.log(SITEScheckboxList);
-//    var rc = new Array();
-//    var clusters = new Array();
-//    var sites = new Array();
-//    rc = getSelected(RCcheckboxList);
-//    clusters = getSelected(CLUSTERScheckboxList);
-//    sites = getSelected(SITEScheckboxList);
-//    JSON.stringify(rc+clusters+sites);
-//    //var data = document.getElementById("filterDiv").innerHTML;
-//    xmlhttp.onreadystatechange=function(){
-//        if(xmlhttp.readyState==4){
-//            //console.log(document.getElementById("nsn_2G"));
-//            document.getElementById("nsn_2G").innerHTML = xmlhttp.responseText;
-//        }
-//    }
-//    console.log(sites);
-//    xmlhttp.open("POST","ChartServlet?rc="+rc,true);
-//    //xmlhttp.setRequestHeader("Content-type", "index.jsp")
-//    xmlhttp.send(null)
-////xmlhttp.send(null);
-//}
-//function loadCharts(str){
-//    xmlhttp = getHttpObject();
-//    xmlhttp.onreadystatechange=function(){
-//        if(xmlhttp.readyState==4){
-//            console.log(document.getElementById("nsn_2G"));
-//            document.getElementById("nsn_2G").innerHTML = xmlhttp.responseText;
-//        }
-//    }
-//    xmlhttp.open("GET","ChartServlet?chart="+str,true);
-//    xmlhttp.send(null);
-//}
 function clearTextBox(name) {
     document.getElementById(name).value = '';
 }

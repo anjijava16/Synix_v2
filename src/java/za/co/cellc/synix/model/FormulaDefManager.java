@@ -116,6 +116,7 @@ public class FormulaDefManager {
 
         sql.append(" AND IS_ENABLED = '");
         sql.append(getEnabledState()).append("'");
+        sql.append(" order by PRIORITY");
         return sql.toString();
     }
 

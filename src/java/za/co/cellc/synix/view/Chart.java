@@ -24,6 +24,7 @@ public class Chart {
     private List<GraphConstructPojo> graphConstructPojos;
     private List<FormuladefPojo> formulaDefPojos;
     private HtmlInputProcessor hip;
+    private Orchestrator orc = new Orchestrator();
 
     public Chart(StringBuilder selectionSb, int divIndex, boolean test) throws Exception {
 //        this.selectionStr = selectionSb;
@@ -37,12 +38,21 @@ public class Chart {
 
     public String getHtml() throws Exception {
         StringBuilder sb = new StringBuilder();
-        Orchestrator orc = new Orchestrator();
         graphConstructPojos = orc.getGraphConstructPojos(test);
         sb.append(getKpiDiv());
         sb.append(getKpiContent());
         clearSelectionSingleton();
         return sb.toString();
+    }
+
+    public int getPercentageCompletion() {
+        int value;
+        try {
+            value = orc.getPercentageCompletion();
+        } catch (Exception e) {
+            value = 0;
+        }
+        return value;
     }
 
     private void clearSelectionSingleton() {

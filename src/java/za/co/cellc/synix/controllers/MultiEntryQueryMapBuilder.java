@@ -87,9 +87,9 @@ public class MultiEntryQueryMapBuilder extends QueryMapBuilder {
         sb.append(" WHERE ");
         sb.append(dateClause);
         sb.append(" AND ");
-        sb.append(" Upper(Period) = '").append(period.toUpperCase()).append("'");
+        sb.append(" Period = '").append(period.toUpperCase()).append("'");
         sb.append(" AND ");
-        sb.append(" Upper(LEVEL_) = '").append(level.toUpperCase()).append("'");
+        sb.append(" LEVEL_ = '").append(level.toUpperCase()).append("'");
         sb.append(" AND ");
         sb.append(networkElementColumnName);
         sb.append(" = '").append(networkElementID).append("'");
