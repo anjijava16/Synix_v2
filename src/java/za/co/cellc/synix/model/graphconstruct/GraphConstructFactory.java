@@ -16,9 +16,7 @@ import za.co.cellc.synix.model.GraphData;
  */
 public class GraphConstructFactory {
 
-    private List<GraphData> gdObjects;
-
-        public static GraphContructPojoMaker create(String selection, List<GraphData> gdObjects, List<String> labelNames, FormuladefPojo devPojo) throws Exception {
+    public static GraphContructPojoMaker create(String selection, List<GraphData> gdObjects, List<String> labelNames, FormuladefPojo devPojo) throws Exception {
         GraphContructPojoMaker gpm = null;
         if (selection.equals(Constants.ChartTypes.DYGRAPH.value())) {
             gpm = new DygraphGraphContructPojoMaker(gdObjects, labelNames, devPojo);

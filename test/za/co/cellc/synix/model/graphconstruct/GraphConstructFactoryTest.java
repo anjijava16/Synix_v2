@@ -48,7 +48,7 @@ public class GraphConstructFactoryTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        String selectionStr = "&timeFrom=30/03/2014 00:00:00&timeTo=01/04/2014 23:00:00&divCounter=1&chartPageColumns=1&fillGraph=false&chartRollerPeriod=1&chartType=KPI&bsc=GTIBN1&bsc=GTIBN2&vendor=NSN&technology=2G&period=Daily&logicalGroup=0";
+        String selectionStr = "&timeFrom=30/03/2014 00:00:00&timeTo=03/04/2014 23:00:00&divCounter=1&chartPageColumns=1&fillGraph=false&chartRollerPeriod=1&chartType=KPI&bsc=GTIBN1&bsc=GTIBN2&vendor=NSN&technology=2G&period=Daily&logicalGroup=0";
         try {
             HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));
             con = Database.getInstance(ISTEST).getCon();
@@ -73,7 +73,7 @@ public class GraphConstructFactoryTest {
     public void createDygraphTest() {
         System.out.println("\n===========================\nGraphConstructFactoryTest: createDygraphTest");
         boolean testPassed = false;
-        String dataStrExpected = "2014/03/30 00:00:00,9.67663015061967900014784311321537135666E01,9.98187359096121639644662154705223933187E01\n2014/03/31 00:00:00,9.75303299539298523893169460200935379606E01,9.91890083529128239818259729959294568836E01\n2014/04/01 00:00:00,9.84969564714907511131697559990135491392E01,9.7717610997671005171942789144939413723E01\n2014/04/02 00:00:00,9.87464721552146874821642184811892928236E01,9.64894799701183237702029829632402968128E01\n2014/04/03 00:00:00,9.68138310412916935222877054284384437498E01,9.74543194902020098512526365306672797262E01\n";
+        String dataStrExpected = "2014/03/30 00:00:00,96.76630150619679000147843113215371356659,99.81873590961216396446621547052239331865\\n2014/03/31 00:00:00,97.53032995392985238931694602009353796061,99.18900835291282398182597299592945688357\\n2014/04/01 00:00:00,98.49695647149075111316975599901354913918,97.71761099767100517194278914493941372301\\n2014/04/02 00:00:00,98.74647215521468748216421848118929282364,96.4894799701183237702029829632402968128\\n2014/04/03 00:00:00,96.81383104129169352228770542843844374978,97.45431949020200985125263653066727972622\\n";
         String labels = "'Period_Start_Time','GTIBN1','GTIBN2'";
         String title = "Cell Availability";
         List<String> labelNames = new ArrayList<>();

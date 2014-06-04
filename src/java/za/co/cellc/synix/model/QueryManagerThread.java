@@ -23,6 +23,8 @@ import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.QueryMapBuilder;
 import za.co.cellc.synix.model.adaptors.Adaptor;
 import za.co.cellc.synix.model.adaptors.AdaptorFactory;
+import za.co.cellc.synix.model.graphconstruct.GraphConstructFactory;
+import za.co.cellc.synix.model.graphconstruct.GraphContructPojoMaker;
 import za.co.cellc.synix.persistance.Database;
 import za.co.cellc.synix.utilities.HoursUtility;
 import za.co.cellc.synix.view.HtmlInputProcessor;
@@ -64,6 +66,7 @@ public class QueryManagerThread implements Runnable {
             setHours();
             setQueriesMap();
             buildGraphDataPojos();
+            saveGraphConstructs(devPojo.getChartTitle());
 
             Date d2 = new Date();
             long diff = d2.getTime() - d1.getTime();
@@ -115,10 +118,23 @@ public class QueryManagerThread implements Runnable {
             count++;
         }
         //add factory here
-        String dataStr = concatenateGraphData();
-        String labels = concatenateGraphLabels();
-        String title = devPojo.getChartTitle();
-        saveGraphConstructs(dataStr, labels, title);
+
+//        String dataStr = concatenateGraphData();
+//        String labels = concatenateGraphLabels();
+//        String title = devPojo.getChartTitle();
+//        saveGraphConstructs(dataStr, labels, title);
+    }
+
+    private void saveGraphConstructs(String chartTitle) throws Exception {
+        GraphContructPojoMaker gcpm = getGraphContructPojoMaker(Constants.ChartTypes.DYGRAPH.value());
+        String dataStr = gcpm.getGraphConstructPojo().getData();
+        String labels = gcpm.getGraphConstructPojo().getLabel();
+        GraphConstructPojo gcp = new GraphConstructPojo(dataStr, labels, chartTitle);
+        GraphConstructsSingleton.getInstance().addGraphDataPojo(gcp);
+    }
+
+    private GraphContructPojoMaker getGraphContructPojoMaker(String selection) throws Exception {
+        return GraphConstructFactory.create(selection, gdObjects, labelNames, devPojo);
     }
 
     private String extractGroupNameFromMapKey(String key) {
@@ -201,11 +217,6 @@ public class QueryManagerThread implements Runnable {
 
     private String[] splitLabels(String l) {
         return l.split(",");
-    }
-
-    private void saveGraphConstructs(String dataStr, String labels, String chartTitle) {
-        GraphConstructPojo gcp = new GraphConstructPojo(dataStr, labels, chartTitle);
-        GraphConstructsSingleton.getInstance().addGraphDataPojo(gcp);
     }
 
     private void setRsFromQuery(String q) throws Exception {
