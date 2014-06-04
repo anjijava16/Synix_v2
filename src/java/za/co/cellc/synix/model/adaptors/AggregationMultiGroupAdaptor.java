@@ -26,6 +26,10 @@ public class AggregationMultiGroupAdaptor extends Adaptor implements AdaptorInte
     public AggregationMultiGroupAdaptor(ResultSet rs, boolean test) throws Exception {
         super(rs, test);
     }
+    
+     public boolean isDataEmpty() {
+        return rsData.isEmpty();
+    }
 
     @Override
     public List<GraphData> getGdList() throws Exception {

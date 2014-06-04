@@ -28,6 +28,10 @@ public class NonAggregationAdaptor extends Adaptor implements AdaptorInterface {
         super(rs, test);
     }
 
+    public boolean isDataEmpty() {
+        return rsData.isEmpty();
+    }
+
     @Override
     public List<GraphData> getGdList() throws Exception {
         if (gdList.isEmpty()) {

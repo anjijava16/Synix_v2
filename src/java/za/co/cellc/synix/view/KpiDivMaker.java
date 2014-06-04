@@ -5,7 +5,7 @@
 package za.co.cellc.synix.view;
 
 import za.co.cellc.synix.controllers.FormuladefPojo;
-import za.co.cellc.synix.model.GraphConstructPojo;
+import za.co.cellc.synix.model.graphconstruct.GraphConstructPojo;
 
 /**
  *

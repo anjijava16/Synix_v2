@@ -60,6 +60,21 @@ public class Constants {
         "VIEW_CONTROLLER_WEEKLY",
         "VIEW_CONTROLLER_MONTHLY"};
 
+    public enum ChartTypes {
+
+        DYGRAPH("DYGRAPH"),
+        HIGH_CHART("HIGH_CHART");
+        private final String value;
+
+        private ChartTypes(String value) {
+            this.value = value;
+        }
+
+        public String value() {
+            return value;
+        }
+    }
+
     public enum PlotterTypes {
 
         LINE("lineChartPlotter"),

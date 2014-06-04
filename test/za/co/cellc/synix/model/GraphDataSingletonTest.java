@@ -5,6 +5,8 @@
  */
 package za.co.cellc.synix.model;
 
+import za.co.cellc.synix.model.graphconstruct.GraphConstructsSingleton;
+import za.co.cellc.synix.model.graphconstruct.GraphConstructPojo;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.AfterClass;

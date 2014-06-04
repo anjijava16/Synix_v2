@@ -349,7 +349,7 @@ and open the template in the editor.
             </div>
 
             <div class="header" data-dojo-type="dojox/layout/ContentPane" data-dojo-props="region: 'top'">
-                <img class="imgcenter" src="images/logo2.png" />
+                <img class="imgcenter" src="images/logo5.png" />
             </div>
             <div id="leftCol" class="edgePanel" data-dojo-type="dojox/layout/ContentPane" data-dojo-props="region: 'left'">
                 <div data-dojo-type="dijit.layout.AccordionContainer" data-dojo-props="region:'leading', splitter:true"

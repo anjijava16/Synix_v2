@@ -15,6 +15,8 @@ import za.co.cellc.synix.model.GraphDataPojo;
  */
 public interface AdaptorInterface {
 
+    public boolean isDataEmpty();
+
     public List<GraphData> getGdList() throws Exception;
 
     public String getGraphLabels() throws Exception;

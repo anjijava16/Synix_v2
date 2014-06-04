@@ -5,12 +5,13 @@
  */
 package za.co.cellc.synix.model;
 
+import za.co.cellc.synix.model.graphconstruct.GraphConstructsSingleton;
+import za.co.cellc.synix.model.graphconstruct.GraphConstructPojo;
 import za.co.cellc.synix.controllers.QueryMapBuilderFactory;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.controllers.FormuladefPojo;
-import za.co.cellc.synix.controllers.MultiEntryQueryMapBuilder;
 import za.co.cellc.synix.controllers.QueryMapBuilder;
 import za.co.cellc.synix.model.adaptors.Adaptor;
 import za.co.cellc.synix.model.adaptors.AdaptorFactory;
@@ -106,12 +106,15 @@ public class QueryManagerThread implements Runnable {
             int fc = getFactoryChoice();
             String gn = extractGroupNameFromMapKey(entry.getKey());
             Adaptor adaptor = AdaptorFactory.create(fc, gn, rs, test);
-            gdObjects.addAll(adaptor.getGdList());
             labelNames.add(entry.getKey());
+            if (!adaptor.isDataEmpty()) {
+                gdObjects.addAll(adaptor.getGdList());
+            }
             closeConnection();
             System.out.println(hUtil.timeStamp() + " end loop: " + count + " " + query + "\n");
             count++;
         }
+        //add factory here
         String dataStr = concatenateGraphData();
         String labels = concatenateGraphLabels();
         String title = devPojo.getChartTitle();
@@ -128,11 +131,7 @@ public class QueryManagerThread implements Runnable {
 
     private int getFactoryChoice() {
         if (htmlIp.isAggregated()) {
-//            if (htmlIp.isAggregationMultiGroup()) {
             return Constants.AGGREGATION_ADAPTOR;
-//            } else {
-//                return Constants.AGGREGATION_MULTI_GROUP_ADAPTOR;
-//            }
         }
         return Constants.NON_AGGREGATION_ADAPTOR;
     }

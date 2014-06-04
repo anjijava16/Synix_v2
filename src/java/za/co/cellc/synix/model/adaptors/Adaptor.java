@@ -48,6 +48,10 @@ public class Adaptor {
         }
     }
 
+    public boolean isDataEmpty() {
+        return false;
+    }
+
     public List<GraphData> getGdList() throws Exception {
         if (gdList.isEmpty()) {
             return null;
