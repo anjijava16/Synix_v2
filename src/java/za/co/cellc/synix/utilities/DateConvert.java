@@ -31,4 +31,8 @@ public class DateConvert {
             throw new Exception("Error converting date: " + ex.getMessage());
         }
     }
+
+    public String dateStringToUTCdate(String dateStr, String sourceFormat) throws Exception {
+
+    }
 }

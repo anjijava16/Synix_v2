@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package za.co.cellc.synix.model.graphconstruct;
+package za.co.cellc.synix.controllers.graphconstruct;
 
 import java.util.ArrayList;
 import java.util.List;

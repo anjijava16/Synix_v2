@@ -11,6 +11,7 @@ package za.co.cellc.synix.constants;
  */
 public class Constants {
 
+    public static final String HIGH_CHART_TARGET_COLOR = "rgba(255, 0, 0, .7)";
     public static final int LABEL_ADAPTOR = 1;
     public static final int AGGREGATION_ADAPTOR = 2;
     public static final int NON_AGGREGATION_ADAPTOR = 3;
@@ -97,6 +98,21 @@ public class Constants {
         private final String value;
 
         private Periods(String value) {
+            this.value = value;
+        }
+
+        public String value() {
+            return value;
+        }
+    }
+
+    public enum HighChartTypes {
+
+        LINE("line"),
+        AREA("area");
+        private final String value;
+
+        private HighChartTypes(String value) {
             this.value = value;
         }
 

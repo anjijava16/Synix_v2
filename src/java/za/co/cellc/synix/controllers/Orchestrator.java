@@ -8,8 +8,8 @@ package za.co.cellc.synix.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import za.co.cellc.synix.constants.Constants;
-import za.co.cellc.synix.model.graphconstruct.GraphConstructPojo;
-import za.co.cellc.synix.model.graphconstruct.GraphConstructsSingleton;
+import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
+import za.co.cellc.synix.controllers.graphconstruct.GraphConstructsSingleton;
 import za.co.cellc.synix.model.QueryManagerThread;
 
 /**

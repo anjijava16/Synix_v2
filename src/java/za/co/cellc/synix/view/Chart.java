@@ -9,8 +9,8 @@ import java.util.List;
 import za.co.cellc.synix.controllers.FormulaDefController;
 import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.Orchestrator;
-import za.co.cellc.synix.model.graphconstruct.GraphConstructPojo;
-import za.co.cellc.synix.model.graphconstruct.GraphConstructsSingleton;
+import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
+import za.co.cellc.synix.controllers.graphconstruct.GraphConstructsSingleton;
 
 /**
  *

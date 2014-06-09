@@ -5,6 +5,9 @@
  */
 package za.co.cellc.synix.model.graphconstruct;
 
+import za.co.cellc.synix.controllers.graphconstruct.GraphContructPojoMaker;
+import za.co.cellc.synix.controllers.graphconstruct.GraphConstructFactory;
+import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
 import za.co.cellc.synix.model.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -69,12 +72,44 @@ public class GraphConstructFactoryTest {
     public void tearDown() throws Exception {
     }
 
+//    @Test
+//    public void createDygraphTest() {
+//        System.out.println("\n===========================\nGraphConstructFactoryTest: createDygraphTest");
+//        boolean testPassed = false;
+//        String dataResult = "";
+//        String dataStrExpected = "2014/03/30 00:00:00,96.76630150619679000147843113215371356659,99.81873590961216396446621547052239331865\\n2014/03/31 00:00:00,97.53032995392985238931694602009353796061,99.18900835291282398182597299592945688357\\n2014/04/01 00:00:00,98.49695647149075111316975599901354913918,97.71761099767100517194278914493941372301\\n2014/04/02 00:00:00,98.74647215521468748216421848118929282364,96.4894799701183237702029829632402968128\\n2014/04/03 00:00:00,96.81383104129169352228770542843844374978,97.45431949020200985125263653066727972622\\n";
+//        String labels = "'Period_Start_Time','GTIBN1','GTIBN2'";
+//        String labelsResult = "";
+//        String title = "Cell Availability";
+//        List<String> labelNames = new ArrayList<>();
+//        labelNames.add(labels);
+//        List<GraphData> gdObjects = getGdObjects();
+//
+//        FormulaDefManager defMan = new FormulaDefManager(ISTEST);
+//        List<FormuladefPojo> defPojos = defMan.getFromulaDefPojos();
+//        try {
+//            GraphContructPojoMaker gpm = GraphConstructFactory.create(Constants.ChartTypes.DYGRAPH.value(), gdObjects, labelNames, defPojos.get(0));
+//            GraphConstructPojo gcp = gpm.getGraphConstructPojo();
+//            dataResult = gcp.getData();
+//            labelsResult = gcp.getLabel();
+//            testPassed = dataResult.equals(dataStrExpected) && labelsResult.equals(labels);
+//        } catch (Exception ex) {
+//            Logger.getLogger(GraphConstructFactoryTest.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        System.out.println("expected labels = " + labels + "\n  result labels = " + labelsResult);
+//        System.out.println("expectedData = " + dataStrExpected + "\n  resultData = " + dataResult);
+//        pUtils.printStatus(testPassed);
+//        assertTrue(testPassed);
+//    }
+
     @Test
-    public void createDygraphTest() {
-        System.out.println("\n===========================\nGraphConstructFactoryTest: createDygraphTest");
+    public void createHighChartTest() {
+        System.out.println("\n===========================\nGraphConstructFactoryTest: createHighChartTest");
         boolean testPassed = false;
+        String dataResult = "";
         String dataStrExpected = "2014/03/30 00:00:00,96.76630150619679000147843113215371356659,99.81873590961216396446621547052239331865\\n2014/03/31 00:00:00,97.53032995392985238931694602009353796061,99.18900835291282398182597299592945688357\\n2014/04/01 00:00:00,98.49695647149075111316975599901354913918,97.71761099767100517194278914493941372301\\n2014/04/02 00:00:00,98.74647215521468748216421848118929282364,96.4894799701183237702029829632402968128\\n2014/04/03 00:00:00,96.81383104129169352228770542843844374978,97.45431949020200985125263653066727972622\\n";
         String labels = "'Period_Start_Time','GTIBN1','GTIBN2'";
+        String labelsResult = "";
         String title = "Cell Availability";
         List<String> labelNames = new ArrayList<>();
         labelNames.add(labels);
@@ -85,12 +120,14 @@ public class GraphConstructFactoryTest {
         try {
             GraphContructPojoMaker gpm = GraphConstructFactory.create(Constants.ChartTypes.DYGRAPH.value(), gdObjects, labelNames, defPojos.get(0));
             GraphConstructPojo gcp = gpm.getGraphConstructPojo();
-            testPassed = gcp.getData().equals(dataStrExpected) && gcp.getLabel().equals(labels);
+            dataResult = gcp.getData();
+            labelsResult = gcp.getLabel();
+            testPassed = dataResult.equals(dataStrExpected) && labelsResult.equals(labels);
         } catch (Exception ex) {
             Logger.getLogger(GraphConstructFactoryTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        System.out.println("expectedDateTime=" + expectedDateTime + "\n resultDateTime  =        " + resultDateTime);
-//        System.out.println("expectedData=" + expectedData + "\n resultData      =" + resultData);
+        System.out.println("expected labels = " + labels + "\n  result labels = " + labelsResult);
+        System.out.println("expectedData = " + dataStrExpected + "\n  resultData = " + dataResult);
         pUtils.printStatus(testPassed);
         assertTrue(testPassed);
     }

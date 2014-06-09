@@ -5,8 +5,8 @@
  */
 package za.co.cellc.synix.model;
 
-import za.co.cellc.synix.model.graphconstruct.GraphConstructsSingleton;
-import za.co.cellc.synix.model.graphconstruct.GraphConstructPojo;
+import za.co.cellc.synix.controllers.graphconstruct.GraphConstructsSingleton;
+import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
 import za.co.cellc.synix.controllers.QueryMapBuilderFactory;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -23,8 +23,8 @@ import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.QueryMapBuilder;
 import za.co.cellc.synix.model.adaptors.Adaptor;
 import za.co.cellc.synix.model.adaptors.AdaptorFactory;
-import za.co.cellc.synix.model.graphconstruct.GraphConstructFactory;
-import za.co.cellc.synix.model.graphconstruct.GraphContructPojoMaker;
+import za.co.cellc.synix.controllers.graphconstruct.GraphConstructFactory;
+import za.co.cellc.synix.controllers.graphconstruct.GraphContructPojoMaker;
 import za.co.cellc.synix.persistance.Database;
 import za.co.cellc.synix.utilities.HoursUtility;
 import za.co.cellc.synix.view.HtmlInputProcessor;

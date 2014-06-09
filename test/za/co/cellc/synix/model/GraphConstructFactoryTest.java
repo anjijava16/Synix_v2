@@ -20,9 +20,9 @@ import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.controllers.PrintUtils;
 import za.co.cellc.synix.model.adaptors.Adaptor;
 import za.co.cellc.synix.model.adaptors.AdaptorFactory;
-import za.co.cellc.synix.model.graphconstruct.GraphConstructFactory;
-import za.co.cellc.synix.model.graphconstruct.GraphConstructPojo;
-import za.co.cellc.synix.model.graphconstruct.GraphContructPojoMaker;
+import za.co.cellc.synix.controllers.graphconstruct.GraphConstructFactory;
+import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
+import za.co.cellc.synix.controllers.graphconstruct.GraphContructPojoMaker;
 import za.co.cellc.synix.persistance.Database;
 import za.co.cellc.synix.view.HtmlInputProcessor;
 
