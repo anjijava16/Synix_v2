@@ -7,7 +7,7 @@ package za.co.cellc.synix.constants;
 
 /**
  *
- * @author Pierre.Venter
+ * @author Pierre.Venter and nm
  */
 public class Constants {
 
