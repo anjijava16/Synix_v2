@@ -11,6 +11,7 @@ package za.co.cellc.synix.constants;
  */
 public class Constants {
 
+    public static final String SANITY_URL="http://10.220.8.217:8080/SynixSanity-0.1/dbMonitor/index";
     public static final String HIGH_CHART_TARGET_COLOR = "rgba(255, 0, 0, .7)";
     public static final int LABEL_ADAPTOR = 1;
     public static final int AGGREGATION_ADAPTOR = 2;
