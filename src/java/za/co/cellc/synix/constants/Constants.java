@@ -11,6 +11,8 @@ package za.co.cellc.synix.constants;
  */
 public class Constants {
 
+    public static final String DEFAULT_CHART_TYPE = "HIGH_CHART";
+    public static final String TARGET_COLOR = "rgba(255, 0, 0, .7)";
     public static final String HIGH_CHART_TARGET_COLOR = "rgba(255, 0, 0, .7)";
     public static final int LABEL_ADAPTOR = 1;
     public static final int AGGREGATION_ADAPTOR = 2;

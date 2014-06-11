@@ -62,6 +62,8 @@ and open the template in the editor.
         <script type="text/javascript" src="scripts/dygraph/dygraph-combined.js"></script>
         <script type="text/javascript" src="scripts/dygraph/dygraph-dev.js"></script>
         <script type="text/javascript" src="scripts/dygraph/dygraph-extra.js.pagespeed.jm.XEAakGGeT_.js"></script>
+        <script src="scripts/higharts/highcharts.js"></script>
+        <script src="scripts/higharts/modules/exporting.js"></script>
         <script src="scripts/dygraph/custom/highlightWeekends.js"></script>
         <script src="scripts/dygraph/custom/highlightTarget.js"></script>
         <script src="scripts/dygraph/custom/annotations.js"></script>

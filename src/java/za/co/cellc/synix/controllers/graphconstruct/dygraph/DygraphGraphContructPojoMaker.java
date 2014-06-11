@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package za.co.cellc.synix.controllers.graphconstruct;
+package za.co.cellc.synix.controllers.graphconstruct.dygraph;
 
 import java.util.ArrayList;
 import java.util.List;
 import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.controllers.FormuladefPojo;
+import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
+import za.co.cellc.synix.controllers.graphconstruct.GraphContructPojoMaker;
 import za.co.cellc.synix.model.GraphData;
 
 /**

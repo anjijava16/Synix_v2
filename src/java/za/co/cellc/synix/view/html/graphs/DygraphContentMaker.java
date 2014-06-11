@@ -2,16 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package za.co.cellc.synix.view;
+package za.co.cellc.synix.view.html.graphs;
 
 import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
  * @author Pierre.Venter
  */
-public class KpiContentMaker {
+public class DygraphContentMaker {
 
     private String WORST_CELL_ANNOTATION = "WORST_CELL";
 //    private StringBuilder sb;
@@ -27,7 +28,7 @@ public class KpiContentMaker {
     private String footer;
     private HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
 
-    public KpiContentMaker(int divIndex) {
+    public DygraphContentMaker(int divIndex) {
         this.divIndex = divIndex;
 //        this.sb = sb;
         initVariables();

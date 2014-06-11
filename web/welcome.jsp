@@ -4,9 +4,12 @@
     Author     : Pierre.Venter
 --%>
 
+<%@page import="za.co.cellc.synix.view.ChartServlet"%>
 <% 
 
         String theIsAdmin = (String) session.getAttribute("isAdmin");
+        ChartServlet cs = new ChartServlet();
+        
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,6 +17,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+       
     </head>
     <body>
         <div>

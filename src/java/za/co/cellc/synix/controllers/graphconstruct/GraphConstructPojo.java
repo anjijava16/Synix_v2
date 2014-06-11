@@ -11,9 +11,9 @@ package za.co.cellc.synix.controllers.graphconstruct;
  */
 public class GraphConstructPojo {
 
-    String data;
-    String label;
-    String chartTitle;
+    protected String data;
+    protected String label;
+    protected String chartTitle;
 
     public GraphConstructPojo(String data, String label, String chartTitle) {
         this.data = data;

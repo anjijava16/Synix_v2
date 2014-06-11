@@ -5,6 +5,7 @@
  */
 package za.co.cellc.synix.controllers.graphconstruct;
 
+import za.co.cellc.synix.controllers.graphconstruct.dygraph.DygraphGraphContructPojoMaker;
 import za.co.cellc.synix.controllers.graphconstruct.highchart.HighChartGraphContructPojoMaker;
 import java.util.List;
 import za.co.cellc.synix.constants.Constants;

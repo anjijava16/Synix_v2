@@ -25,6 +25,7 @@ import za.co.cellc.synix.model.adaptors.Adaptor;
 import za.co.cellc.synix.model.adaptors.AdaptorFactory;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructFactory;
 import za.co.cellc.synix.controllers.graphconstruct.GraphContructPojoMaker;
+import za.co.cellc.synix.controllers.graphconstruct.highchart.HighChartGraphConstructPojo;
 import za.co.cellc.synix.persistance.Database;
 import za.co.cellc.synix.utilities.HoursUtility;
 import za.co.cellc.synix.view.HtmlInputProcessor;
@@ -126,11 +127,28 @@ public class QueryManagerThread implements Runnable {
     }
 
     private void saveGraphConstructs(String chartTitle) throws Exception {
-        GraphContructPojoMaker gcpm = getGraphContructPojoMaker(Constants.ChartTypes.DYGRAPH.value());
-        String dataStr = gcpm.getGraphConstructPojo().getData();
-        String labels = gcpm.getGraphConstructPojo().getLabel();
-        GraphConstructPojo gcp = new GraphConstructPojo(dataStr, labels, chartTitle);
-        GraphConstructsSingleton.getInstance().addGraphDataPojo(gcp);
+        GraphContructPojoMaker gcpm;
+        String chartType = htmlIp.getChartType();
+        switch (chartType) {
+            case "DYGRAPH":
+                gcpm = getGraphContructPojoMaker(Constants.ChartTypes.DYGRAPH.value());
+                GraphConstructPojo gcp = gcpm.getGraphConstructPojo();
+                gcp.setChartTitle(chartTitle);
+                GraphConstructsSingleton.getInstance().addGraphDataPojo(gcp);
+                break;
+            case "HIGH_CHART":
+                gcpm = getGraphContructPojoMaker(Constants.ChartTypes.HIGH_CHART.value());
+                List<HighChartGraphConstructPojo> gcPojos = gcpm.getGraphConstructPojos();
+                GraphConstructsSingleton.getInstance().addHcGraphDataPojos(gcPojos);
+                break;
+            default:
+                throw new AssertionError();
+        }
+
+//        String dataStr = gcpm.getGraphConstructPojo().getData();
+//        String labels = gcpm.getGraphConstructPojo().getLabel();
+//        GraphConstructPojo gcp = new GraphConstructPojo(dataStr, labels, chartTitle);
+//        GraphConstructsSingleton.getInstance().addGraphDataPojo(gcp);
     }
 
     private GraphContructPojoMaker getGraphContructPojoMaker(String selection) throws Exception {

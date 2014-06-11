@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import za.co.cellc.synix.constants.Constants;
 
 /**
  *
@@ -28,6 +29,7 @@ public class HtmlInputProcessor {
     private String period;
     private int logicalGroup;
     private JSON_Parser jp;
+    private String chartType = Constants.DEFAULT_CHART_TYPE;
 
     public static synchronized HtmlInputProcessor getInstance() {
         if (instance == null) {
@@ -121,6 +123,11 @@ public class HtmlInputProcessor {
         setToDate();
         setPeriod();
         setLogicalGroup();
+        setChartType();
+    }
+
+    public String getChartType() {
+        return chartType;
     }
 
     public int getLogicalGroup() {
@@ -205,6 +212,13 @@ public class HtmlInputProcessor {
             level = "CELL";
         } else {
             level = "CONTROLLER";
+        }
+    }
+
+    private void setChartType() {
+        List<String> values = extractFromJSON("chart_type");
+        if (values.size() > 0) {
+            chartType = values.get(0);
         }
     }
 

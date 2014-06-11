@@ -5,16 +5,20 @@
  */
 package za.co.cellc.synix.controllers.graphconstruct.highchart;
 
+import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
+
 /**
  *
  * @author pierre.venter
  */
-public class HighChartSeriesPojo {
+public class HighChartGraphConstructPojo extends GraphConstructPojo {
 
-    private String type;
-    private String color;
-    private String name;
-    private String data;
+    private String type = "line";
+    private String color = null;
+
+    public HighChartGraphConstructPojo(String data, String label, String chartTitle) {
+        super(data, label, chartTitle);
+    }
 
     public String getType() {
         return type;
@@ -32,20 +36,18 @@ public class HighChartSeriesPojo {
         this.color = color;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String getChartTitle() {
+        return chartTitle;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @Override
     public String getData() {
         return data;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    @Override
+    public String getLabel() {
+        return label;
     }
-
 }

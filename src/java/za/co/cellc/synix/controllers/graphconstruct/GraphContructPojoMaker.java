@@ -8,6 +8,7 @@ package za.co.cellc.synix.controllers.graphconstruct;
 import java.util.ArrayList;
 import java.util.List;
 import za.co.cellc.synix.controllers.FormuladefPojo;
+import za.co.cellc.synix.controllers.graphconstruct.highchart.HighChartGraphConstructPojo;
 import za.co.cellc.synix.model.GraphData;
 import za.co.cellc.synix.utilities.HoursUtility;
 
@@ -21,6 +22,7 @@ public class GraphContructPojoMaker {
     protected List<String> labelNames;
     protected List<String> hours = new ArrayList<>();
     protected FormuladefPojo devPojo;
+    protected List<HighChartGraphConstructPojo> hcgPojos = new ArrayList<>();
 
     public GraphContructPojoMaker(List<GraphData> gdObjects, List<String> labelNames, FormuladefPojo devPojo) {
         this.gdObjects = gdObjects;
@@ -31,6 +33,10 @@ public class GraphContructPojoMaker {
 
     public GraphConstructPojo getGraphConstructPojo() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<HighChartGraphConstructPojo> getGraphConstructPojos() throws Exception {
+        return hcgPojos;
     }
 
     protected String stripQuotes(String s) {

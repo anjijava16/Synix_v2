@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package za.co.cellc.synix.view;
+package za.co.cellc.synix.view.html.graphs;
 
 import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
@@ -11,17 +11,16 @@ import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
  *
  * @author Pierre.Venter
  */
-public class KpiDivMaker {
+public class DygraphDivMaker {
 
     private int HEIGHT = 50; /// PERCENT
     private int WIDTH = 95; /// PERCENT
     private int divIndex;
     private String width = 100 + "%";
 //    private int chartIndex = 0;
-    private FormuladefPojo formulaDef;
     private String header;
 
-    public KpiDivMaker(int divIndex) {
+    public DygraphDivMaker(int divIndex) {
         this.divIndex = divIndex;
         setHeader();
     }
@@ -30,8 +29,7 @@ public class KpiDivMaker {
         return header;
     }
 
-    public String getChartDivs(FormuladefPojo formulaDef, GraphConstructPojo gcp,int chartIndex) {
-        this.formulaDef = formulaDef;
+    public String getChartDivs(FormuladefPojo formulaDef, GraphConstructPojo gcp, int chartIndex) {
         StringBuilder out = new StringBuilder();
 
         if (!gcp.getData().isEmpty()) {
@@ -84,7 +82,6 @@ public class KpiDivMaker {
 //                + "</small>"
 //                + "</td>";
 //    }
-
     private void setHeader() {
         header = "<head>"
                 + "<style type=\"text/css\">"

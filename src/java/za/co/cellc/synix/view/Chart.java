@@ -11,6 +11,10 @@ import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.Orchestrator;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructsSingleton;
+import za.co.cellc.synix.view.html.graphs.DygraphHtmlMaker;
+import za.co.cellc.synix.view.html.graphs.HighChartHtmlMaker;
+import za.co.cellc.synix.view.html.graphs.HtmlGraphFactory;
+import za.co.cellc.synix.view.html.graphs.HtmlGraphMaker;
 
 /**
  *
@@ -24,7 +28,7 @@ public class Chart {
     private List<GraphConstructPojo> graphConstructPojos;
     private List<FormuladefPojo> formulaDefPojos;
     private HtmlInputProcessor hip;
-    private Orchestrator orc = new Orchestrator();
+    private Orchestrator orc;
 
     public Chart(StringBuilder selectionSb, int divIndex, boolean test) throws Exception {
 //        this.selectionStr = selectionSb;
@@ -38,9 +42,15 @@ public class Chart {
 
     public String getHtml() throws Exception {
         StringBuilder sb = new StringBuilder();
-        graphConstructPojos = orc.getGraphConstructPojos(test);
-        sb.append(getKpiDiv());
-        sb.append(getKpiContent());
+        orc = new Orchestrator(test);
+//        graphConstructPojos = orc.getGraphConstructPojos(test);
+        String chartType = hip.getChartType();
+        HtmlGraphFactory hgf = new HtmlGraphFactory();
+        hgf.setGraphConstPojos(GraphConstructsSingleton.getInstance().getGraphDataPojos());
+        hgf.setHCgraphConstPojos(GraphConstructsSingleton.getInstance().getHCgraphConstPojos());
+        HtmlGraphMaker hgm = hgf.create(chartType, formulaDefPojos, divIndex);
+        sb.append(hgm.getKpiDiv());
+        sb.append(hgm.getKpiContent());
         clearSelectionSingleton();
         return sb.toString();
     }
@@ -64,35 +74,34 @@ public class Chart {
         formulaDefPojos = fdc.getFormulaDefPojos(test);
     }
 
-    private String getKpiDiv() {
-        StringBuilder sb = new StringBuilder();
-        KpiDivMaker kpiD = new KpiDivMaker(divIndex);
-        sb.append(kpiD.getHeader());
-        for (int i = 0; i < graphConstructPojos.size(); i++) {
-            sb.append(kpiD.getChartDivs(formulaDefPojos.get(i), graphConstructPojos.get(i), i));
-        }
-        return sb.toString();
-    }
-
-    private String getKpiContent() throws Exception {
-        StringBuilder sb = new StringBuilder();
-        KpiContentMaker kpiC = new KpiContentMaker(divIndex);
-        sb.append(kpiC.getHeader());
-        for (int i = 0; i < graphConstructPojos.size(); i++) {
-            GraphConstructPojo gcp = getMatchingGraphConstructPojo(formulaDefPojos.get(i));
-            sb.append(kpiC.getCharts(formulaDefPojos.get(i), gcp, i));
-        }
-        sb.append(kpiC.getFooter());
-        return sb.toString();
-    }
-
-    private GraphConstructPojo getMatchingGraphConstructPojo(FormuladefPojo fdp) throws Exception {
-        String chartTitle = fdp.getChartTitle();
-        for (GraphConstructPojo gcp : graphConstructPojos) {
-            if (gcp.equals(chartTitle)) {
-                return gcp;
-            }
-        }
-        throw new Exception("Matching GraphConstructPojo not found: " + chartTitle);
-    }
+//    private String getKpiDiv() {
+//        StringBuilder sb = new StringBuilder();
+//        KpiDivMaker kpiD = new KpiDivMaker(divIndex);
+//        sb.append(kpiD.getHeader());
+//        for (int i = 0; i < graphConstructPojos.size(); i++) {
+//            sb.append(kpiD.getChartDivs(formulaDefPojos.get(i), graphConstructPojos.get(i), i));
+//        }
+//        return sb.toString();
+//    }
+//
+//    private String getKpiContent() throws Exception {
+//        StringBuilder sb = new StringBuilder();
+//        KpiContentMaker kpiC = new KpiContentMaker(divIndex);
+//        sb.append(kpiC.getHeader());
+//        for (int i = 0; i < graphConstructPojos.size(); i++) {
+//            GraphConstructPojo gcp = getMatchingGraphConstructPojo(formulaDefPojos.get(i));
+//            sb.append(kpiC.getCharts(formulaDefPojos.get(i), gcp, i));
+//        }
+//        sb.append(kpiC.getFooter());
+//        return sb.toString();
+//    }
+//    private GraphConstructPojo getMatchingGraphConstructPojo(FormuladefPojo fdp) throws Exception {
+//        String chartTitle = fdp.getChartTitle();
+//        for (GraphConstructPojo gcp : graphConstructPojos) {
+//            if (gcp.equals(chartTitle)) {
+//                return gcp;
+//            }
+//        }
+//        throw new Exception("Matching GraphConstructPojo not found: " + chartTitle);
+//    }
 }
