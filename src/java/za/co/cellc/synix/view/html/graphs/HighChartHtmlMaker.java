@@ -23,26 +23,47 @@ public class HighChartHtmlMaker extends HtmlGraphMaker {
 
     @Override
     public String getKpiDiv() {
+        int chartIndex=0;
         StringBuilder sb = new StringBuilder();
         HighChartDivMaker kpiD = new HighChartDivMaker(divIndex);
         sb.append(kpiD.getHeader());
         for (int i = 0; i < hCgraphConstPojos.size(); i++) {
-            sb.append(kpiD.getChartDivs(formulaDefPojos.get(i), hCgraphConstPojos.get(0).get(0), i));
+            if (!hCgraphConstPojos.get(i).isEmpty()) {
+                sb.append(kpiD.getChartDivs(formulaDefPojos.get(i), hCgraphConstPojos.get(i).get(0), chartIndex));
+                chartIndex++;
+            }
         }
         return sb.toString();
     }
 
     @Override
     public String getKpiContent() throws Exception {
+        int chartIndex=0;
         StringBuilder sb = new StringBuilder();
         HighChartContentMaker kpiC = new HighChartContentMaker(divIndex);
         sb.append(kpiC.getHeader());
         for (int i = 0; i < hCgraphConstPojos.size(); i++) {
             List<HighChartGraphConstructPojo> gcPojos = getMatchingGraphConstructPojos(formulaDefPojos.get(i));
-            sb.append(kpiC.getCharts(formulaDefPojos.get(i), gcPojos, i));
+            if (!gcPojos.isEmpty()) {
+                FormuladefPojo fdp = getMatchingFormuladefPojo(gcPojos);
+                sb.append(kpiC.getCharts(fdp, gcPojos, chartIndex));
+                chartIndex++;
+            }
         }
         sb.append(kpiC.getFooter());
         return sb.toString();
+    }
+
+    private FormuladefPojo getMatchingFormuladefPojo(List<HighChartGraphConstructPojo> gcPojos) throws Exception {
+        if (!gcPojos.isEmpty()) {
+            String chartTitle = gcPojos.get(0).getChartTitle();
+            for (FormuladefPojo fdp : formulaDefPojos) {
+                if (fdp.getChartTitle().equals(chartTitle)) {
+                    return fdp;
+                }
+            }
+        }
+        throw new Exception("No matching FormuladefPojo found for HighChartGraphConstructPojo: " + gcPojos.get(0).getChartTitle());
     }
 
     private List<HighChartGraphConstructPojo> getMatchingGraphConstructPojos(FormuladefPojo fdp) throws Exception {

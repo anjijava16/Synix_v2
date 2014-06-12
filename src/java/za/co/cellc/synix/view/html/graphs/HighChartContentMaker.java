@@ -80,10 +80,11 @@ public class HighChartContentMaker {
         sb.append("zoomType: 'xy'");
         sb.append("},");
         sb.append("legend: {");
-        sb.append("layout: 'vertical',");
-        sb.append("align: 'right',");
-        sb.append("verticalAlign: 'middle',");
+        sb.append("layout: 'horizontal',");
+        sb.append("align: 'center',");
+        sb.append("verticalAlign: 'bottom',");
         sb.append("borderWidth: 1");
+//        sb.append("maxHeight: 200");
         sb.append("},");
         sb.append("title: {");
         sb.append("text: '");

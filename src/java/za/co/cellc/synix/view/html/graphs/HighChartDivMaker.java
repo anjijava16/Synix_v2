@@ -13,7 +13,7 @@ import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
  */
 public class HighChartDivMaker {
 
-    private int HEIGHT = 50; /// PERCENT
+    private int HEIGHT = 80; /// PERCENT
     private int WIDTH = 95; /// PERCENT
     private int divIndex;
     private String width = 100 + "%";
@@ -35,8 +35,9 @@ public class HighChartDivMaker {
         if (!gcp.getData().isEmpty()) {
             out.append("<table width=\"100%\" BORDER=0>\n<tr>"
                     + "<td width='" + width + "'>"
-                    + "<div id=\"div" + (chartIndex + 1) + "_" + divIndex + "\" style="
-                    + "width:" + WIDTH + "%; height:" + HEIGHT + "%;>"
+                    + "<div id=\"div" + (chartIndex + 1) + "_" + divIndex + "\" "
+//                    + "style= width:" + WIDTH + "%; height:" + HEIGHT + "%;"
+                    + ">"
                     + "</div>\n"
 //                    + "<p align='center'><font color=\"gray\"><small><ins>Zoom in:</ins> click/drag &nbsp;&nbsp;&nbsp;<ins>Zoom out:</ins> double click"
 //                    + "&nbsp;&nbsp;&nbsp;<ins>Target:</ins> <span style=\"background-color:#00FF00;color:#000000;\">" + formulaDef.getTarget() + "%</span></small></font>"

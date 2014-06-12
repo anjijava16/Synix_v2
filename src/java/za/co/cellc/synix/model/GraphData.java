@@ -4,8 +4,10 @@
  */
 package za.co.cellc.synix.model;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import za.co.cellc.synix.constants.Constants;
 
 /**
  *
@@ -65,7 +67,17 @@ public class GraphData {
         if (ix == -1) {
             return "";
         } else {
-            return data.get(ix);
+            return trimDecimals(data.get(ix));
+        }
+    }
+
+    private String trimDecimals(String value) {
+        DecimalFormat df = new DecimalFormat(Constants.CHART_DECIMALFORMAT);
+        try {
+            Double d = Double.valueOf(value);
+            return df.format(d);
+        } catch (Exception e) {
+            return value;
         }
     }
 
