@@ -39,6 +39,7 @@ public class HighChartGraphContructPojoMaker extends GraphContructPojoMaker {
             String tdts = makeTargetDataTimeString();
             HighChartGraphConstructPojo hcgp = new HighChartGraphConstructPojo(tdts, "Target", devPojo.getChartTitle());
             hcgp.setColor(Constants.TARGET_COLOR);
+            hcgp.setDashStyle(Constants.TARGET_LINE_STYLE);
             hcgPojos.add(hcgp);
         }
     }

@@ -5,6 +5,7 @@
  
  Released under MIT License
  */
+
 //(function(document, window) {
 //  var scrStart = '<script type="text/javascript" src="', scrEnd = '"></script>';
 //  document.write(scrStart + '../../js/jquery-1.7.1.js' + scrEnd);
@@ -398,4 +399,77 @@ function addCells(textBoxName, listName) {
         text = text.substring(1);
     }
     document.getElementById(textBoxName).value = text;
+}
+function plotKPICharts() {
+    if (vendor[0] === "NSN") {
+        if (technology[0] === "2G") {
+            drawNSN2G();
+        }
+        else if (technology[0] === "3G") {
+            drawNSN3G();
+        }
+    }
+}
+function drawNSN2G() {
+    vendor.pop();
+    vendor.push("NSN");
+    technology.pop();
+    technology.push("2G");
+    document.getElementById("plot_nsn_2g_button").disabled = true;
+    document.getElementById("loaderDiv").style.display = "block";
+    document.getElementById("chartResult").style.display = "none";
+    document.getElementById("chartResult").innerHTML = "";
+    setCheckedNEs();
+    var neFilter = new Object();
+    neFilter = getNeFilter('filterFromDate', 'filterToDate', 'comboPeriodID');
+//                    console.log(neFilter);
+    $.ajax({
+        type: 'POST',
+        url: 'ChartServlet',
+        data: JSON.stringify(neFilter),
+        dataType: "text",
+        success: function(response) {
+            document.getElementById("loaderDiv").style.display = "none";
+            document.getElementById("chartResult").style.display = "block";
+            document.getElementById("plot_nsn_2g_button").disabled = false;
+            $('#chartResult').html(response);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            console.log("error");
+            alert(errorThrown);
+            document.getElementById("loaderDiv").style.display = "none";
+            document.getElementById("plot_nsn_2g_button").disabled = false;
+        }
+    });
+}
+function drawNSN3G() {
+    vendor.pop();
+    vendor.push("NSN");
+    technology.pop();
+    technology.push("3G");
+//    document.getElementById("plot_nsn_3g_button").disabled = true;
+    document.getElementById("loaderDiv_NSN_3G").style.display = "block";
+    document.getElementById("chartResult_NSN_3G").style.display = "none";
+    document.getElementById("chartResult_NSN_3G").innerHTML = "";
+    setCheckedNEs();
+    var neFilter = new Object();
+    neFilter = getNeFilter('filterFromDate_NSN_3G', 'filterToDate_NSN_3G', 'comboPeriodID_NSN_3G');
+    $.ajax({
+        type: 'POST',
+        url: 'ChartServlet',
+        data: JSON.stringify(neFilter),
+        dataType: "text",
+        success: function(response) {
+            document.getElementById("loaderDiv_NSN_3G").style.display = "none";
+            document.getElementById("chartResult_NSN_3G").style.display = "block";
+//            document.getElementById("plot_nsn_3g_button").disabled = false;
+            $('#chartResult_NSN_3G').html(response);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            console.log("error");
+            alert(errorThrown);
+            document.getElementById("loaderDiv_NSN_3G").style.display = "none";
+//            document.getElementById("plot_nsn_3g_button").disabled = false;
+        }
+    });
 }

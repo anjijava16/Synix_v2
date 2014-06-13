@@ -29,6 +29,8 @@ public class Chart {
     private List<FormuladefPojo> formulaDefPojos;
     private HtmlInputProcessor hip;
     private Orchestrator orc;
+    private String divs;
+    private String scripts;
 
     public Chart(StringBuilder selectionSb, int divIndex, boolean test) throws Exception {
 //        this.selectionStr = selectionSb;
@@ -40,7 +42,8 @@ public class Chart {
         setFormulaDefPojos();
     }
 
-    public String getHtml() throws Exception {
+    
+     public String getHtml() throws Exception {
         StringBuilder sb = new StringBuilder();
         orc = new Orchestrator(test);
 //        graphConstructPojos = orc.getGraphConstructPojos(test);
@@ -53,6 +56,26 @@ public class Chart {
         sb.append(hgm.getKpiContent());
         clearSelectionSingleton();
         return sb.toString();
+    }
+     
+    public void createHTML() throws Exception {
+        orc = new Orchestrator(test);
+        String chartType = hip.getChartType();
+        HtmlGraphFactory hgf = new HtmlGraphFactory();
+        hgf.setGraphConstPojos(GraphConstructsSingleton.getInstance().getGraphDataPojos());
+        hgf.setHCgraphConstPojos(GraphConstructsSingleton.getInstance().getHCgraphConstPojos());
+        HtmlGraphMaker hgm = hgf.create(chartType, formulaDefPojos, divIndex);
+        divs = hgm.getKpiDiv();
+        scripts = hgm.getKpiContent();
+        clearSelectionSingleton();
+    }
+
+    public String getDivs() throws Exception {
+        return divs;
+    }
+
+    public String getScripts() throws Exception {
+        return scripts;
     }
 
     public int getPercentageCompletion() {

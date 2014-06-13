@@ -46,10 +46,10 @@
                         <!--<br>-->
                         <!--<button onClick="alert(dijit.byId('comboPeriodID').get('value'))">Get value</button>-->
                     </td>
-                    <td style="text-align:right">
+<!--                    <td style="text-align:right">
                         <button id="plot_nsn_3g_button" TYPE=submit>Plot Charts</button>
-                        <!--<INPUT TYPE=submit VALUE="Draw Charts!" class="chartSubmitbutton">-->
-                    </td>
+                        <INPUT TYPE=submit VALUE="Draw Charts!" class="chartSubmitbutton">
+                    </td>-->
                     
                 </tr>
             </thead>                            

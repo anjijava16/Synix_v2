@@ -56,7 +56,7 @@ public class ChartServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html");
         httpRequest = request;
         PrintWriter out = response.getWriter();
         if (userIsAuthenticated()) {
@@ -152,13 +152,24 @@ public class ChartServlet extends HttpServlet {
         AjaxInputFormatter formatter = new AjaxInputFormatter();
         sb = formatter.parseRequest(request);
     }
-
-    private String getChartsHTML() throws Exception {
+private String getChartsHTML() throws Exception {
         List<String> divCounters = extractFromJSON("divCounter");
         int i = Integer.parseInt(divCounters.get(0));
         chart = new Chart(sb, i, false);
         return chart.getHtml();
     }
+
+//    public String getChartsDivs() throws Exception {
+//        List<String> divCounters = extractFromJSON("divCounter");
+//        int i = Integer.parseInt(divCounters.get(0));
+//        chart = new Chart(sb, i, false);
+//        chart.createHTML();
+//        return chart.getDivs();
+//    }
+//
+//    public String getChartsScripts() throws Exception {
+//        return chart.getScripts();
+//    }
 
 //    private String getLevel() {
 //        if (extractFromJSON("CELLS").size() > 0) {

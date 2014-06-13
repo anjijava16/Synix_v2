@@ -67,9 +67,21 @@ public class GraphData {
         if (ix == -1) {
             return "";
         } else {
-            return trimDecimals(data.get(ix));
+            return (trimDecimals(data.get(ix)));
         }
     }
+
+//    private String paddValue(String s) {
+//        if (s.contains(".")) {
+//            int i = s.indexOf(".");
+//            if (i == s.length() - 2) {
+//                s += "0";
+//            }
+//        } else {
+//            s += ".00";
+//        }
+//        return s;
+//    }
 
     private String trimDecimals(String value) {
         DecimalFormat df = new DecimalFormat(Constants.CHART_DECIMALFORMAT);

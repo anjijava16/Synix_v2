@@ -3,6 +3,7 @@ To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
 <%@ page autoFlush="true" buffer="1094kb"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="za.co.cellc.synix.model.Authenticate"%>
 <jsp:useBean id="NE_Filter" scope="request" class="za.co.cellc.synix.html_builders.ne_filtler.Filter" />
 
@@ -46,6 +47,8 @@ and open the template in the editor.
     <head>
         <meta charset="utf-8">
         <title>Synix</title>
+
+        
         <link rel="stylesheet" href="css/graphs.css" media="screen">
         <link rel="stylesheet" href="css/basic.css" media="screen">
         <link rel="stylesheet" href="css/table.css" media="screen">
@@ -53,10 +56,10 @@ and open the template in the editor.
         <link rel="stylesheet" href="css/dataTable.css" media="screen">
         <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.8.5/dijit/themes/claro/claro.css" media="screen">-->
         <link rel="stylesheet" href="css/style.css" media="screen">
+        <script language="JavaScript" type="text/javascript" src="scripts/jquery-1.8.1.min.js"></script>
         <script src="dojo/dojo.js"
                 data-dojo-config="async: true, parseOnLoad: true">
         </script>
-        <script language="JavaScript" type="text/javascript" src="scripts/jquery-1.8.1.min.js"></script>
         <script src="scripts/DojoRequirements.js"></script>
         <script src="scripts/CollapsibleLists.js"></script>
         <script type="text/javascript" src="scripts/dygraph/dygraph-combined.js"></script>
@@ -77,7 +80,6 @@ and open the template in the editor.
         <script src="scripts/dygraph/custom/highlightPeriod.js"></script>
         <script src="scripts/dygraph/custom/barChartPlotter.js"></script>
         <script src="scripts/dygraph/custom/drillDownBarChart.js"></script>
-
         <script>
                     require(["dijit/form/Button", "dojo/ready"], function(Button, ready) {
                         ready(function() {
@@ -111,70 +113,19 @@ and open the template in the editor.
             $(function() {
                 $('#filterFRM').live('submit', function(e) {
                     e.preventDefault(); // stops form from submitting naturally
-                    vendor.pop();
-                    vendor.push("NSN");
-                    technology.pop();
-                    technology.push("2G");
-                    document.getElementById("plot_nsn_2g_button").disabled = true;
-                    document.getElementById("loaderDiv").style.display = "block";
-                    document.getElementById("chartResult").style.display = "none";
-                    document.getElementById("chartResult").innerHTML = "";
-                    setCheckedNEs();
-                    var neFilter = new Object();
-                    neFilter = getNeFilter('filterFromDate', 'filterToDate', 'comboPeriodID');
-//                    console.log(neFilter);
-                    $.ajax({
-                        type: 'POST',
-                        url: 'ChartServlet',
-                        data: JSON.stringify(neFilter),
-                        dataType: "text",
-                        success: function(response) {
-                            document.getElementById("loaderDiv").style.display = "none";
-                            document.getElementById("chartResult").style.display = "block";
-                            document.getElementById("plot_nsn_2g_button").disabled = false;
-                            $('#chartResult').html(response);
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            console.log("error");
-                            alert(errorThrown);
-                            document.getElementById("loaderDiv").style.display = "none";
-                            document.getElementById("plot_nsn_2g_button").disabled = false;
-                        }
-                    });
+                    drawNSN2G();
                 });
             });
             $(function() {
                 $('#filterFRM_NSN_3G').live('submit', function(e) {
                     e.preventDefault(); // stops form from submitting naturally
-                    vendor.pop();
-                    vendor.push("NSN");
-                    technology.pop();
-                    technology.push("3G");
-                    document.getElementById("plot_nsn_3g_button").disabled = true;
-                    document.getElementById("loaderDiv_NSN_3G").style.display = "block";
-                    document.getElementById("chartResult_NSN_3G").style.display = "none";
-                    document.getElementById("chartResult_NSN_3G").innerHTML = "";
-                    setCheckedNEs();
-                    var neFilter = new Object();
-                    neFilter = getNeFilter('filterFromDate_NSN_3G', 'filterToDate_NSN_3G', 'comboPeriodID_NSN_3G');
-                    $.ajax({
-                        type: 'POST',
-                        url: 'ChartServlet',
-                        data: JSON.stringify(neFilter),
-                        dataType: "text",
-                        success: function(response) {
-                            document.getElementById("loaderDiv_NSN_3G").style.display = "none";
-                            document.getElementById("chartResult_NSN_3G").style.display = "block";
-                            document.getElementById("plot_nsn_3g_button").disabled = false;
-                            $('#chartResult_NSN_3G').html(response);
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            console.log("error");
-                            alert(errorThrown);
-                            document.getElementById("loaderDiv_NSN_3G").style.display = "none";
-                            document.getElementById("plot_nsn_3g_button").disabled = false;
-                        }
-                    });
+                    drawNSN3G();
+                });
+            });
+            $(function() {
+                $('#plotButton').live('submit', function(e) {
+                    e.preventDefault(); // stops form from submitting naturally
+                    plotKPICharts();
                 });
             });
             $(function() {
@@ -240,7 +191,16 @@ and open the template in the editor.
         </script>  
 
     </head>
-    <body class="claro">        
+    <body class="claro">   
+        
+<% 
+       if (theLogin == null) {                           // got logon info  from session and greeting user
+%>
+       <jsp:forward page="login.jsp" />
+<%
+    } 
+%>
+
         <% String errorMessage;  
         if (theLogin != null && !authenticated) {
             errorMessage = "Authentication falied. Please try again.";
@@ -382,53 +342,22 @@ and open the template in the editor.
                 </div><!-- end AccordionContainer -->
             </div>
             <!--            <form id="NE_BrowserFRM" action="none" method="post">-->
-            <div class="filterPanel" id="NE_Browser" data-dojo-type="dojox/layout/ContentPane" data-dojo-props="region: 'right', splitter: true" style="width: 15%">
-                <div id="filterPanel" preload="true" executeScripts="true" parseOnLoad="true" extractContent="true"
-                     dojoType="dojox.layout.ContentPane" href="FilterFrame.jsp"
-                     title="filterFrame" selected="true" style="display: block;">
-                </div> 
-            </div>
-            <!--</form>-->
+            <form id="plotButton" action="ChartFilterServlet" method="post">
+                <div class="filterPanel" id="NE_Browser" data-dojo-type="dojox/layout/ContentPane" data-dojo-props="region: 'right', splitter: true" style="width: 15%">
+                    <div id="filterPanel" preload="true" executeScripts="true" parseOnLoad="true" extractContent="true"
+                         dojoType="dojox.layout.ContentPane" href="FilterFrame.jsp"
+                         title="filterFrame" selected="true" style="display: block;">
+                    </div> 
+                </div>
+            </form>
             <!--            <div id="footer" style="background-color:#FFA500;clear:both;text-align:center;">
-                            Copyright © Cell C</div>
+                            Copyright Â© Cell C</div>
                     </div>-->
         </div>
         <script>
             document.getElementById("loaderDiv_NSN_3G").style.display = "none";
             document.getElementById("loaderDiv_NSN_3G").style.display = "none";
         </script>
-<!--        <script type="dojo/method" data-dojo-event="getIconClass" data-dojo-args="item, opened">
-            if(item == this.model.root){
-            return item;
-            }else{
-            return item;
-            }
-        </script>-->
-        <!--<script type="text/javascript" charset="utf-8" src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/fx/easing.js"></script>-->
-        <!--<script type="text/javascript" charset="utf-8" src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/window.js"></script>-->
-        <!--        <script>
-                    require(["dojo/_base/fx", "dojo/fx/easing", "dojo/window", "dojo/on", "dojo/dom", "dojo/domReady!"], function(baseFx, easing, win, on, dom) {
-                        var oracleImage = dom.byId("oracleImage"),
-                                //                        ariseSirButton = dom.byId("ariseSirButton"),
-                                anim8target = dom.byId("NE_Browser");
-                        on(oracleImage, "click", function(evt) {
-                            var viewport = win.getBox(win.doc);
-                            baseFx.animateProperty({
-                                // use the bounceOut easing routine to have the box accelerate
-                                // and then bounce back a little before stopping
-                                easing: easing.bounceOut,
-                                duration: 300,
-                                node: anim8target,
-                                properties: {
-                                    // calculate the 'floor'
-                                    // and subtract the height of the node to get the distance from top we need
-                                    top: {start: 0, end: viewport.h - anim8target.offsetHeight - 5}
-                                }
-                            }).play();
-                        });
-                    });
-        
-                </script>-->
 <% 
         if(theIsAdmin!=null && theIsAdmin.equalsIgnoreCase("TRUE")){
 %>   

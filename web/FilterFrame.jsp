@@ -18,13 +18,14 @@
         <table id="filterTable" width="100%" BORDER=0 cellpadding='0' cellspacing='0' style="display: none">
             <tr>
                 <td>
-                    <strong><left>-----NE Filter-----</left></strong>
+                    <button id="plot_nsn_2g_button" TYPE=submit>Plot Charts</button>
+<!--                    <strong><left>-----NE Filter-----</left></strong>-->
                     <hr/>
                 </td>
             </tr>   
             <tr>
-                <td>
-                    <button data-dojo-type="dijit/form/Button" type="button">BSC/RNC Level
+                <td colspan="2">
+                    <button data-dojo-type="dijit/form/Button" type="button">Controller Level
                         <script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
                             require(["dojo/dom"], function(dom){
                             filterLevel = "BSC/RNC";
@@ -32,10 +33,6 @@
                             });
                         </script>
                     </button>
-                </td>
-            </tr>
-            <tr>
-                <td>
                     <button data-dojo-type="dijit/form/Button" type="button">Cell Level
                         <script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
                             require(["dojo/dom"], function(dom){

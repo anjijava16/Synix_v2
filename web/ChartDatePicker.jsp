@@ -8,14 +8,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script language="JavaScript" type="text/javascript" src="scripts/jquery-1.8.1.min.js"></script>
-        <script>
-            require(["dojo/parser", "dijit/form/ComboBox", "dojo/store/Memory"]);
-        </script>
+<!--          <script language="JavaScript" type="text/javascript" src="scripts/jquery-1.8.1.min.js"></script>
+      <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>-->
+        <!--        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <script language="JavaScript" type="text/javascript" src="scripts/jquery-1.8.1.min.js"></script>
+                <script>
+                    require(["dojo/parser", "dijit/form/ComboBox", "dojo/store/Memory"]);
+                </script>-->
     </head>
     <body>
-        <table border='0' cellpadding='0' cellspacing='0' width='100%' class='scrollTable'>
+        <table border='0' cellpadding='0' cellspacing='0' width='100%'>
             <thead class='fixedHeader'>
                 <tr>
                     <td style="text-align:left">                           
@@ -47,21 +50,22 @@
                         <!--<br>-->
                         <!--<button onClick="alert(dijit.byId('comboPeriodID').get('value'))">Get value</button>-->
                     </td>
-                    <td style="text-align:right">
-                        <button id="plot_nsn_2g_button" TYPE=submit>Plot Charts</button>
-                        <!--<INPUT TYPE=submit VALUE="Draw Charts!" class="chartSubmitbutton">-->
-                    </td>
+                    <!--                    <td style="text-align:right">
+                                            <button id="plot_nsn_2g_button" TYPE=submit>Plot Charts</button>
+                                            <INPUT TYPE=submit VALUE="Draw Charts!" class="chartSubmitbutton">
+                                        </td>-->
 
                 </tr>
             </thead>                            
         </table>
-    <th style="text-align:center">
+<!--    <th style="text-align:center">-->
     <div id="chartResult2" style="width: 100%;display: block;"></div>
     <div id="chartResult" style="width: 100%"></div>
-</th>      
-<script type="text/javascript" language="javascript">
+    
+<!--</th>      -->
+<!--<script type="text/javascript" language="javascript">
     console.log("set date");
     dijit.byId("filterFromDate").attr("value", new Date(2014, 02, 10));
-</script>
+</script>-->
 </body>
 </html>

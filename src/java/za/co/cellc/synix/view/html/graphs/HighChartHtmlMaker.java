@@ -46,6 +46,7 @@ public class HighChartHtmlMaker extends HtmlGraphMaker {
             List<HighChartGraphConstructPojo> gcPojos = getMatchingGraphConstructPojos(formulaDefPojos.get(i));
             if (!gcPojos.isEmpty()) {
                 FormuladefPojo fdp = getMatchingFormuladefPojo(gcPojos);
+                kpiC = new HighChartContentMaker(divIndex);
                 sb.append(kpiC.getCharts(fdp, gcPojos, chartIndex));
                 chartIndex++;
             }

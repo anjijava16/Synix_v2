@@ -5,7 +5,6 @@
  */
 package za.co.cellc.synix.constants;
 
-
 /**
  *
  * @author Pierre.Venter and nm
@@ -15,6 +14,7 @@ public class Constants {
     public static final String CHART_DECIMALFORMAT = "####################.##";
     public static final String DEFAULT_CHART_TYPE = "HIGH_CHART";
     public static final String TARGET_COLOR = "rgba(255, 0, 0, .7)";
+    public static final String TARGET_LINE_STYLE = "longdash";
     public static final String HIGH_CHART_TARGET_COLOR = "rgba(255, 0, 0, .7)";
     public static final int LABEL_ADAPTOR = 1;
     public static final int AGGREGATION_ADAPTOR = 2;
@@ -46,6 +46,11 @@ public class Constants {
     public static final int VIEW_CELL_MONTHLY = 12;
     public static final int VIEW_CONTROLLER_WEEKLY = 13;
     public static final int VIEW_CONTROLLER_MONTHLY = 14;
+    public static final int VIEW_SITE_HOURLY = 15;
+    public static final int VIEW_SITE_DAILY = 16;
+    public static final int VIEW_SITE_WEEKLY = 17;
+    public static final int VIEW_SITE_MONTHLY = 18;
+    public static final int UNIT = 19;
     public static final String GROUP_DELIMITER = "~";
 
     public static String[] FORMULA_DEFS_FIELDS = {
@@ -63,7 +68,7 @@ public class Constants {
         "VIEW_CELL_WEEKLY",
         "VIEW_CELL_MONTHLY",
         "VIEW_CONTROLLER_WEEKLY",
-        "VIEW_CONTROLLER_MONTHLY"};
+        "VIEW_CONTROLLER_MONTHLY", "VIEW_SITE_HOURLY", "VIEW_SITE_DAILY", "VIEW_SITE_WEEKLY", "VIEW_SITE_MONTHLY", "UNIT"};
 
     public enum ChartTypes {
 

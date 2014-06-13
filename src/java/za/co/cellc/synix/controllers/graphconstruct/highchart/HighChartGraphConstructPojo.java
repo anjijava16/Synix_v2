@@ -15,6 +15,7 @@ public class HighChartGraphConstructPojo extends GraphConstructPojo {
 
     private String type = "line";
     private String color = null;
+    private String dashStyle = "solid";
 
     public HighChartGraphConstructPojo(String data, String label, String chartTitle) {
         super(data, label, chartTitle);
@@ -50,4 +51,13 @@ public class HighChartGraphConstructPojo extends GraphConstructPojo {
     public String getLabel() {
         return label;
     }
+
+    public String getDashStyle() {
+        return dashStyle;
+    }
+
+    public void setDashStyle(String dashStyle) {
+        this.dashStyle = dashStyle;
+    }
+
 }

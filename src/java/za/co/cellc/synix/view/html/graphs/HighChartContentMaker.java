@@ -17,6 +17,7 @@ import za.co.cellc.synix.view.HtmlInputProcessor;
  */
 public class HighChartContentMaker {
 
+    private int TARGET_LINE_WIDTH = 1;
     private String WORST_CELL_ANNOTATION = "WORST_CELL";
 //    private StringBuilder sb;
     private int divIndex;
@@ -69,6 +70,7 @@ public class HighChartContentMaker {
         addTooltip();
         addPlotOptions();
         addSeries();
+        addShowHideButton(chartIndex);
         return sb;
     }
 
@@ -112,7 +114,7 @@ public class HighChartContentMaker {
     private void addYaxis() {
         sb.append("yAxis: {\n"
                 + "            title: {\n"
-                + "                text: 'percentage (%)'\n"
+                + "                text: '" + getUnit() + "'\n"
                 + "            }"
                 //                + ",\n"
                 //                + "            min: 75,\n"
@@ -121,22 +123,59 @@ public class HighChartContentMaker {
 
     }
 
+    private String getUnit() {
+        return formulaDef.getUnit();
+    }
+
     private void addTooltip() {
-        sb.append("tooltip: {\n"
-                + "            shared: true,\n"
-                + "            crosshairs: true\n"
-                + "        },");
+//        sb.append("tooltip: {\n"
+//                + "            shared: true,\n"
+//                + "            crosshairs: true\n"
+//                + "        },");
+        sb.append("tooltip: {      \n"
+                + "        borderRadius: 10,\n"
+                + "        shared: true,\n"
+                + "        crosshairs: true,\n"
+                + "        useHTML: true,\n"
+                + "            headerFormat: '<small>{point.key}</small><table>',\n"
+                + "            pointFormat: '<tr><td style=\"color: {series.color}\">{series.name}: </td>' +\n"
+                + "            '<td style=\"text-align: left\"><b>{point.y}</b></td></tr>',\n"
+                + "            footerFormat: '</table>'"
+                + "    },");
     }
 
     private void addPlotOptions() {
-        sb.append("plotOptions: {\n"
+        sb.append("plotOptions: {"
+                + "         line: {"
+                + "                 animation:true,"
+                + "                 lineWidth:1.5,"
+                + "            },"
+                //                + "            line: {"
+                //                + "                 lineWidth: 1,"
+                //                + "                 animation: false,"
+                //                + "                 allowPointSelect: false,"
+                //                + "                 marker: {"
+                //                + "                     enabled: false"
+                //                + "                 },"
+                //                + "             },\n"
                 + "            series: {\n"
+                + "                allowPointSelect: true,"
                 + "                cursor: 'pointer',\n"
-                + "                events: {\n"
-                + "                    click: function () {\n"
-                + "                        alert('Category: ' + this.category + ', value: ' + this.y);\n"
+                + "                point: {\n"
+                + "                    events: {\n"
+                + "                        click: function() {\n"
+                + "                            alert ('Category: '+ this.category +', value: '+ this.y);\n"
+                + "                        }\n"
                 + "                    }\n"
-                + "                }\n"
+                + "                },\n"
+                //                + "             line: {"
+                //                + "                 lineWidth: 1,"
+                //                + "                 animation: false,"
+                //                + "                 allowPointSelect: false,"
+                //                + "                 marker: {"
+                //                + "                     enabled: false"
+                //                + "                 },"
+                //                + "             }"
                 + "            },\n"
                 + "            area: {\n"
                 + "                marker: {\n"
@@ -165,7 +204,11 @@ public class HighChartContentMaker {
                     sb.append("color: '").append(gcp.getColor()).append("',");
                 }
                 sb.append("name: '").append(gcp.getLabel()).append("',");
+                if (isTargetObject(gcp)) {
+                    addTargetFormatting();
+                }
                 sb.append("data: [").append(gcp.getData()).append("]");
+                sb.append(",dashStyle: '").append(gcp.getDashStyle()).append("'");
                 if (i != gcPojos.size()) {
                     sb.append("},");
                 } else {
@@ -178,8 +221,45 @@ public class HighChartContentMaker {
                 + "});");
     }
 
+    private void addTargetFormatting() {
+        sb.append("lineWidth: ").append(TARGET_LINE_WIDTH).append(",");
+        sb.append("marker:{"
+                + "     enabled: false"
+                + "},");
+    }
+
+    private boolean isTargetObject(HighChartGraphConstructPojo gcp) {
+        return gcp.getLabel().equalsIgnoreCase("TARGET");
+    }
+
     private boolean mustPlotGraphConstructPojo(HighChartGraphConstructPojo p) {
         return p != null || !p.getData().isEmpty();
+    }
+
+    private void addShowHideButton(int chartIndex) {
+        String divId = "'#div" + (chartIndex + 1) + "_" + divIndex + "'";
+        String buttonId = "'#s_h_button" + (chartIndex + 1) + "_" + divIndex + "'";
+        sb.append("var chart = $(" + divId + ").highcharts(),\n"
+                + "        $button = $(" + buttonId + ");\n"
+                + "    $button.click(function () {\n"
+                //                + "         console.log(\"showHide\");"
+                + "        var series = chart.series[0];\n"
+                + "        if (series.visible) {\n"
+                + "            $(chart.series).each(function () {\n"
+                + "                //this.hide();\n"
+                + "                this.setVisible(false, false);\n"
+                + "            });\n"
+                + "            chart.redraw();\n"
+                //                        + "            $button.html('Show series');\n"
+                + "        } else {\n"
+                + "            $(chart.series).each(function () {\n"
+                + "                //this.show();\n"
+                + "                this.setVisible(true, false);\n"
+                + "            });\n"
+                + "            chart.redraw();\n"
+                //                        + "            $button.html('Hide series');\n"
+                + "        }\n"
+                + "    });");
     }
 
     private void initVariables() {
