@@ -29,10 +29,12 @@ public class HighChartHtmlMaker extends HtmlGraphMaker {
         sb.append(kpiD.getHeader());
         for (int i = 0; i < hCgraphConstPojos.size(); i++) {
             if (!hCgraphConstPojos.get(i).isEmpty()) {
+                kpiD = new HighChartDivMaker(divIndex);
                 sb.append(kpiD.getChartDivs(formulaDefPojos.get(i), hCgraphConstPojos.get(i).get(0), chartIndex));
                 chartIndex++;
             }
         }
+         sb.append(kpiD.getFooter());
         return sb.toString();
     }
 

@@ -71,6 +71,7 @@ public class HighChartContentMaker {
         addPlotOptions();
         addSeries();
         addShowHideButton(chartIndex);
+        sb.append("});");
         return sb;
     }
 
@@ -138,7 +139,7 @@ public class HighChartContentMaker {
                 + "        crosshairs: true,\n"
                 + "        useHTML: true,\n"
                 + "            headerFormat: '<small>{point.key}</small><table>',\n"
-                + "            pointFormat: '<tr><td style=\"color: {series.color}\">{series.name}: </td>' +\n"
+                + "            pointFormat: '<tr><td style=\"color: {series.color}\"><b>{series.name}:</b> </td>' +\n"
                 + "            '<td style=\"text-align: left\"><b>{point.y}</b></td></tr>',\n"
                 + "            footerFormat: '</table>'"
                 + "    },");
@@ -164,7 +165,7 @@ public class HighChartContentMaker {
                 + "                point: {\n"
                 + "                    events: {\n"
                 + "                        click: function() {\n"
-                + "                            alert ('Category: '+ this.category +', value: '+ this.y);\n"
+//                + "                            alert ('Category: '+ this.category +', value: '+ this.y);\n"
                 + "                        }\n"
                 + "                    }\n"
                 + "                },\n"
@@ -217,8 +218,7 @@ public class HighChartContentMaker {
             }
         }
         sb.append("]");
-        sb.append("});\n"
-                + "});");
+        sb.append("});");
     }
 
     private void addTargetFormatting() {

@@ -42,7 +42,7 @@ public class DygraphDivMaker {
                     + "&nbsp;&nbsp;&nbsp;<ins>Target:</ins> <span style=\"background-color:#00FF00;color:#000000;\">" + formulaDef.getTarget() + "%</span></small></font>"
                     + "<table width=\"100%\" BORDER=1 cellpadding='3' cellspacing='0'>\n"
                     + "<tr>\n");
-            out.append(drillDownButton(chartIndex));
+            out.append(addDrillDownButton(chartIndex));
             out.append("</tr>\n"
                     + "</table>\n"
                     + "<div id=\"demoimgDiv_" + divIndex + chartIndex + "\" style=\"display: none;\">\n"
@@ -68,7 +68,7 @@ public class DygraphDivMaker {
         return out.toString();
     }
 
-    private String drillDownButton(int chartIndex) {
+    private String addDrillDownButton(int chartIndex) {
         return "<td align='center'>"
                 + "<input type=\"button\" id='drillDownBtn_" + chartIndex + "' style='display: block;' disabled=\"\"; value=\"Drill Down\"; onclick=\"buttonClicked(" + chartIndex + ")\";/>"
                 + "</td>";
