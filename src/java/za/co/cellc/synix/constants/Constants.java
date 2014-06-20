@@ -11,6 +11,10 @@ package za.co.cellc.synix.constants;
  */
 public class Constants {
 
+    public static final int MAX_CELLS = 17;
+    public static final int HOURS = 60;
+    public static final int ELEMENT_NAMES_EXPIRY_HOURS = 2 * HOURS;
+    public static final int TEST_ELEMENT_NAMES_EXPIRY_MINUTES = 1;
     public static final String CHART_DECIMALFORMAT = "####################.##";
     public static final String DEFAULT_CHART_TYPE = "HIGH_CHART";
     public static final String TARGET_COLOR = "rgba(255, 0, 0, .7)";

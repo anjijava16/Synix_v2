@@ -5,7 +5,7 @@
  */
 package za.co.cellc.synix.model;
 
-import za.co.cellc.synix.controllers.graphconstruct.GraphConstructsSingleton;
+//import za.co.cellc.synix.controllers.graphconstruct.GraphConstructsSingleton;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
 import za.co.cellc.synix.controllers.QueryMapBuilderFactory;
 import java.sql.Connection;
@@ -47,14 +47,25 @@ public class QueryManagerThread implements Runnable {
     private Statement stmnt;
     private ResultSet rs;
     private String plotter;
-    private HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
-    private HoursUtility hUtil = new HoursUtility();
+    private HtmlInputProcessor htmlIp;
+//    private HoursUtility hUtil = new HoursUtility();
     private Connection con;
+    private List<GraphConstructPojo> graphConstPojos = new ArrayList<>();
+    private List<List<HighChartGraphConstructPojo>> hCgraphConstPojos = new ArrayList<>();
 
-    public QueryManagerThread(FormuladefPojo devPojo, String plotter, boolean test) throws Exception {
+    public QueryManagerThread(HtmlInputProcessor htmlIp, FormuladefPojo devPojo, String plotter, boolean test) throws Exception {
+        this.htmlIp = htmlIp;
         this.devPojo = devPojo;
         this.test = test;
         this.plotter = plotter;
+    }
+
+    public List<GraphConstructPojo> getGraphConstPojos() {
+        return graphConstPojos;
+    }
+
+    public List<List<HighChartGraphConstructPojo>> gethCgraphConstPojos() {
+        return hCgraphConstPojos;
     }
 
     @Override
@@ -80,13 +91,13 @@ public class QueryManagerThread implements Runnable {
     }
 
     private void setHours() {
-        HoursUtility hrs = new HoursUtility();
+        HoursUtility hrs = new HoursUtility(htmlIp);
         hours.addAll(hrs.getHours());
     }
 
     private void setQueriesMap() throws Exception {
         int mapType = getMapType();
-        QueryMapBuilder qmb = QueryMapBuilderFactory.create(devPojo, mapType, test);
+        QueryMapBuilder qmb = QueryMapBuilderFactory.create(htmlIp, devPojo, mapType, test);
         queriesMap = qmb.getQueriesMap();
     }
 
@@ -102,6 +113,7 @@ public class QueryManagerThread implements Runnable {
     }
 
     private void buildGraphDataPojos() throws Exception {
+        HoursUtility hUtil = new HoursUtility(htmlIp);
         int count = 0;
         for (Map.Entry<String, String> entry : queriesMap.entrySet()) {
             String query = entry.getValue();
@@ -109,7 +121,7 @@ public class QueryManagerThread implements Runnable {
             setRsFromQuery(query);
             int fc = getFactoryChoice();
             String gn = extractGroupNameFromMapKey(entry.getKey());
-            Adaptor adaptor = AdaptorFactory.create(fc, gn, rs, test);
+            Adaptor adaptor = AdaptorFactory.create(htmlIp, fc, gn, rs, test);
             labelNames.add(entry.getKey());
             if (!adaptor.isDataEmpty()) {
                 gdObjects.addAll(adaptor.getGdList());
@@ -134,12 +146,14 @@ public class QueryManagerThread implements Runnable {
                 gcpm = getGraphContructPojoMaker(Constants.ChartTypes.DYGRAPH.value());
                 GraphConstructPojo gcp = gcpm.getGraphConstructPojo();
                 gcp.setChartTitle(chartTitle);
-                GraphConstructsSingleton.getInstance().addGraphDataPojo(gcp);
+                graphConstPojos.add(gcp);
+//                GraphConstructsSingleton.getInstance().addGraphDataPojo(gcp);
                 break;
             case "HIGH_CHART":
                 gcpm = getGraphContructPojoMaker(Constants.ChartTypes.HIGH_CHART.value());
                 List<HighChartGraphConstructPojo> gcPojos = gcpm.getGraphConstructPojos();
-                GraphConstructsSingleton.getInstance().addHcGraphDataPojos(gcPojos);
+                hCgraphConstPojos.add(gcPojos);
+//                GraphConstructsSingleton.getInstance().addHcGraphDataPojos(gcPojos);
                 break;
             default:
                 throw new AssertionError();
@@ -152,7 +166,7 @@ public class QueryManagerThread implements Runnable {
     }
 
     private GraphContructPojoMaker getGraphContructPojoMaker(String selection) throws Exception {
-        return GraphConstructFactory.create(selection, gdObjects, labelNames, devPojo);
+        return GraphConstructFactory.create(htmlIp, selection, gdObjects, labelNames, devPojo);
     }
 
     private String extractGroupNameFromMapKey(String key) {

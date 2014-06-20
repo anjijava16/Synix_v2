@@ -16,7 +16,8 @@ public class HighChartDivMaker {
     private int HEIGHT = 80; /// PERCENT
     private int WIDTH = 95; /// PERCENT
     private int divIndex;
-    private String width = 100 + "%";
+    private String TD_WIDTH = "95%";
+    private String TD_HEIGHT = "600px";
     private String header = "";
     private String footer = "";
 
@@ -40,9 +41,8 @@ public class HighChartDivMaker {
         if (!gcp.getData().isEmpty()) {
             String divId = "div" + (chartIndex + 1) + "_" + divIndex;
             out.append("<tr>"
-                    + "<td width='" + width + "'>"
-                    + "<div class=\"many \"id=\"" + divId + "\" style="
-                    + "width:" + WIDTH + "%; height:" + HEIGHT + "%;>"
+                    + "<td width='" + TD_WIDTH + "' height='" + TD_HEIGHT + "'>"
+                    + "<div class=\"many \"id=\"" + divId + "\" style='height:95%';>"
                     + "</div>\n");
             out.append(getShowHideButton(chartIndex));
             out.append(getHorizontalLine());

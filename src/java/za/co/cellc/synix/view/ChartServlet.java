@@ -68,6 +68,7 @@ public class ChartServlet extends HttpServlet {
                         String outText = errorMessage;
                         try {
                             outText = getChartsHTML();
+//                            System.out.println(outText);
                             response.getWriter().write(outText);
                         } catch (Exception ex) {
                             outText = errorMessage + "\n" + ex.getMessage() + "\n" + ex.getCause();

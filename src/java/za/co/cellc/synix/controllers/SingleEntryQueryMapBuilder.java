@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import za.co.cellc.synix.constants.Constants;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -20,8 +21,8 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
 
     private StringBuilder mapKey = new StringBuilder();
 
-    public SingleEntryQueryMapBuilder(FormuladefPojo defPojo, boolean test) throws Exception {
-        super(defPojo, test);
+    public SingleEntryQueryMapBuilder(HtmlInputProcessor htmlIp,FormuladefPojo defPojo, boolean test) throws Exception {
+        super(htmlIp,defPojo, test);
         this.defPojo = defPojo;
     }
 

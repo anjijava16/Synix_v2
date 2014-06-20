@@ -12,6 +12,7 @@ import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
 import za.co.cellc.synix.controllers.graphconstruct.GraphContructPojoMaker;
 import za.co.cellc.synix.model.GraphData;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -19,8 +20,8 @@ import za.co.cellc.synix.model.GraphData;
  */
 public class DygraphGraphContructPojoMaker extends GraphContructPojoMaker {
 
-    public DygraphGraphContructPojoMaker(List<GraphData> gdObjects, List<String> labelNames, FormuladefPojo devPojo) throws Exception {
-        super(gdObjects, labelNames, devPojo);
+    public DygraphGraphContructPojoMaker(HtmlInputProcessor htmlIp, List<GraphData> gdObjects, List<String> labelNames, FormuladefPojo devPojo) throws Exception {
+        super(htmlIp, gdObjects, labelNames, devPojo);
     }
 
     @Override

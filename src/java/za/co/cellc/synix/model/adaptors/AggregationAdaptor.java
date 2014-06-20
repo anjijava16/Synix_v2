@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.model.GraphData;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -24,8 +25,8 @@ public class AggregationAdaptor extends Adaptor implements AdaptorInterface {
     private int VALUE_IX = 1;
     private String groupName;
 
-    public AggregationAdaptor(ResultSet rs, String groupName, boolean test) throws Exception {
-        super(rs, test);
+    public AggregationAdaptor(HtmlInputProcessor htmlIp, ResultSet rs, String groupName, boolean test) throws Exception {
+        super(htmlIp, rs, test);
         this.groupName = groupName;
     }
 

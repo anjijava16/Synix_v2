@@ -10,6 +10,7 @@ import java.util.List;
 import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
 import za.co.cellc.synix.controllers.graphconstruct.highchart.HighChartGraphConstructPojo;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -21,8 +22,10 @@ public class HtmlGraphMaker {
     protected List<GraphConstructPojo> graphConstPojos = new ArrayList<>();
     protected List<FormuladefPojo> formulaDefPojos;
     protected int divIndex;
+    protected HtmlInputProcessor htmlIp;
 
-    public HtmlGraphMaker(List<FormuladefPojo> formulaDefPojos, int divIndex) {
+    public HtmlGraphMaker(HtmlInputProcessor htmlIp, List<FormuladefPojo> formulaDefPojos, int divIndex) {
+        this.htmlIp = htmlIp;
         this.formulaDefPojos = formulaDefPojos;
         this.divIndex = divIndex;
     }

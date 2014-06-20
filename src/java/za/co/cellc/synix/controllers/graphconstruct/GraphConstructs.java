@@ -3,7 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package za.co.cellc.synix.controllers.graphconstruct;
+
+/**
+ *
+ * @author Pierre.Venter
+ */
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,20 +24,12 @@ import za.co.cellc.synix.controllers.graphconstruct.highchart.HighChartGraphCons
  *
  * @author Pierre.Venter
  */
-public class GraphConstructsSingleton {
+public class GraphConstructs {
 
-    private static GraphConstructsSingleton instance = null;
     private static List<GraphConstructPojo> graphConstPojos = new ArrayList<>();
     private static List<List<HighChartGraphConstructPojo>> hCgraphConstPojos = new ArrayList<>();
 
-    private GraphConstructsSingleton() {
-    }
-
-    public static GraphConstructsSingleton getInstance() {
-        if (instance == null) {
-            instance = new GraphConstructsSingleton();
-        }
-        return instance;
+    public GraphConstructs() {
     }
 
     public void addGraphDataPojo(GraphConstructPojo gdp) {

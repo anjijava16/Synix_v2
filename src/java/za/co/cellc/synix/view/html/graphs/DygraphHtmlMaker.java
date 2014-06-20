@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -16,8 +17,8 @@ import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
  */
 public class DygraphHtmlMaker extends HtmlGraphMaker {
 
-    public DygraphHtmlMaker(List<FormuladefPojo> formulaDefPojos, int divIndex) {
-        super(formulaDefPojos, divIndex);
+    public DygraphHtmlMaker(HtmlInputProcessor htmlIp, List<FormuladefPojo> formulaDefPojos, int divIndex) {
+        super(htmlIp, formulaDefPojos, divIndex);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class DygraphHtmlMaker extends HtmlGraphMaker {
     @Override
     public String getKpiContent() throws Exception {
         StringBuilder sb = new StringBuilder();
-        DygraphContentMaker kpiC = new DygraphContentMaker(divIndex);
+        DygraphContentMaker kpiC = new DygraphContentMaker(htmlIp, divIndex);
         sb.append(kpiC.getHeader());
         for (int i = 0; i < graphConstPojos.size(); i++) {
             GraphConstructPojo gcp = getMatchingGraphConstructPojo(formulaDefPojos.get(i));

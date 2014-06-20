@@ -29,6 +29,7 @@ public class SingleEntryQueryMapBuilderTest {
     private static boolean ISTEST = true;
     private final PrintUtils pUtils = new PrintUtils();
     private static String selectionStr;
+    private static HtmlInputProcessor hip;
 
     @BeforeClass
     public static void setUpClass() {
@@ -38,7 +39,9 @@ public class SingleEntryQueryMapBuilderTest {
     public void setUp() throws Exception {
         Database.getInstance(ISTEST);
         selectionStr = "&timeFrom=30/03/2014 00:00:00&timeTo=29/04/2014 23:00:00&divCounter=1&chartPageColumns=1&fillGraph=false&chartRollerPeriod=1&chartType=KPI&bsc=GTIBN1&bsc=GTIBN2&vendor=NSN&technology=2G&period=Daily";
-        HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));
+        hip = new HtmlInputProcessor();
+        hip.processInput(new StringBuilder(selectionStr));
+//        HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));
 
     }
 
@@ -50,11 +53,11 @@ public class SingleEntryQueryMapBuilderTest {
         int mapType = Constants.SINGLE_ENTRY_MAP_TYPE;
         boolean testPassed = false;
         System.out.println("\n===========================\nSingleEntryQueryMapBuilderTest: getQueriesMapTest ");
-        FormulaDefManager defMan = new FormulaDefManager(ISTEST);
+        FormulaDefManager defMan = new FormulaDefManager(hip, ISTEST);
         List<FormuladefPojo> defPojos = defMan.getFromulaDefPojos();
         QueryMapBuilder qmb;
         try {
-            qmb = QueryMapBuilderFactory.create(defPojos.get(0), mapType, true);
+            qmb = QueryMapBuilderFactory.create(hip, defPojos.get(0), mapType, true);
             queriesMap = qmb.getQueriesMap();
             testPassed = queriesMap.containsKey(expectedKey);
             if (testPassed) {
@@ -66,7 +69,7 @@ public class SingleEntryQueryMapBuilderTest {
         }
         pUtils.printStatus(testPassed);
         System.out.println("Result: " + queriesMap.get(expectedKey));
-        System.out.println("expectedValue: " +expectedValue);
+        System.out.println("expectedValue: " + expectedValue);
         assertTrue(testPassed);
     }
 

@@ -10,6 +10,7 @@ import java.util.List;
 import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
 import za.co.cellc.synix.controllers.graphconstruct.highchart.HighChartGraphConstructPojo;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -17,13 +18,13 @@ import za.co.cellc.synix.controllers.graphconstruct.highchart.HighChartGraphCons
  */
 public class HighChartHtmlMaker extends HtmlGraphMaker {
 
-    public HighChartHtmlMaker(List<FormuladefPojo> formulaDefPojos, int divIndex) {
-        super(formulaDefPojos, divIndex);
+    public HighChartHtmlMaker(HtmlInputProcessor htmlIp, List<FormuladefPojo> formulaDefPojos, int divIndex) {
+        super(htmlIp, formulaDefPojos, divIndex);
     }
 
     @Override
     public String getKpiDiv() {
-        int chartIndex=0;
+        int chartIndex = 0;
         StringBuilder sb = new StringBuilder();
         HighChartDivMaker kpiD = new HighChartDivMaker(divIndex);
         sb.append(kpiD.getHeader());
@@ -34,21 +35,21 @@ public class HighChartHtmlMaker extends HtmlGraphMaker {
                 chartIndex++;
             }
         }
-         sb.append(kpiD.getFooter());
+        sb.append(kpiD.getFooter());
         return sb.toString();
     }
 
     @Override
     public String getKpiContent() throws Exception {
-        int chartIndex=0;
+        int chartIndex = 0;
         StringBuilder sb = new StringBuilder();
-        HighChartContentMaker kpiC = new HighChartContentMaker(divIndex);
+        HighChartContentMaker kpiC = new HighChartContentMaker(htmlIp, divIndex);
         sb.append(kpiC.getHeader());
         for (int i = 0; i < hCgraphConstPojos.size(); i++) {
             List<HighChartGraphConstructPojo> gcPojos = getMatchingGraphConstructPojos(formulaDefPojos.get(i));
             if (!gcPojos.isEmpty()) {
                 FormuladefPojo fdp = getMatchingFormuladefPojo(gcPojos);
-                kpiC = new HighChartContentMaker(divIndex);
+                kpiC = new HighChartContentMaker(htmlIp, divIndex);
                 sb.append(kpiC.getCharts(fdp, gcPojos, chartIndex));
                 chartIndex++;
             }

@@ -5,19 +5,21 @@
  */
 package za.co.cellc.synix.controllers;
 
+import za.co.cellc.synix.view.HtmlInputProcessor;
+
 /**
  *
  * @author Pierre.Venter
  */
 public class QueryMapBuilderFactory {
 
-    public static QueryMapBuilder create(FormuladefPojo defPojo, int mapType, boolean test) throws Exception {
+    public static QueryMapBuilder create(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, int mapType, boolean test) throws Exception {
         if (mapType == 1) {
-            return new SingleEntryQueryMapBuilder(defPojo, test);
+            return new SingleEntryQueryMapBuilder(htmlIp, defPojo, test);
         } else if (mapType == 2) {
-            return new MultiEntryQueryMapBuilder(defPojo, test);
+            return new MultiEntryQueryMapBuilder(htmlIp, defPojo, test);
         } else if (mapType == 3) {
-            return new AggregatedGroupingQueryMapBuilder(defPojo, test);
+            return new AggregatedGroupingQueryMapBuilder(htmlIp, defPojo, test);
         } else {
             throw new Exception("Invalid map type: " + mapType);
         }

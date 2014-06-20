@@ -43,6 +43,7 @@ public class QueryManagerThreadTest {
 //    FormuladefPojo formulaDefPojo2;
     boolean testPassed = false;
     private FormuladefPojo devPojo;
+    private static HtmlInputProcessor hip;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -55,8 +56,10 @@ public class QueryManagerThreadTest {
     @Before
     public void setUp() throws Exception {
         selectionStr = ("&timeFrom=30/03/2014 00:00:00&timeTo=29/04/2014 23:00:00&divCounter=1&chartPageColumns=1&fillGraph=false&chartRollerPeriod=1&chartType=KPI&bsc=GTIBN1&bsc=GTIBN2&vendor=NSN&technology=2G&period=Daily");
-        HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));
-        FormulaDefManager defMan = new FormulaDefManager(ISTEST);
+        hip = new HtmlInputProcessor();
+        hip.processInput(new StringBuilder(selectionStr));
+//        HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));
+        FormulaDefManager defMan = new FormulaDefManager(hip, ISTEST);
         List<FormuladefPojo> defPojos = defMan.getFromulaDefPojos();
         formulaDefPojo = defPojos.get(0);
 //        formulaDefPojo2 = defPojos.get(1);
@@ -71,7 +74,7 @@ public class QueryManagerThreadTest {
         try {
             List<Thread> threads = new ArrayList<>();
             testPassed = true;
-            QueryManagerThread runnable = new QueryManagerThread(formulaDefPojo, Constants.PlotterTypes.LINE.value(), ISTEST);
+            QueryManagerThread runnable = new QueryManagerThread(hip,formulaDefPojo, Constants.PlotterTypes.LINE.value(), ISTEST);
 //            QueryManagerThread runnable2 = new QueryManagerThread(formulaDefPojo2, Constants.PlotterTypes.LINE.value(), ISTEST);
             threads.add(new Thread(runnable));
 //            threads.add(new Thread(runnable2));

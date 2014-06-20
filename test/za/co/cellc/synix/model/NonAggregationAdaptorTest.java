@@ -43,6 +43,7 @@ public class NonAggregationAdaptorTest {
     private static String selectionStr;
     private String dtFrom = "28/03/2014 00:00:00";
     private String dtTo = "30/03/2014 00:00:00";
+    private static HtmlInputProcessor hip;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -64,21 +65,23 @@ public class NonAggregationAdaptorTest {
     public void createNonAggregatedConstructTest() {
         System.out.println("\n===========================\nNonAggregationAdaptorTest: createSeriesObjectsTest ");
         boolean testPassed = false;
-            List<GraphData> gdp = new ArrayList<>();
+        List<GraphData> gdp = new ArrayList<>();
         List<String> dateTimeExpected = Arrays.asList("2014/03/30 00:00:00",
                 "2014/03/30 00:00:00");
-       List<String> dataExpected = Arrays.asList("9.98187359096121639644662154705223933187E01",
+        List<String> dataExpected = Arrays.asList("9.98187359096121639644662154705223933187E01",
                 "9.67663015061967900014784311321537135666E01");
         Statement stmnt = null;
         ResultSet rs = null;
         String sql = "SELECT BSC_GID,to_char(PERIOD_START_TIME,'yyyy/MM/dd HH24:mi:ss'),100*(DECODE((NVL(SUM(BCCH_UPTIME),0) + NVL(SUM(BCCH_DOWNTIME),0)), 0, 0,SUM(BCCH_UPTIME)/(NVL(SUM(BCCH_UPTIME),0) +NVL(SUM(BCCH_DOWNTIME),0)))) FROM N2_CELL_AVAIL_CTRL_D_TEST WHERE PERIOD_START_TIME >= TO_DATE('30/03/2014 00:00:00','dd/mm/yyyy hh24:mi:ss') AND PERIOD_START_TIME <= TO_DATE('01/04/2014 23:00:00','dd/mm/yyyy hh24:mi:ss') AND  PERIOD = 'DAILY' AND  LEVEL_ = 'CONTROLLER' AND (BSC_GID='694806002' OR BSC_GID='676325002' ) GROUP BY BSC_GID,PERIOD_START_TIME ORDER BY BSC_GID,PERIOD_START_TIME";
         selectionStr = "&timeFrom=30/03/2014 00:00:00&timeTo=01/04/2014 23:00:00&divCounter=1&chartPageColumns=1&fillGraph=false&chartRollerPeriod=1&chartType=KPI&bsc=GTIBN1&bsc=GTIBN2&vendor=NSN&technology=2G&period=Daily";
         try {
-            HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));
+            hip = new HtmlInputProcessor();
+            hip.processInput(new StringBuilder(selectionStr));
+//            HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));
             Connection con = Database.getInstance(ISTEST).getCon();
             stmnt = con.createStatement();
             rs = stmnt.executeQuery(sql);
-            Adaptor adaptor = AdaptorFactory.create(Constants.NON_AGGREGATION_ADAPTOR,"", rs, ISTEST);
+            Adaptor adaptor = AdaptorFactory.create(hip, Constants.NON_AGGREGATION_ADAPTOR, "", rs, ISTEST);
             gdp.addAll(adaptor.getGdList());
             testPassed = gdp.get(0).getDateTime().get(0).equals(dateTimeExpected.get(0))
                     && gdp.get(1).getDateTime().get(0).equals(dateTimeExpected.get(1))

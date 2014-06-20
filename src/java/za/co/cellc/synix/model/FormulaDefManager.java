@@ -30,12 +30,13 @@ public class FormulaDefManager {
     private String technology;
     private static boolean test = false;
     private String insertUpdateQuery;
-    private HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
+    private HtmlInputProcessor htmlIp;
     private int logicalGroup;
 
-    public FormulaDefManager(boolean test) {
+    public FormulaDefManager(HtmlInputProcessor htmlIp, boolean test) {
 //        this.selectionStr = selectionStr;
         this.test = test;
+        this.htmlIp = htmlIp;
         try {
             decodeSelectionStr();
         } catch (Exception ex) {
@@ -44,7 +45,8 @@ public class FormulaDefManager {
         }
     }
 
-    public FormulaDefManager(boolean test, String insertUpdateQuery) {
+    public FormulaDefManager(HtmlInputProcessor htmlIp, boolean test, String insertUpdateQuery) {
+        this.htmlIp = htmlIp;
         this.test = test;
         this.insertUpdateQuery = insertUpdateQuery;
     }

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import za.co.cellc.synix.model.GraphData;
 import za.co.cellc.synix.model.GraphDataPojo;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -18,8 +19,8 @@ import za.co.cellc.synix.model.GraphDataPojo;
 public class LabelAdaptor extends Adaptor implements AdaptorInterface {
 private String graphLabels;
 
-    public LabelAdaptor(ResultSet rs, boolean test) throws Exception {
-        super(rs, test);
+    public LabelAdaptor(HtmlInputProcessor htmlIp,ResultSet rs, boolean test) throws Exception {
+        super(htmlIp,rs, test);
     }
 
     @Override

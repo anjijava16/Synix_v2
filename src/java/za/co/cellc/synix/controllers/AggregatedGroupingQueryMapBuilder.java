@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import za.co.cellc.synix.constants.Constants;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -19,8 +20,8 @@ import za.co.cellc.synix.constants.Constants;
  */
 public class AggregatedGroupingQueryMapBuilder extends QueryMapBuilder {
 
-    public AggregatedGroupingQueryMapBuilder(FormuladefPojo defPojo, boolean test) throws Exception {
-        super(defPojo, test);
+    public AggregatedGroupingQueryMapBuilder(HtmlInputProcessor htmlIp,FormuladefPojo defPojo, boolean test) throws Exception {
+        super(htmlIp,defPojo, test);
         this.defPojo = defPojo;
     }
 

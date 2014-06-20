@@ -10,7 +10,7 @@ import za.co.cellc.synix.controllers.FormulaDefController;
 import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.Orchestrator;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
-import za.co.cellc.synix.controllers.graphconstruct.GraphConstructsSingleton;
+//import za.co.cellc.synix.controllers.graphconstruct.GraphConstructsSingleton;
 import za.co.cellc.synix.view.html.graphs.DygraphHtmlMaker;
 import za.co.cellc.synix.view.html.graphs.HighChartHtmlMaker;
 import za.co.cellc.synix.view.html.graphs.HtmlGraphFactory;
@@ -36,35 +36,34 @@ public class Chart {
 //        this.selectionStr = selectionSb;
         this.test = test;
         this.divIndex = divIndex;
-        GraphConstructsSingleton.getInstance().clear();
-        hip = HtmlInputProcessor.getInstance();
+//        GraphConstructsSingleton.getInstance().clear();
+        hip = new HtmlInputProcessor();
         hip.processInput(selectionSb);
         setFormulaDefPojos();
     }
 
-    
-     public String getHtml() throws Exception {
+    public String getHtml() throws Exception {
         StringBuilder sb = new StringBuilder();
-        orc = new Orchestrator(test);
+        orc = new Orchestrator(hip, test);
 //        graphConstructPojos = orc.getGraphConstructPojos(test);
         String chartType = hip.getChartType();
         HtmlGraphFactory hgf = new HtmlGraphFactory();
-        hgf.setGraphConstPojos(GraphConstructsSingleton.getInstance().getGraphDataPojos());
-        hgf.setHCgraphConstPojos(GraphConstructsSingleton.getInstance().getHCgraphConstPojos());
-        HtmlGraphMaker hgm = hgf.create(chartType, formulaDefPojos, divIndex);
+        hgf.setGraphConstPojos(orc.getGraphConstructPojos(test));
+        hgf.setHCgraphConstPojos(orc.getHcGraphConstructPojos(test));
+        HtmlGraphMaker hgm = hgf.create(hip, chartType, formulaDefPojos, divIndex);
         sb.append(hgm.getKpiDiv());
         sb.append(hgm.getKpiContent());
         clearSelectionSingleton();
         return sb.toString();
     }
-     
+
     public void createHTML() throws Exception {
-        orc = new Orchestrator(test);
+        orc = new Orchestrator(hip, test);
         String chartType = hip.getChartType();
         HtmlGraphFactory hgf = new HtmlGraphFactory();
-        hgf.setGraphConstPojos(GraphConstructsSingleton.getInstance().getGraphDataPojos());
-        hgf.setHCgraphConstPojos(GraphConstructsSingleton.getInstance().getHCgraphConstPojos());
-        HtmlGraphMaker hgm = hgf.create(chartType, formulaDefPojos, divIndex);
+        hgf.setGraphConstPojos(orc.getGraphConstructPojos(test));
+        hgf.setHCgraphConstPojos(orc.getHcGraphConstructPojos(test));
+        HtmlGraphMaker hgm = hgf.create(hip, chartType, formulaDefPojos, divIndex);
         divs = hgm.getKpiDiv();
         scripts = hgm.getKpiContent();
         clearSelectionSingleton();
@@ -94,7 +93,7 @@ public class Chart {
 
     private void setFormulaDefPojos() {
         FormulaDefController fdc = new FormulaDefController();
-        formulaDefPojos = fdc.getFormulaDefPojos(test);
+        formulaDefPojos = fdc.getFormulaDefPojos(hip, test);
     }
 
 //    private String getKpiDiv() {

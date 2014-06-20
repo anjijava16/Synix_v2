@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+var MAX_CELLS = 250;
 var REGION_RNC_NAME_ID = "regionRNC";
 var RNC_RNC_NAME_ID = "rnc";
 var BSC_BSC_NAME_ID = "bsc";
@@ -154,7 +155,7 @@ function populateListboxWithArray(listboxid, ar) {
     var object = document.getElementById(listboxid);
     object.innerHTML = '';
     var loopSize = ar.length;
-    loopSize = ar.length > 17 ? 17 : ar.length;
+    loopSize = ar.length > MAX_CELLS ? MAX_CELLS : ar.length;
     for (var i = 0; i < loopSize; i++) {
         object.options[i] = new Option(ar[i], i);
     }

@@ -5,7 +5,7 @@
  */
 package za.co.cellc.synix.model;
 
-import za.co.cellc.synix.controllers.graphconstruct.GraphConstructsSingleton;
+//import za.co.cellc.synix.controllers.graphconstruct.GraphConstructsSingleton;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
 import java.util.Arrays;
 import java.util.List;
@@ -44,40 +44,40 @@ public class GraphDataSingletonTest {
         assertTrue(testPassed);
     }
 
-    @Test
-    public void addGraphDataPojoTest() {
-        System.out.println("\n===========================\nGraphDataSingletonTest: addGraphDataPojoTest ");
-        boolean testPassed = false;
-        String label = "GTIR1,GTIR2";
-        String data = "2014/04/20 00:00:00,99.0,80.1\n";
-        GraphConstructPojo gcp = new GraphConstructPojo(data, label,"DUMMY_CHART_TITLE");
-        testPassed = gcp.getData().equalsIgnoreCase(data) && gcp.getLabel().equalsIgnoreCase(label);
-        GraphConstructsSingleton gdps = GraphConstructsSingleton.getInstance();
-        gdps.addGraphDataPojo(gcp);
-        gdps.addGraphDataPojo(gcp);
-        List<GraphConstructPojo> gdpList = gdps.getGraphDataPojos();
-        testPassed = gdpList.size() == 2;
-        pUtils.printStatus(testPassed);
-        System.out.println("Expected=2\nResult  =" + gdpList.size());
-        assertTrue(testPassed);
-    }
+//    @Test
+//    public void addGraphDataPojoTest() {
+//        System.out.println("\n===========================\nGraphDataSingletonTest: addGraphDataPojoTest ");
+//        boolean testPassed = false;
+//        String label = "GTIR1,GTIR2";
+//        String data = "2014/04/20 00:00:00,99.0,80.1\n";
+//        GraphConstructPojo gcp = new GraphConstructPojo(data, label,"DUMMY_CHART_TITLE");
+//        testPassed = gcp.getData().equalsIgnoreCase(data) && gcp.getLabel().equalsIgnoreCase(label);
+//        GraphConstructsSingleton gdps = GraphConstructsSingleton.getInstance();
+//        gdps.addGraphDataPojo(gcp);
+//        gdps.addGraphDataPojo(gcp);
+//        List<GraphConstructPojo> gdpList = gdps.getGraphDataPojos();
+//        testPassed = gdpList.size() == 2;
+//        pUtils.printStatus(testPassed);
+//        System.out.println("Expected=2\nResult  =" + gdpList.size());
+//        assertTrue(testPassed);
+//    }
 
-    @Test
-    public void clearTest() {
-        System.out.println("\n===========================\nGraphDataSingletonTest: clearTest ");
-        boolean testPassed = false;
-        String label = "GTIR1,GTIR2";
-        String data = "2014/04/20 00:00:00,99.0,80.1\n";
-        GraphConstructPojo gcp = new GraphConstructPojo(data, label,"DUMMY_CHART_TITLE");
-        testPassed = gcp.getData().equalsIgnoreCase(data) && gcp.getLabel().equalsIgnoreCase(label);
-        GraphConstructsSingleton gdps = GraphConstructsSingleton.getInstance();
-        gdps.addGraphDataPojo(gcp);
-        gdps.addGraphDataPojo(gcp);
-        gdps.clear();
-        List<GraphConstructPojo> gdpList = gdps.getGraphDataPojos();
-        testPassed = gdpList.isEmpty();
-        pUtils.printStatus(testPassed);
-        System.out.println("Expected=0\nResult  =" + gdpList.size());
-        assertTrue(testPassed);
-    }
+//    @Test
+//    public void clearTest() {
+//        System.out.println("\n===========================\nGraphDataSingletonTest: clearTest ");
+//        boolean testPassed = false;
+//        String label = "GTIR1,GTIR2";
+//        String data = "2014/04/20 00:00:00,99.0,80.1\n";
+//        GraphConstructPojo gcp = new GraphConstructPojo(data, label,"DUMMY_CHART_TITLE");
+//        testPassed = gcp.getData().equalsIgnoreCase(data) && gcp.getLabel().equalsIgnoreCase(label);
+//        GraphConstructsSingleton gdps = GraphConstructsSingleton.getInstance();
+//        gdps.addGraphDataPojo(gcp);
+//        gdps.addGraphDataPojo(gcp);
+//        gdps.clear();
+//        List<GraphConstructPojo> gdpList = gdps.getGraphDataPojos();
+//        testPassed = gdpList.isEmpty();
+//        pUtils.printStatus(testPassed);
+//        System.out.println("Expected=0\nResult  =" + gdpList.size());
+//        assertTrue(testPassed);
+//    }
 }

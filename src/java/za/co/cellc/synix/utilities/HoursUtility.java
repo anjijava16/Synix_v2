@@ -28,9 +28,10 @@ public class HoursUtility {
     private String fromDate;
     private String toDate;
     private String period;
-    private HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
+    private HtmlInputProcessor htmlIp;
 
-    public HoursUtility() {
+    public HoursUtility(HtmlInputProcessor htmlIp) {
+        this.htmlIp = htmlIp;
         try {
             decodeSelection();
             buildHoursList();

@@ -28,6 +28,7 @@ public class QueryBuilderTest {
     private static boolean ISTEST = true;
     private final PrintUtils pUtils = new PrintUtils();
     private static String selectionStr;
+    private static HtmlInputProcessor hip;
 
     @BeforeClass
     public static void setUpClass() {
@@ -37,7 +38,9 @@ public class QueryBuilderTest {
     public void setUp() throws Exception {
         Database.getInstance(ISTEST);
         selectionStr = "&timeFrom=30/03/2014 00:00:00&timeTo=29/04/2014 23:00:00&divCounter=1&chartPageColumns=1&fillGraph=false&chartRollerPeriod=1&chartType=KPI&bsc=GTIBN1&bsc=GTIBN2&vendor=NSN&technology=2G&period=Daily";
-        HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));
+        hip = new HtmlInputProcessor();
+        hip.processInput(new StringBuilder(selectionStr));
+//        HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));
     }
 
     @Test
@@ -47,10 +50,10 @@ public class QueryBuilderTest {
         int mapType = Constants.SINGLE_ENTRY_MAP_TYPE;
         System.out.println("\n===========================\nQueryBuilderTest: createQueriesTest ");
         List<String> expectedQs = getCellAvailabilityQueries();
-        FormulaDefManager defMan = new FormulaDefManager(ISTEST);
+        FormulaDefManager defMan = new FormulaDefManager(hip, ISTEST);
         List<FormuladefPojo> defPojos = defMan.getFromulaDefPojos();
         try {
-            QueryMapBuilder qb = QueryMapBuilderFactory.create(defPojos.get(0), mapType, ISTEST);
+            QueryMapBuilder qb = QueryMapBuilderFactory.create(hip, defPojos.get(0), mapType, ISTEST);
             Map<String, String> queriesMap = qb.getQueriesMap();
             for (Map.Entry<String, String> entry : queriesMap.entrySet()) {
                 result = entry.getValue();

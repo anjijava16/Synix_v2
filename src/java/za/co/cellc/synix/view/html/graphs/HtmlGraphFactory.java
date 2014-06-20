@@ -10,6 +10,7 @@ import java.util.List;
 import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
 import za.co.cellc.synix.controllers.graphconstruct.highchart.HighChartGraphConstructPojo;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -28,16 +29,16 @@ public class HtmlGraphFactory {
         this.hCgraphConstPojos = hCgraphConstPojos;
     }
 
-    public HtmlGraphMaker create(String selection, List<FormuladefPojo> formulaDefPojos, int divIndex) {
+    public HtmlGraphMaker create(HtmlInputProcessor htmlIp, String selection, List<FormuladefPojo> formulaDefPojos, int divIndex) {
         HtmlGraphMaker hgm;
         switch (selection) {
             case "DYGRAPH":
-                hgm = new DygraphHtmlMaker(formulaDefPojos, divIndex);
+                hgm = new DygraphHtmlMaker(htmlIp, formulaDefPojos, divIndex);
                 hgm.setGraphConstPojos(graphConstPojos);
                 break;
 
             case "HIGH_CHART":
-                hgm = new HighChartHtmlMaker(formulaDefPojos, divIndex);
+                hgm = new HighChartHtmlMaker(htmlIp, formulaDefPojos, divIndex);
                 hgm.setHCgraphConstPojos(hCgraphConstPojos);
                 break;
             default:

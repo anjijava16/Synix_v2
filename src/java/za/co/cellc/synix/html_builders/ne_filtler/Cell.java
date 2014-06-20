@@ -4,6 +4,8 @@
  */
 package za.co.cellc.synix.html_builders.ne_filtler;
 
+import za.co.cellc.synix.constants.Constants;
+
 /**
  *
  * @author Pierre.Venter
@@ -21,6 +23,7 @@ public class Cell extends NE_Node {
     }
 
     private void buildSelectHTML() {
-        html.append("<select class=\"btsNamesListBox\" id=\"btsNamesListBox\" size=\"17\" multiple=\"multiple\"></select>");
+        html.append("<select class=\"btsNamesListBox\" id=\"btsNamesListBox\" size=\"");
+        html.append(Constants.MAX_CELLS).append("\" multiple=\"multiple\"></select>");
     }
 }

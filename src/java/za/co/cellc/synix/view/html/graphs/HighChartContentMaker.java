@@ -30,11 +30,12 @@ public class HighChartContentMaker {
     private String rollerPeriod;
     private String header;
     private String footer;
-    private HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
+    private HtmlInputProcessor htmlIp;
     private List<HighChartGraphConstructPojo> gcPojos;
     private StringBuilder sb = new StringBuilder();
 
-    public HighChartContentMaker(int divIndex) {
+    public HighChartContentMaker(HtmlInputProcessor htmlIp, int divIndex) {
+        this.htmlIp = htmlIp;
         this.divIndex = divIndex;
 //        this.sb = sb;
         initVariables();
@@ -71,6 +72,7 @@ public class HighChartContentMaker {
         addPlotOptions();
         addSeries();
         addShowHideButton(chartIndex);
+        addIsolateSeriesMethod();
         sb.append("});");
         return sb;
     }
@@ -86,8 +88,13 @@ public class HighChartContentMaker {
         sb.append("layout: 'horizontal',");
         sb.append("align: 'center',");
         sb.append("verticalAlign: 'bottom',");
-        sb.append("borderWidth: 1");
-//        sb.append("maxHeight: 200");
+        sb.append("borderWidth: 1,"
+                + "itemHoverStyle: {\n"
+                + "                color: '#FF0000'\n"
+                + "            },");
+        sb.append("maxHeight: 90,");
+        sb.append("padding: 5,"
+                + "borderRadius: 5");
         sb.append("},");
         sb.append("title: {");
         sb.append("text: '");
@@ -160,12 +167,12 @@ public class HighChartContentMaker {
                 //                + "                 },"
                 //                + "             },\n"
                 + "            series: {\n"
-                + "                allowPointSelect: true,"
+                //           + "                allowPointSelect: true,"
                 + "                cursor: 'pointer',\n"
                 + "                point: {\n"
                 + "                    events: {\n"
                 + "                        click: function() {\n"
-//                + "                            alert ('Category: '+ this.category +', value: '+ this.y);\n"
+                //                + "                            alert ('Category: '+ this.category +', value: '+ this.y);\n"
                 + "                        }\n"
                 + "                    }\n"
                 + "                },\n"
@@ -210,6 +217,9 @@ public class HighChartContentMaker {
                 }
                 sb.append("data: [").append(gcp.getData()).append("]");
                 sb.append(",dashStyle: '").append(gcp.getDashStyle()).append("'");
+                if (!isTargetObject(gcp)) {
+                    addPointSelectEvent(gcp.getLabel());
+                }
                 if (i != gcPojos.size()) {
                     sb.append("},");
                 } else {
@@ -219,6 +229,18 @@ public class HighChartContentMaker {
         }
         sb.append("]");
         sb.append("});");
+    }
+
+    private void addPointSelectEvent(String seriesName) {
+        sb.append(",\n"
+                + "            point: {\n"
+                + "                events: {\n"
+                + "                    click: function () {\n"
+                + "                        isolateSeries('" + seriesName + "');\n"
+                + "                    }\n"
+                + "\n"
+                + "                }\n"
+                + "            }");
     }
 
     private void addTargetFormatting() {
@@ -260,6 +282,27 @@ public class HighChartContentMaker {
                 //                        + "            $button.html('Hide series');\n"
                 + "        }\n"
                 + "    });");
+    }
+
+    private void addIsolateSeriesMethod() {
+        sb.append(" function isolateSeries(preserveSeriesName) {\n"
+                + "        var series = chart.series[0];\n"
+                + "        if (series.visible) {\n"
+                + "            chart.tooltip.Shared=\"false\";"
+                + "            $(chart.series).each(function () {\n"
+                + "                if (this.name !== preserveSeriesName) {\n"
+                + "                    this.setVisible(false, false);\n"
+                + "                }\n"
+                + "            });\n"
+                + "            chart.redraw();\n"
+                + "        } else {\n"
+                + "             chart.tooltip.Shared=\"true\";"
+                + "            $(chart.series).each(function () {\n"
+                + "                this.setVisible(true, false);\n"
+                + "            });\n"
+                + "            chart.redraw();\n"
+                + "        }\n"
+                + "    };");
     }
 
     private void initVariables() {

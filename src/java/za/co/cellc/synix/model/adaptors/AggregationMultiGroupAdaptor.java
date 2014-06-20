@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.model.GraphData;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -23,8 +24,8 @@ public class AggregationMultiGroupAdaptor extends Adaptor implements AdaptorInte
     private int DATE_TIME_IX = 0;
     private int VALUE_IX = 1;
 
-    public AggregationMultiGroupAdaptor(ResultSet rs, boolean test) throws Exception {
-        super(rs, test);
+    public AggregationMultiGroupAdaptor(HtmlInputProcessor htmlIp,ResultSet rs, boolean test) throws Exception {
+        super(htmlIp,rs, test);
     }
     
      public boolean isDataEmpty() {

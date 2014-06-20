@@ -35,12 +35,14 @@ public class QueryMapBuilder {
     protected String networkElementID;
     protected String technology;
     protected FormuladefPojo defPojo;
-    protected HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
-    protected HoursUtility hUtil = new HoursUtility();
+    protected HtmlInputProcessor htmlIp;
+    protected HoursUtility hUtil;
 
-    public QueryMapBuilder(FormuladefPojo defPojo, boolean test) throws Exception {
+    public QueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, boolean test) throws Exception {
+        this.htmlIp = htmlIp;
         this.defPojo = defPojo;
         this.test = test;
+        hUtil = new HoursUtility(htmlIp);
         System.out.println(hUtil.timeStamp() + " QueryBuilder singletons start");
         setTechnology();
         setLevel();

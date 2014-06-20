@@ -42,12 +42,15 @@ public class HighChartContentMakerTest {
     private String dtFrom = "28/03/2014 00:00:00";
     private String dtTo = "30/03/2014 00:00:00";
     private static Connection con;
+    private static HtmlInputProcessor hip;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
         String selectionStr = "&timeFrom=30/03/2014 00:00:00&timeTo=03/04/2014 23:00:00&divCounter=1&chartPageColumns=1&fillGraph=false&chartRollerPeriod=1&chartType=KPI&bsc=GTIBN1&bsc=GTIBN2&vendor=NSN&technology=2G&period=Daily&logicalGroup=0";
         try {
-            HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));
+            hip = new HtmlInputProcessor();
+            hip.processInput(new StringBuilder(selectionStr));
+//            HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));
             con = Database.getInstance(ISTEST).getCon();
         } catch (Exception ex) {
             Logger.getLogger(za.co.cellc.synix.model.GraphConstructFactoryTest.class.getName()).log(Level.SEVERE, null, ex);
@@ -126,12 +129,12 @@ public class HighChartContentMakerTest {
         String result = "";
         labelNames.add(labels);
         List<GraphData> gdObjects = getGdObjects();
-        FormulaDefManager defMan = new FormulaDefManager(ISTEST);
+        FormulaDefManager defMan = new FormulaDefManager(hip, ISTEST);
         List<FormuladefPojo> defPojos = defMan.getFromulaDefPojos();
         try {
-            GraphContructPojoMaker gpm = GraphConstructFactory.create(Constants.ChartTypes.HIGH_CHART.value(), gdObjects, labelNames, defPojos.get(0));
+            GraphContructPojoMaker gpm = GraphConstructFactory.create(hip, Constants.ChartTypes.HIGH_CHART.value(), gdObjects, labelNames, defPojos.get(0));
             List<HighChartGraphConstructPojo> gcPojos = gpm.getGraphConstructPojos();
-            HighChartContentMaker hcm = new HighChartContentMaker(chartIndex);
+            HighChartContentMaker hcm = new HighChartContentMaker(hip, chartIndex);
             result = hcm.getCharts(defPojos.get(0), gcPojos, chartIndex).toString();
 
             testPassed = result.equals(expected);

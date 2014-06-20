@@ -16,7 +16,7 @@ import za.co.cellc.synix.constants.Constants;
  */
 public class HtmlInputProcessor {
 
-    private static HtmlInputProcessor instance;
+//    private static HtmlInputProcessor instance;
     private List<String> fromDate;
     private StringBuilder selectionSb;
     private List<String> toDate;
@@ -31,13 +31,16 @@ public class HtmlInputProcessor {
     private JSON_Parser jp;
     private String chartType = Constants.DEFAULT_CHART_TYPE;
 
-    public static synchronized HtmlInputProcessor getInstance() {
-        if (instance == null) {
-            instance = new HtmlInputProcessor();
-        } else {
-        }
-        return instance;
+    public HtmlInputProcessor() {
     }
+
+//    public static synchronized HtmlInputProcessor getInstance() {
+////        if (instance == null) {
+//            instance = new HtmlInputProcessor();
+////        } else {
+////        }
+//        return new HtmlInputProcessor();
+//    }
     private String chartPageColumns;
     private String fillGraph;
     private String rollerPeriod;
@@ -71,11 +74,10 @@ public class HtmlInputProcessor {
         String period = "";
     }
 
-    private HtmlInputProcessor() {
-//        this.selectionSb = selectionSb;
-//        parseJSON();
-    }
-
+//    private HtmlInputProcessor() {
+////        this.selectionSb = selectionSb;
+////        parseJSON();
+//    }
     public List<String> getNetworkElements() {
         return networkElements;
     }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.model.GraphData;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -24,8 +25,8 @@ public class NonAggregationAdaptor extends Adaptor implements AdaptorInterface {
     private int VALUE_IX = 2;
     private String graphLabels;
 
-    public NonAggregationAdaptor(ResultSet rs, boolean test) throws Exception {
-        super(rs, test);
+    public NonAggregationAdaptor(HtmlInputProcessor htmlIp, ResultSet rs, boolean test) throws Exception {
+        super(htmlIp, rs, test);
     }
 
     public boolean isDataEmpty() {

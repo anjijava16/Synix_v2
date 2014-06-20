@@ -19,7 +19,7 @@
             <tr>
                 <td>
                     <button id="plot_nsn_2g_button" TYPE=submit>Plot Charts</button>
-<!--                    <strong><left>-----NE Filter-----</left></strong>-->
+                    <!--                    <strong><left>-----NE Filter-----</left></strong>-->
                     <hr/>
                 </td>
             </tr>   
@@ -48,31 +48,31 @@
                 <td style="text-align:left" ><div id="bsc_rnc_Filters_panel" class="bsc_rnc_Filters_panel"><font size="1"><%=NE_Filter.getBSC_RNC()%></font></div></td>
             </tr>
 
-            <tr><td style="text-align:left" width ='50%'><div style="display:none" id="2Gcell_Filters_search"><font size="1"><%=NE_Filter.get2GCellSearchBox()%></font></div></td> </tr>
-            <tr><td style="text-align:left" width ='50%'><div style="display:none" id="3Gcell_Filters_search"><font size="1"><%=NE_Filter.get3GCellSearchBox()%></font></div></td> </tr>
-            <tr><td style="text-align:left" width ='50%'><div style="display:none" id="cell_Filters2G_listbox_div" class="cell_Filters_listbox_div"><%=NE_Filter.get2GCells()%></div></td></tr>        
+            <tr><td style="text-align:left"><div style="display:none" id="2Gcell_Filters_search"><font size="1"><%=NE_Filter.get2GCellSearchBox()%></font></div></td> </tr>
+            <tr><td style="text-align:left"><div style="display:none" id="3Gcell_Filters_search"><font size="1"><%=NE_Filter.get3GCellSearchBox()%></font></div></td> </tr>
+            <tr><td style="text-align:left"><div style="display:none" id="cell_Filters2G_listbox_div" class="cell_Filters_listbox_div"><%=NE_Filter.get2GCells()%></div></td></tr>        
             <tr><td>
                     <button id="aggregate2GCellsButton" data-dojo-type="dijit/form/Button" type="button">Aggregate cells
                         <script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
                             require(["dojo/dom"], function(dom){
-                                addSelectedCellsToGroup("btsNamesListBox",true);
+                            addSelectedCellsToGroup("btsNamesListBox",true);
                             });
                         </script>
                     </button>
                 </td></tr>
-            <tr><td style="text-align:left" width ='50%'><div style="display:none" id="cell_Filters3G_listbox_div" class="cell_Filters_listbox_div"><%=NE_Filter.get3GCells()%></div></td></tr>        
+            <tr><td style="text-align:left"><div style="display:none" id="cell_Filters3G_listbox_div" class="cell_Filters_listbox_div"><%=NE_Filter.get3GCells()%></div></td></tr>        
             <tr><td>
                     <button id="aggregate3GCellsButton" data-dojo-type="dijit/form/Button" type="button">Aggregate cells
                         <script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
                             require(["dojo/dom"], function(dom){
-                                addSelectedCellsToGroup("wbtsNamesListBox",true);
+                            addSelectedCellsToGroup("wbtsNamesListBox",true);
                             });
                         </script>
                     </button>
                 </td></tr>
             <tr><td>
-            <div id="selectedCellsTable"></div>
-             </td></tr>
+                    <div id="selectedCellsTable"></div>
+                </td></tr>
         </table>
         <!--        <div id="popupMenu" style="display: none">
                     <TABLE class="blingTable" cellspacing="0">
@@ -90,7 +90,7 @@
                 </div>-->
 
         <script type="text/javascript" language="javascript">
-            CollapsibleLists.apply();
+CollapsibleLists.apply();
         </script>
         <script type="text/javascript" language="javascript">
             $('input.liChild').change(function() {

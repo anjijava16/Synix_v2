@@ -35,12 +35,15 @@ public class GraphConstructFactoryTest {
     private final PrintUtils pUtils = new PrintUtils();
     private static Connection con;
     private static boolean ISTEST = true;
+    private static HtmlInputProcessor hip;
 
     @BeforeClass
     public static void setUpClass() {
         String selectionStr = "&timeFrom=30/03/2014 00:00:00&timeTo=01/04/2014 23:00:00&divCounter=1&chartPageColumns=1&fillGraph=false&chartRollerPeriod=1&chartType=KPI&bsc=GTIBN1&bsc=GTIBN2&vendor=NSN&technology=2G&period=Daily&logicalGroup=0";
         try {
-            HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));
+            hip = new HtmlInputProcessor();
+            hip.processInput(new StringBuilder(selectionStr));
+//            HtmlInputProcessor.getInstance().processInput(new StringBuilder(selectionStr));
             con = Database.getInstance(ISTEST).getCon();
         } catch (Exception ex) {
             Logger.getLogger(GraphConstructFactoryTest.class.getName()).log(Level.SEVERE, null, ex);
@@ -64,7 +67,7 @@ public class GraphConstructFactoryTest {
         try {
             Statement stmnt = con.createStatement();
             ResultSet rs = stmnt.executeQuery(sql);
-            Adaptor adaptor = AdaptorFactory.create(Constants.NON_AGGREGATION_ADAPTOR, "", rs, ISTEST);
+            Adaptor adaptor = AdaptorFactory.create(hip, Constants.NON_AGGREGATION_ADAPTOR, "", rs, ISTEST);
             List<GraphData> gdList = adaptor.getGdList();
 //            GraphContructPojoMaker gCon = GraphConstructFactory.create(Constants.ChartTypes.DYGRAPH.value(), gdList);
 //            GraphConstructPojo gcp = gCon.getGraphConstructPojo();

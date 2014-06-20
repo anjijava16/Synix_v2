@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import za.co.cellc.synix.model.GraphData;
 import za.co.cellc.synix.model.GraphDataPojo;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -18,8 +19,8 @@ public class DrillDownAdaptor extends Adaptor implements AdaptorInterface {
 
     private String graphLabels;
 
-    public DrillDownAdaptor(ResultSet rs, boolean test) throws Exception {
-        super(rs, test);
+    public DrillDownAdaptor(HtmlInputProcessor htmlIp,ResultSet rs, boolean test) throws Exception {
+        super(htmlIp,rs, test);
     }
 
     @Override

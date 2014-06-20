@@ -14,6 +14,7 @@ import za.co.cellc.synix.controllers.graphconstruct.GraphContructPojoMaker;
 import za.co.cellc.synix.model.GraphData;
 import za.co.cellc.synix.utilities.DateConvert;
 import za.co.cellc.synix.utilities.ListUtils;
+import za.co.cellc.synix.view.HtmlInputProcessor;
 
 /**
  *
@@ -23,8 +24,8 @@ public class HighChartGraphContructPojoMaker extends GraphContructPojoMaker {
 
     private ListUtils listUtils = new ListUtils();
 
-    public HighChartGraphContructPojoMaker(List<GraphData> gdObjects, List<String> labelNames, FormuladefPojo devPojo) throws Exception {
-        super(gdObjects, labelNames, devPojo);
+    public HighChartGraphContructPojoMaker(HtmlInputProcessor htmlIp, List<GraphData> gdObjects, List<String> labelNames, FormuladefPojo devPojo) throws Exception {
+        super(htmlIp, gdObjects, labelNames, devPojo);
     }
 
     @Override

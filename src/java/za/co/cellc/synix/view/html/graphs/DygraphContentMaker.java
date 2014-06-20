@@ -26,9 +26,10 @@ public class DygraphContentMaker {
     private String rollerPeriod;
     private String header;
     private String footer;
-    private HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
+    private HtmlInputProcessor htmlIp;
 
-    public DygraphContentMaker(int divIndex) {
+    public DygraphContentMaker(HtmlInputProcessor htmlIp, int divIndex) {
+        this.htmlIp = htmlIp;
         this.divIndex = divIndex;
 //        this.sb = sb;
         initVariables();

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
-import za.co.cellc.synix.controllers.graphconstruct.GraphConstructsSingleton;
+//import za.co.cellc.synix.controllers.graphconstruct.GraphConstructsSingleton;
 import za.co.cellc.synix.controllers.graphconstruct.highchart.HighChartGraphConstructPojo;
 import za.co.cellc.synix.model.QueryManagerThread;
 import za.co.cellc.synix.view.HtmlInputProcessor;
@@ -20,26 +20,31 @@ import za.co.cellc.synix.view.HtmlInputProcessor;
  */
 public class Orchestrator {
 
-    private HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
     private List<Thread> threads = new ArrayList<>();
     private boolean test;
     private List<FormuladefPojo> formulaDefPojos;
     private int nrOfLiveThreads = 0;
     private int nrOfThreads = 0;
+    private List<QueryManagerThread> qmThreads = new ArrayList<>();
+    private List<GraphConstructPojo> graphConstPojos = new ArrayList<>();
+    private List<List<HighChartGraphConstructPojo>> hCgraphConstPojos = new ArrayList<>();
+    private HtmlInputProcessor htmlIp;
 
-    public Orchestrator(boolean test) throws Exception {
+    public Orchestrator(HtmlInputProcessor htmlIp, boolean test) throws Exception {
+        this.htmlIp = htmlIp;
         this.test = test;
         setFormulaDefPojos();
         spawnQueryManagerThreads();
         waitForCompletion();
+        saveGraphContructsToGraphConstructsObject();
     }
 
     public List<GraphConstructPojo> getGraphConstructPojos(boolean test) throws Exception {
-        return GraphConstructsSingleton.getInstance().getGraphDataPojos();
+        return graphConstPojos;
     }
 
     public List<List<HighChartGraphConstructPojo>> getHcGraphConstructPojos(boolean test) throws Exception {
-        return GraphConstructsSingleton.getInstance().getHCgraphConstPojos();
+        return hCgraphConstPojos;
     }
 
     private void waitForCompletion() throws InterruptedException {
@@ -48,9 +53,23 @@ public class Orchestrator {
         }
     }
 
+    private void saveGraphContructsToGraphConstructsObject() {
+        for (QueryManagerThread t : qmThreads) {
+            List<GraphConstructPojo> gcp = t.getGraphConstPojos();
+            List<List<HighChartGraphConstructPojo>> hgcp = t.gethCgraphConstPojos();
+            for (GraphConstructPojo cp : gcp) {
+                graphConstPojos.add(cp);
+            }
+            for (List<HighChartGraphConstructPojo> hcL : hgcp) {
+                hCgraphConstPojos.add(hcL);
+            }
+        }
+    }
+
     private void spawnQueryManagerThreads() throws Exception {
         for (FormuladefPojo fdp : formulaDefPojos) {
-            QueryManagerThread runnable = new QueryManagerThread(fdp, Constants.PlotterTypes.LINE.value(), test);
+            QueryManagerThread runnable = new QueryManagerThread(htmlIp, fdp, Constants.PlotterTypes.LINE.value(), test);
+            qmThreads.add(runnable);
             threads.add(new Thread(runnable));
         }
         for (Thread t : threads) {
@@ -60,7 +79,7 @@ public class Orchestrator {
 
     private void setFormulaDefPojos() {
         FormulaDefController fdc = new FormulaDefController();
-        formulaDefPojos = fdc.getFormulaDefPojos(test);
+        formulaDefPojos = fdc.getFormulaDefPojos(htmlIp,test);
     }
 
     private boolean allThreadsDead(List<Thread> threads) {

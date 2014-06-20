@@ -31,10 +31,11 @@ public class Adaptor {
     protected ResultSet rs;
     protected int columnCount;
     protected List<String> rsData = new ArrayList<String>();
-    protected HtmlInputProcessor htmlIp = HtmlInputProcessor.getInstance();
+    protected HtmlInputProcessor htmlIp;
     protected boolean test;
 
-    public Adaptor(ResultSet rs, boolean test) throws Exception {
+    public Adaptor(HtmlInputProcessor htmlIp,ResultSet rs, boolean test) throws Exception {
+        this.htmlIp=htmlIp;
         this.rs = rs;
         this.test = test;
         ens = ElementNameSingeltonFactory.create(htmlIp.getTechnology(), htmlIp.getLevel(), test);
