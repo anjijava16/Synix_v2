@@ -1,0 +1,18 @@
+{
+    "name": "2G",
+    "id": "ZJHB_2G_KPI_Charts",
+    "children": [
+                    {
+                        "name": "Accessibility",
+                        "id": "ZJHB2_Accessibility"
+                    },
+                    {
+                        "name": "Retainability",
+                        "id": "ZJHB2_Retainability"
+                    },
+                    {
+                        "name": "Traffic",
+                        "id": "ZJHB2_Traffic"
+                    }
+                        ]
+} 

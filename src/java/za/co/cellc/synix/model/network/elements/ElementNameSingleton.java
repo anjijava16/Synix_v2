@@ -5,6 +5,7 @@
  */
 package za.co.cellc.synix.model.network.elements;
 
+import za.co.cellc.synix.model.network.elements.nsn.BscNameSingleton;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,13 +26,27 @@ import za.co.cellc.synix.persistance.Database;
  */
 public class ElementNameSingleton {
 
+    private String elementColumnNames;
+    protected String multiIdDelimiter = "!";
     protected static Date dateTimeCreated;
     private static ElementNameSingleton instance;
     protected static String QUERY = null;
     protected List<String> names = new ArrayList<>();
     protected List<String> id = new ArrayList<>();
     public static boolean test = false;
+
 //    private static HtmlInputProcessor htmlIp;
+    public ElementNameSingleton(String elementColumnNames) {
+        this.elementColumnNames = elementColumnNames;
+    }
+
+    public String getElementColumnNames() {
+        return elementColumnNames;
+    }
+
+    public String getMultiIdDelimiter() {
+        return multiIdDelimiter;
+    }
 
     public static ElementNameSingleton getInstance(boolean test_) {
         return null;

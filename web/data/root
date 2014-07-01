@@ -1,16 +1,16 @@
 {
-    "name": "NSN",
+    "name": "Root",
     "id": "root",
     "children": [
         {
             "name": "SLA KPI's",
-            "id": "all_charts",
+            "id": "dirTree_L1",
             "children": true
         },
         {
             "name": "Revenue/Site",
-            "id": "nsn_rev_per_site",
+            "id": "dirTree_L2",
             "children": true
         }
-    ]
+    ],
 }

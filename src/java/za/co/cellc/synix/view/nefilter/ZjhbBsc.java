@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package za.co.cellc.synix.html_builders.ne_filtler;
+package za.co.cellc.synix.view.nefilter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,42 +18,41 @@ import za.co.cellc.synix.persistance.Database;
  *
  * @author Pierre.Venter
  */
-public class RNC extends NE_Node {
+public class ZjhbBsc extends NE_Node {
 
-    private int RNC_NAME = 1;
-    private String QUERY_RNC_NAMES = "select distinct RNC_NAME from N2_CONTROLLERS_3G order by RNC_NAME";
-//   private String QUERY_RNC_NAMES = "select distinct RNC_NAME,WBTS_INSTANCE from T_THREEG_CELLS order by RNC_NAME,WBTS_INSTANCE";
-    private List<String> rnc = new ArrayList<>();
-
-    public RNC() {
-        super();
-    }
+    private int BSC_NAME = 1;
+//    private int BTS_INSTANCE = 2;
+    private String QUERY_BSC_NAMES = "select distinct USERLABEL from ZJ_CONTROLLERS_2G order by USERLABEL";
+    private List<String> bsc = new ArrayList<>();
+//    private List<String> bts = new ArrayList<>();
+//    Database db = new Database();
 
     public String getHTML() {
         try {
             getStructure();
             buildHTML();
         } catch (SQLException ex) {
-            Logger.getLogger(RNC.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ZjhbBsc.class.getName()).log(Level.SEVERE, null, ex);
         }
         return html.toString();
     }
 
     private void buildHTML() {
-        html.append("<div id=\"RNCfilter\" class=\"RNC\">");
+        html.append("<div id=\"ZjhbBSCfilter\" class=\"BSC\">");
         html.append("<ul class=\"collapsibleList\">");
-        addRoot("All RNC's", "rncs");
+        addRoot("All BSC's", "bscs");
         openUList();
         String r = "";
-        for (int i = 0; i < rnc.size(); i++) {
+        for (int i = 0; i < bsc.size(); i++) {
             if (r.isEmpty()) {
-                r = rnc.get(i);
+                r = bsc.get(i);
                 openList();
-                addParent(r, "rnc");
+                addParent(r, "bsc");
                 openUList();
             }
-            if (rnc.get(i).equalsIgnoreCase(r)) {
+            if (bsc.get(i).equalsIgnoreCase(r)) {
                 openList();
+//                addChild(bts.get(i), "bts");
                 closeList();
             } else {
                 closeList();
@@ -70,18 +69,19 @@ public class RNC extends NE_Node {
     private String getStructure() throws SQLException {
         String out = "";
         Statement stmnt = Database.getInstance(false).getCon().createStatement();
-        ResultSet rs = stmnt.executeQuery(QUERY_RNC_NAMES);
+        ResultSet rs = stmnt.executeQuery(QUERY_BSC_NAMES);
         while (rs.next()) {
-            rnc.add(rs.getString(RNC_NAME));
+            bsc.add(rs.getString(BSC_NAME));
+//            bts.add(rs.getString(BTS_INSTANCE));
+//            wcell.add(rs.getString(WCEL_INSTANCE));
         }
         rs.close();
         stmnt.close();
         rs.close();
-        addAggregationOption(rnc);
+        addAggregationOption(bsc);
         return out;
     }
-
-    private void addAggregationOption(List<String> lst) {
+    private void addAggregationOption(List<String> lst){
         lst.add("Aggregate");
     }
 }

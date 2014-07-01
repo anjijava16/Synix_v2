@@ -3,7 +3,8 @@
     Created on : 08 Nov 2013, 2:19:39 PM
     Author     : Pierre.Venter
 --%>
-<jsp:useBean id="NE_Filter" scope="request" class="za.co.cellc.synix.html_builders.ne_filtler.Filter" />
+<jsp:useBean id="NE_Filter" scope="request" class="za.co.cellc.synix.view.nefilter.NsnFilter" />
+<jsp:useBean id="ZjhbNE_Filter" scope="request" class="za.co.cellc.synix.view.nefilter.ZjhbFilter" />
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -44,13 +45,16 @@
                     <hr>
                 </td>
             </tr>
-            <tr>
-                <td style="text-align:left" ><div id="bsc_rnc_Filters_panel" class="bsc_rnc_Filters_panel"><font size="1"><%=NE_Filter.getBSC_RNC()%></font></div></td>
-            </tr>
+            <tr><td style="text-align:left" ><div id="bsc_rnc_Filters_panel" class="bsc_rnc_Filters_panel"><font size="1"><%=NE_Filter.getBSC_RNC()%></font></div></td></tr>
+            <tr><td style="text-align:left" ><div id="zjhb_bsc_rnc_Filters_panel" class="bsc_rnc_Filters_panel"><font size="1"><%=ZjhbNE_Filter.getBSC_RNC()%></font></div></td></tr>
 
+
+            <tr><td style="text-align:left"><div style="display:none" id="zjhb2cell_Filters_search"><font size="1"><%=ZjhbNE_Filter.get2GCellSearchBox()%></font></div></td> </tr>
             <tr><td style="text-align:left"><div style="display:none" id="2Gcell_Filters_search"><font size="1"><%=NE_Filter.get2GCellSearchBox()%></font></div></td> </tr>
+            <tr><td style="text-align:left"><div style="display:none" id="zjhb3cell_Filters_search"><font size="1"><%=ZjhbNE_Filter.get3GCellSearchBox()%></font></div></td> </tr>
             <tr><td style="text-align:left"><div style="display:none" id="3Gcell_Filters_search"><font size="1"><%=NE_Filter.get3GCellSearchBox()%></font></div></td> </tr>
             <tr><td style="text-align:left"><div style="display:none" id="cell_Filters2G_listbox_div" class="cell_Filters_listbox_div"><%=NE_Filter.get2GCells()%></div></td></tr>        
+            <tr><td style="text-align:left"><div style="display:none" id="zjhb2cell_Filters_listbox_div" class="cell_Filters_listbox_div"><%=ZjhbNE_Filter.get2GCells()%></div></td></tr>        
             <tr><td>
                     <button id="aggregate2GCellsButton" data-dojo-type="dijit/form/Button" type="button">Aggregate cells
                         <script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
@@ -59,7 +63,9 @@
                             });
                         </script>
                     </button>
+
                 </td></tr>
+            <tr><td style="text-align:left"><div style="display:none" id="zjhb3cell_Filters_listbox_div" class="cell_Filters_listbox_div"><%=ZjhbNE_Filter.get3GCells()%></div></td></tr>        
             <tr><td style="text-align:left"><div style="display:none" id="cell_Filters3G_listbox_div" class="cell_Filters_listbox_div"><%=NE_Filter.get3GCells()%></div></td></tr>        
             <tr><td>
                     <button id="aggregate3GCellsButton" data-dojo-type="dijit/form/Button" type="button">Aggregate cells
@@ -74,23 +80,8 @@
                     <div id="selectedCellsTable"></div>
                 </td></tr>
         </table>
-        <!--        <div id="popupMenu" style="display: none">
-                    <TABLE class="blingTable" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Popup Menu</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>NSN</td>
-                            </tr>
-                        </tbody>
-                    </TABLE>
-                </div>-->
-
         <script type="text/javascript" language="javascript">
-CollapsibleLists.apply();
+            CollapsibleLists.apply();
         </script>
         <script type="text/javascript" language="javascript">
             $('input.liChild').change(function() {
@@ -151,6 +142,16 @@ CollapsibleLists.apply();
                 //            }
                 //        console.log(s);
             }
+            function zjhbCellSearchBoxKeyUp()
+            {
+                var edValue = document.getElementById("ZjhbcellSearchBox");
+                var s = edValue.value;
+                //            if (s.length > 2) {
+                var ar = getFilteredArrayFromArray(btsNames, s);
+                populateListboxWithArray("ZjhbbtsNamesListBox", ar);
+                //            }
+                //        console.log(s);
+            }
         </script>
         <script>
             function wcellSearchBoxKeyUp()
@@ -160,6 +161,15 @@ CollapsibleLists.apply();
                 //            if (s.length > 2) {
                 var ar = getFilteredArrayFromArray(wbtsNames, s);
                 populateListboxWithArray("wbtsNamesListBox", ar);
+                //            }
+            }
+            function zjhbWcellSearchBoxKeyUp()
+            {
+                var edValue = document.getElementById("ZjhbwcellSearchBox");
+                var s = edValue.value;
+                //            if (s.length > 2) {
+                var ar = getFilteredArrayFromArray(wbtsNames, s);
+                populateListboxWithArray("ZjhbwbtsNamesListBox", ar);
                 //            }
             }
         </script>

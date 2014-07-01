@@ -1,0 +1,43 @@
+{
+    "name": "SLA KPI's",
+    "id": "zJhbRoot",
+    "children": [
+        {
+            "name": "2G",
+            "id": "ZJHB_2G_KPI_Charts",
+            "children": [
+                    {
+                        "name": "Accessibility",
+                        "id": "ZJHB2_Accessibility"
+                    },
+                    {
+                        "name": "Retainability",
+                        "id": "ZJHB2_Retainability"
+                    },
+                    {
+                        "name": "Traffic",
+                        "id": "ZJHB2_Traffic"
+                    }
+                        ]
+        },
+        {
+            "name": "3G",
+            "id": "ZJHB_3G_KPI_Charts",
+            "children": [
+                    {
+                        "name": "Accessibility",
+                        "id": "ZJHB3_Accessibility"
+                    },
+                    {
+                        "name": "Retainability",
+                        "id": "ZJHB3_Retainability"
+                    },
+                    {
+                        "name": "Traffic",
+                        "id": "ZJHB3_Traffic"
+                    }
+                        ]
+        }
+
+    ]
+} 

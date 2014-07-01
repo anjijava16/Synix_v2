@@ -5,12 +5,12 @@ and open the template in the editor.
 <%@ page autoFlush="true" buffer="1094kb"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="za.co.cellc.synix.model.Authenticate"%>
-<jsp:useBean id="NE_Filter" scope="request" class="za.co.cellc.synix.html_builders.ne_filtler.Filter" />
+<jsp:useBean id="NE_Filter" scope="request" class="za.co.cellc.synix.view.nefilter.NsnFilter" />
 
 
 <!DOCTYPE HTML>
 <html lang="en">
-    <%        
+    <%
         String theLogin = (String) session.getAttribute("theLogin");
         String thePassword = (String) session.getAttribute("loginpassword");
         String theLevel = (String) session.getAttribute("level");
@@ -25,13 +25,13 @@ and open the template in the editor.
             authenticated = true;
 
         } else if (login != null && password != null) {
-            Authenticate auth = new Authenticate(login, password,false);
+            Authenticate auth = new Authenticate(login, password, false);
             authenticated = auth.passwordAuthenticate();
             if (authenticated) {
                 session.setAttribute("theLogin", login);
-                if (auth.isAdmin() || login.equalsIgnoreCase("nickm") || login.equalsIgnoreCase("pierrev") ) {
+                if (auth.isAdmin() || login.equalsIgnoreCase("nickm") || login.equalsIgnoreCase("pierrev")) {
                     session.setAttribute("isAdmin", "true");
-                    theIsAdmin="true";
+                    theIsAdmin = "true";
                 } else {
                     session.setAttribute("isAdmin", "false");
                 }
@@ -48,7 +48,7 @@ and open the template in the editor.
         <meta charset="utf-8">
         <title>Synix</title>
 
-        
+
         <link rel="stylesheet" href="css/graphs.css" media="screen">
         <link rel="stylesheet" href="css/basic.css" media="screen">
         <link rel="stylesheet" href="css/table.css" media="screen">
@@ -80,15 +80,20 @@ and open the template in the editor.
         <script src="scripts/dygraph/custom/highlightPeriod.js"></script>
         <script src="scripts/dygraph/custom/barChartPlotter.js"></script>
         <script src="scripts/dygraph/custom/drillDownBarChart.js"></script>
+        <script src="scripts/Constants.js"></script>
+        <script src="scripts/slaKpiContainerDataSc.js"></script>
         <script>
                     require(["dijit/form/Button", "dojo/ready"], function(Button, ready) {
                         ready(function() {
+                            initMultiArrays();
                             var browser = getBrowser();
                             if (browser !== "Chrome") {
-                                alert("Although " + browser + " will \"work\" it will fall over when displaying large amounts of data. It is advised to use Google Chrome!");
+                                alert(browser + " is not supported. Please use Google Chrome!");
                             }
                             document.getElementById("appLayout").style.visibility = "visible";
                             document.getElementById("loader").style.display = "none";
+                            document.getElementById("ZJHB2loaderDiv").style.display = "none";
+                            document.getElementById("ZJHB3loaderDiv").style.display = "none";
                             document.getElementById("loaderDiv").style.display = "none";
                             document.getElementById("loaderDiv_NSN_3G").style.display = "none";
                             document.getElementById("welcomeWindow").style.visibility = "visible";
@@ -96,38 +101,16 @@ and open the template in the editor.
                             hideEditorTab(2, 'chartTab_3G');
                             hideEditorTab(3, 'rev_avail_nsn_2G');
                             hideEditorTab(4, 'rev_avail_nsn_3G');
+                            hideEditorTab(5, 'ZJHBchartTab_2G');
+                            hideEditorTab(6, 'ZJHBchartTab_3G');
                         });
                         dojo.subscribe("editorWindow-selectChild", function(selected) {
-                            showFilters(selected.title);
+                            tabClicked(selected.title);
                         });
-                        dojo.addOnLoad(doOnLoad); 
+                        dojo.addOnLoad(doOnLoad);
                     });
         </script>
         <script>
-            $(function() {
-                $('#testFRM').live('submit', function(e) {
-                    e.preventDefault(); // stops form from submitting naturally
-                    testWorstCell(0);
-                });
-            });
-            $(function() {
-                $('#filterFRM').live('submit', function(e) {
-                    e.preventDefault(); // stops form from submitting naturally
-                    drawNSN2G();
-                });
-            });
-            $(function() {
-                $('#filterFRM_NSN_3G').live('submit', function(e) {
-                    e.preventDefault(); // stops form from submitting naturally
-                    drawNSN3G();
-                });
-            });
-            $(function() {
-                $('#plotButton').live('submit', function(e) {
-                    e.preventDefault(); // stops form from submitting naturally
-                    plotKPICharts();
-                });
-            });
             $(function() {
                 $('#NSN_2G_RevAvailForm').live('submit', function(e) {
                     e.preventDefault(); // stops form from submitting naturally
@@ -192,26 +175,25 @@ and open the template in the editor.
 
     </head>
     <body class="claro">   
-        
-<% 
-       if (theLogin == null) {                           // got logon info  from session and greeting user
-%>
-       <jsp:forward page="login.jsp" />
-<%
-    } 
-%>
 
-        <% String errorMessage;  
-        if (theLogin != null && !authenticated) {
-            errorMessage = "Authentication falied. Please try again.";
-            session.setAttribute("errorMessage", errorMessage);
+        <%    if (theLogin == null) {                           // got logon info  from session and greeting user
         %>
-        
         <jsp:forward page="login.jsp" />
         <%
-            }else{
-            errorMessage=" ";
-        }
+            }
+        %>
+
+        <% String errorMessage;
+            if (theLogin != null && !authenticated) {
+                errorMessage = "Authentication falied. Please try again.";
+                session.setAttribute("errorMessage", errorMessage);
+        %>
+
+        <jsp:forward page="login.jsp" />
+        <%
+            } else {
+                errorMessage = " ";
+            }
         %>
         <!-- basic preloader: -->
         <div id="loader" style="display:block;"><div id="loaderInner" style="direction:ltr;white-space:nowrap;overflow:visible;">Loading ... </div></div>
@@ -219,28 +201,26 @@ and open the template in the editor.
             <div class="demoLayout" id="editorWindow" data-dojo-type="dijit.layout.TabContainer" data-dojo-props="region: 'center', tabPosition: 'top'">
                 <div class="wwClass" id="welcomeWindow" data-dojo-type="dojox/layout/ContentPane" 
                      data-dojo-props='title:"Welcome",iconClass:"dijitCommonsIcon dijitUserIcon"'>
-                    <form id="testFRM" action="ChartFilterServlet" method="post">
-                        <table border='1' cellpadding='0' cellspacing='0' width='100%' class='scrollTable'>
-                            <tr>
-                            <h1>Welcome to Synix</h1>
-                            </tr>
-                        </table>
-                        <br>
-                        <p>
-                        <div id="welcome_Div" preload="true" extractContent="true"
-                             dojoType="dijit.layout.ContentPane" href="welcome.jsp"
-                             title="welcome" selected="true" >
-                        </div> 
-                    </form>
+                    <!--<form id="testFRM" action="ChartFilterServlet" method="post">-->
+                    <table border='1' cellpadding='0' cellspacing='0' width='100%' class='scrollTable'>
+                        <tr>
+                        <h1>Welcome to Synix</h1>
+                        </tr>
+                    </table>
+                    <br>
+                    <p>
+                    <div id="welcome_Div" preload="true" extractContent="true"
+                         dojoType="dijit.layout.ContentPane" href="welcome.jsp"
+                         title="welcome" selected="true" >
+                    </div> 
+                    <!--                    </form>-->
                 </div>
 
                 <div class="kpiChartsLayout" id="chartTab_2G" data-dojo-type="dojox/layout/ContentPane" 
                      data-dojo-props='region: "center",title:"2G SLA KPI"' style="display:none;">
-                    <!--data-dojo-props='region: "center",title:"2G SLA KPI",iconClass:"dijitCommonsIcon dijitChartIcon"' style="display:none;">-->
-                    <%-- date selection  --%>                        
                     <form id="filterFRM" action="ChartFilterServlet" method="post">
                         <div id="Chart_DatePicker" preload="true" extractContent="true"
-                             dojoType="dijit.layout.ContentPane" href="ChartDatePicker.jsp"
+                             dojoType="dijit.layout.ContentPane" href="SlaKpiContainer.jsp?divid=_0"
                              title="filter" selected="true" >
                         </div>
                         <br>
@@ -255,11 +235,9 @@ and open the template in the editor.
                 </div>
                 <div class="kpiChartsLayout" id="chartTab_3G" data-dojo-type="dojox/layout/ContentPane" 
                      data-dojo-props='region: "center",title:"3G SLA KPI"' style="display:none;">
-                    <!--data-dojo-props='region: "center",title:"3G SLA KPI",iconClass:"dijitCommonsIcon dijitChartIcon"' style="display:none;">-->
-                    <%-- date selection  --%>                        
                     <form id="filterFRM_NSN_3G">
                         <div id="Chart_DatePicker_NSN_3G" preload="true" extractContent="true"
-                             dojoType="dijit.layout.ContentPane" href="ChartDatePicker_NSN_3G.jsp"
+                             dojoType="dijit.layout.ContentPane" href="SlaKpiContainer.jsp?divid=_1"
                              title="filter" selected="true" >
                         </div>
                         <br>
@@ -268,6 +246,41 @@ and open the template in the editor.
                         <br>
                     </form>
                     <div id="loaderDiv_NSN_3G" style="display: block;">
+                        <div class="loadingImg"></div>
+                    </div>
+
+                </div>
+
+                <div class="kpiChartsLayout" id="ZJHBchartTab_2G" data-dojo-type="dojox/layout/ContentPane" 
+                     data-dojo-props='region: "center",title:"ZTE-JHB 2G SLA KPI"' style="display:none;">
+                    <form id="filterFRM_ZJHB2" action="ChartFilterServlet" method="post">
+                        <div id="ChartDatePickerZJHB2" preload="true" extractContent="true"
+                             dojoType="dijit.layout.ContentPane" href="SlaKpiContainer.jsp?divid=_2"
+                             title="filter" selected="true" >
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                    </form>
+                    <div id="ZJHB2loaderDiv" style="display: block;">
+                        <div class="loadingImg"></div>
+                    </div>
+
+                </div>
+                <div class="kpiChartsLayout" id="ZJHBchartTab_3G" data-dojo-type="dojox/layout/ContentPane" 
+                     data-dojo-props='region: "center",title:"ZTE-JHB 3G SLA KPI"' style="display:none;">
+                    <form id="filterFRM_ZJHB3">
+                        <div id="ChartDatePickerZJHB3" preload="true" extractContent="true"
+                             dojoType="dijit.layout.ContentPane" href="SlaKpiContainer.jsp?divid=_3"
+                             title="filter" selected="true" >
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                    </form>
+                    <div id="ZJHB3loaderDiv" style="display: block;">
                         <div class="loadingImg"></div>
                     </div>
 
@@ -319,15 +332,25 @@ and open the template in the editor.
                     <form action="logout.jsp" method="post">
                         <input type="hidden" name="loginname" value="">
                         <input type="hidden" name="loginpassword" value="">
-                        <input type="submit" value="logout" name="B1" style="width:80px;text-align: center;">
+                        <input type="submit" value="logout" name="B1" style="width:70px;text-align: center;">
                     </form>
-                    <div data-dojo-type="dojox.layout.ContentPane" data-dojo-props='selected:true, title:"KPI Charts"'>
+                    <div data-dojo-type="dojox.layout.ContentPane" data-dojo-props='selected:false, title:"KPI Charts"'>
                         <img class="imgleft" id="oracleImage" src="images/oraclesmall.png" alt="" />
-                        <div id="tree"></div>
-                        <div id="configTree" class="span-9 border" style="overflow:auto; height:69%;"> 
-                        </div> 
+                        <TABLE class="blingBackGroundTable" cellspacing="0" width='70%'>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div id="tree"></div>
+                                        <div id="configTree" class="configTree" style="height:69%;"> 
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </TABLE>
+
                     </div>
-                    <div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Google Earth"'>
+                    <!--                    <div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Google Earth"'>-->
+                    <div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:""'>
 
                     </div>
                     <div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='title:"Raw Data"'>
@@ -342,14 +365,14 @@ and open the template in the editor.
                 </div><!-- end AccordionContainer -->
             </div>
             <!--            <form id="NE_BrowserFRM" action="none" method="post">-->
-            <form id="plotButton" action="ChartFilterServlet" method="post">
-                <div class="filterPanel" id="NE_Browser" data-dojo-type="dojox/layout/ContentPane" data-dojo-props="region: 'right', splitter: true" style="width: 15%">
-                    <div id="filterPanel" preload="true" executeScripts="true" parseOnLoad="true" extractContent="true"
-                         dojoType="dojox.layout.ContentPane" href="FilterFrame.jsp"
-                         title="filterFrame" selected="true" style="display: block;">
-                    </div> 
-                </div>
-            </form>
+            <!--            <form id="plotButton" action="ChartFilterServlet" method="post">
+                            <div class="filterPanel" id="NE_Browser" data-dojo-type="dojox/layout/ContentPane" data-dojo-props="region: 'right', splitter: true" style="width: 15%">
+                                <div id="filterPanel" preload="true" executeScripts="true" parseOnLoad="true" extractContent="true"
+                                     dojoType="dojox.layout.ContentPane" href="FilterFrame.jsp"
+                                     title="filterFrame" selected="true" style="display: block;">
+                                </div> 
+                            </div>
+                        </form>-->
             <!--            <div id="footer" style="background-color:#FFA500;clear:both;text-align:center;">
                             Copyright © Cell C</div>
                     </div>-->
@@ -358,17 +381,8 @@ and open the template in the editor.
             document.getElementById("loaderDiv_NSN_3G").style.display = "none";
             document.getElementById("loaderDiv_NSN_3G").style.display = "none";
         </script>
-<% 
-        if(theIsAdmin!=null && theIsAdmin.equalsIgnoreCase("TRUE")){
-%>   
-<br>
-<br> 
-<br>
-<br>
-  <a href="formuladefs.jsp" >Insert/Update another record to FORMULA_DEFS table</a>
-<% 
-        }
-%>
+
+
 
     </body>
 </html>

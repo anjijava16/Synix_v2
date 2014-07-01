@@ -8,9 +8,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-<!--          <script language="JavaScript" type="text/javascript" src="scripts/jquery-1.8.1.min.js"></script>
-      <script src="http://code.highcharts.com/highcharts.js"></script>
-        <script src="http://code.highcharts.com/modules/exporting.js"></script>-->
+        <!--          <script language="JavaScript" type="text/javascript" src="scripts/jquery-1.8.1.min.js"></script>
+              <script src="http://code.highcharts.com/highcharts.js"></script>
+                <script src="http://code.highcharts.com/modules/exporting.js"></script>-->
         <!--        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
                 <script language="JavaScript" type="text/javascript" src="scripts/jquery-1.8.1.min.js"></script>
                 <script>
@@ -25,6 +25,7 @@
                         <div data-dojo-type="dojo/store/Memory"
                              data-dojo-id="stateStore"
                              data-dojo-props="data: [{id: 'day', name: 'Daily'}, {id: 'hour', name: 'Hourly'}]"></div>
+                            <!--data-dojo-event="alert()">-->                       
                         <label>&nbsp &nbsp &nbsp Period:</label>
                         <input class="comboPeriodClass" data-dojo-type="dijit/form/ComboBox"
                                value="Daily"
@@ -58,14 +59,14 @@
                 </tr>
             </thead>                            
         </table>
-<!--    <th style="text-align:center">-->
-    <div id="chartResult2" style="width: 100%;display: block;"></div>
-    <div id="chartResult" style="width: 100%"></div>
-    
-<!--</th>      -->
-<!--<script type="text/javascript" language="javascript">
-    console.log("set date");
-    dijit.byId("filterFromDate").attr("value", new Date(2014, 02, 10));
-</script>-->
-</body>
+        <!--    <th style="text-align:center">-->
+        <div id="chartResult2" style="width: 100%;display: block;"></div>
+<!--        <div id="chartResult" style="width: 100%"></div>-->
+
+        <!--</th>      -->
+        <!--<script type="text/javascript" language="javascript">
+            console.log("set date");
+            dijit.byId("filterFromDate").attr("value", new Date(2014, 02, 10));
+        </script>-->
+    </body>
 </html>

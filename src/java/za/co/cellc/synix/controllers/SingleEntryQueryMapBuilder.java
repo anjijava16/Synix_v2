@@ -21,8 +21,8 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
 
     private StringBuilder mapKey = new StringBuilder();
 
-    public SingleEntryQueryMapBuilder(HtmlInputProcessor htmlIp,FormuladefPojo defPojo, boolean test) throws Exception {
-        super(htmlIp,defPojo, test);
+    public SingleEntryQueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, boolean test) throws Exception {
+        super(htmlIp, defPojo, test);
         this.defPojo = defPojo;
     }
 
@@ -38,7 +38,7 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
             setGroupByClause();
             setOrderByClause();
             setMapKey();
-            String q=makeQuery();
+            String q = makeQuery();
             queriesMap.put(mapKey.toString(), q);
             System.out.println("Query=> " + q);
         } catch (Exception ex) {
@@ -95,15 +95,33 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
             if (counter > 0) {
                 sb.append(" OR ");
             }
-            setNetworkElementID(ne);//networkElementID
-            sb.append(networkElementColumnName);
-            sb.append("='");
-            sb.append(networkElementID);
-            sb.append("'");
+            setNetworkElementID(ne);
+            sb.append(makeNetworkElementWhereClause());
+//            sb.append(networkElementColumnName);
+//            sb.append("='");
+//            sb.append(networkElementID);
+//            sb.append("'");
             counter++;
         }
         sb.append(" )");
         whereClause = sb.toString();
+    }
+
+    private String makeNetworkElementWhereClause() {
+        StringBuilder clause = new StringBuilder("(");
+        String cols[] = networkElementColumnName.split(elementNameSingleton.getMultiIdDelimiter());
+        String ids[] = networkElementID.split(elementNameSingleton.getMultiIdDelimiter());
+        for (int i = 0; i < cols.length; i++) {
+            clause.append(cols[i]);
+            clause.append("='");
+            clause.append(ids[i]);
+            clause.append("'");
+            if (i < cols.length - 1) {
+                clause.append(" AND ");
+            }
+        }
+        clause.append(")");
+        return clause.toString();
     }
 
     private void setMapKey() throws Exception {

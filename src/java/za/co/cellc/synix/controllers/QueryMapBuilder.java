@@ -59,21 +59,23 @@ public class QueryMapBuilder {
     }
 
     private void setElementNameSingleton() throws Exception {
-        elementNameSingleton = ElementNameSingeltonFactory.create(technology, level, test);
+        elementNameSingleton = ElementNameSingeltonFactory.create(htmlIp.getVendor(), technology, level, test);
     }
 
     protected void setNetworkElementID(String neId) throws Exception {
-        if (level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
-            networkElementID = elementNameSingleton.getGID(neId);
-        } else if (level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("3G")) {
-            networkElementID = elementNameSingleton.getGID(neId);
-        } else if (level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("2G")) {
-            networkElementID = elementNameSingleton.getGID(neId);
-        } else if (level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("3G")) {
-            networkElementID = elementNameSingleton.getGID(neId);
-        } else {
-            throw new Exception("Invalid network element ID: " + neId);
-        }
+//        if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
+//            networkElementID = elementNameSingleton.getGID(neId);
+//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("3G")) {
+//            networkElementID = elementNameSingleton.getGID(neId);
+//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("2G")) {
+//            networkElementID = elementNameSingleton.getGID(neId);
+//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("3G")) {
+//            networkElementID = elementNameSingleton.getGID(neId);
+//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.ZJHB.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
+        networkElementID = elementNameSingleton.getGID(neId);
+//        } else {
+//            throw new Exception("Invalid network element ID: " + neId);
+//        }
     }
 
     private void setTechnology() {
@@ -103,17 +105,22 @@ public class QueryMapBuilder {
     }
 
     private void setNetworkElementColumnName() throws Exception {
-        if (level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
-            networkElementColumnName = "BSC_GID";
-        } else if (level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("3G")) {
-            networkElementColumnName = "RNC_ID";
-        } else if (level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("2G")) {
-            networkElementColumnName = "BTS_GID";
-        } else if (level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("3G")) {
-            networkElementColumnName = "WCEL_ID";
-        } else {
-            throw new Exception("Error setting network element. Level=" + level + " technology=" + technology);
-        }
+//        if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
+//            networkElementColumnName = "BSC_GID";
+//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("3G")) {
+//            networkElementColumnName = "RNC_ID";
+//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("2G")) {
+//            networkElementColumnName = "BTS_GID";
+//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("3G")) {
+//            networkElementColumnName = "WCEL_ID";
+//        }else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.ZJHB.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
+//            networkElementColumnName = "SUBNETWORKID";
+//        }else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.ZJHB.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("3G")) {
+//            networkElementColumnName = "RNCID";
+//        } else {
+//            throw new Exception("Error setting network element. Level=" + level + " technology=" + technology + " vendor=" + htmlIp.getVendor());
+//        }
+        networkElementColumnName = elementNameSingleton.getElementColumnNames();
     }
 
     private void setPeriod() throws Exception {
@@ -132,7 +139,7 @@ public class QueryMapBuilder {
 
     private void setSelectionPrefix() {
         if (!htmlIp.isAggregated()) {
-            selectionPrefix.append(networkElementColumnName);
+            selectionPrefix.append(concatMultiIdDelimiter(networkElementColumnName));
             selectionPrefix.append(",");
         }
         selectionPrefix.append("to_char(");
@@ -142,9 +149,19 @@ public class QueryMapBuilder {
         selectionPrefix.append("')");
     }
 
+    private String concatMultiIdDelimiter(String s) {
+        String del = elementNameSingleton.getMultiIdDelimiter();
+        return s.replace(del, "||'" + elementNameSingleton.getMultiIdDelimiter() + "'||");
+    }
+
+    private String replaceMultiIdDelimiter(String s) {
+        String del = elementNameSingleton.getMultiIdDelimiter();
+        return s.replace(del, ",");
+    }
+
     private void setGroupingParameter() {
         if (!htmlIp.isAggregated()) {
-            groupingParamter.append(networkElementColumnName);
+            groupingParamter.append(replaceMultiIdDelimiter(networkElementColumnName));
             groupingParamter.append(",");
             groupingParamter.append(Constants.DATE_TIME_COL);
         } else if (htmlIp.isAggregated()) {

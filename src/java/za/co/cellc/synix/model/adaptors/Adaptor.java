@@ -30,15 +30,15 @@ public class Adaptor {
     protected List<GraphData> gdList = new ArrayList<>();
     protected ResultSet rs;
     protected int columnCount;
-    protected List<String> rsData = new ArrayList<String>();
+    protected List<String> rsData = new ArrayList<>();
     protected HtmlInputProcessor htmlIp;
     protected boolean test;
 
-    public Adaptor(HtmlInputProcessor htmlIp,ResultSet rs, boolean test) throws Exception {
-        this.htmlIp=htmlIp;
+    public Adaptor(HtmlInputProcessor htmlIp, ResultSet rs, boolean test) throws Exception {
+        this.htmlIp = htmlIp;
         this.rs = rs;
         this.test = test;
-        ens = ElementNameSingeltonFactory.create(htmlIp.getTechnology(), htmlIp.getLevel(), test);
+        ens = ElementNameSingeltonFactory.create(htmlIp.getVendor(), htmlIp.getTechnology(), htmlIp.getLevel(), test);
         try {
             columnCount = rs.getMetaData().getColumnCount();
             setRsData();

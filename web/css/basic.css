@@ -102,9 +102,18 @@ thead.fixedHeader  {
     overflow-x:auto;
     /* better to use em proportional size for display than pt */
 }
+.cellsListBox{
+    font-size: 1em;
+    width: 100%;
+    overflow: visible;
+    overflow-y:auto;
+    overflow-x:auto;
+    vertical-align:top;
+    text-align:top;
+}
 .cell_Filters_listbox_div{
     width: 220px;
-    direction: rtl;
+    /*    direction: rtl;*/
     /*overflow:hidden;*/
     overflow: visible;
     overflow-y:auto;
@@ -112,7 +121,7 @@ thead.fixedHeader  {
 }
 .bsc_rnc_Filters_panel{
     width: 180px;
-/*    overflow-x: auto;*/
+    /*    overflow-x: auto;*/
 }
 
 .imgcenter{

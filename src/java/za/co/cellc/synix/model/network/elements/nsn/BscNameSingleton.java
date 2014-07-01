@@ -2,9 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package za.co.cellc.synix.model.network.elements;
+package za.co.cellc.synix.model.network.elements.nsn;
 
 import java.util.Date;
+import za.co.cellc.synix.model.network.elements.ElementNameSingleton;
 
 /**
  *
@@ -13,7 +14,6 @@ import java.util.Date;
 public class BscNameSingleton extends ElementNameSingleton {
 
     private static BscNameSingleton instance;
-//    private final String QUERY = "select distinct BSC_NAME,BSC_GID from S_TWOG_CELLS";
 
     public static synchronized ElementNameSingleton getInstance(boolean test_) {
         QUERY = "select distinct BSC_NAME,BSC_GID from N2_CONTROLLERS_2G";
@@ -28,6 +28,7 @@ public class BscNameSingleton extends ElementNameSingleton {
     }
 
     private BscNameSingleton() {
+        super("BSC_GID");
         loadLists();
     }
 }

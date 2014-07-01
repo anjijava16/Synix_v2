@@ -13,7 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import za.co.cellc.synix.controllers.PrintUtils;
-import za.co.cellc.synix.model.network.elements.BscNameSingleton;
+import za.co.cellc.synix.model.network.elements.nsn.BscNameSingleton;
 import za.co.cellc.synix.model.network.elements.ElementNameSingleton;
 
 /**

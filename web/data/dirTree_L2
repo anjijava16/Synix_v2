@@ -1,0 +1,16 @@
+{
+    "name": "SLA KPI's",
+    "id": "dirTree_L1",
+    "children": [
+        {
+            "name": "NSN",
+            "id": "nsnRoot",
+            "children": true
+        },
+        {
+            "name": "ZTE JHB",
+            "id": "zJhbRoot",
+            "children": true
+        }
+    ],
+}

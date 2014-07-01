@@ -140,17 +140,35 @@ public class AggregatedGroupingQueryMapBuilder extends QueryMapBuilder {
                 sb.append(" OR ");
             }
             setNetworkElementID(ne);//networkElementID
+            sb.append(makeNetworkElementWhereClause());
 //            setMapKey(counter, "'" + ne + "'");
-            sb.append(networkElementColumnName);
-            sb.append("='");
-            sb.append(networkElementID);
-            sb.append("'");
+//            sb.append(networkElementColumnName);
+//            sb.append("='");
+//            sb.append(networkElementID);
+//            sb.append("'");
             counter++;
         }
         sb.append(" )");
         whereClause = sb.toString();
     }
 
+    private String makeNetworkElementWhereClause() {
+        StringBuilder clause = new StringBuilder("(");
+        String cols[] = networkElementColumnName.split(elementNameSingleton.getMultiIdDelimiter());
+        String ids[] = networkElementID.split(elementNameSingleton.getMultiIdDelimiter());
+        for (int i = 0; i < cols.length; i++) {
+            clause.append(cols[i]);
+            clause.append("='");
+            clause.append(ids[i]);
+            clause.append("'");
+            if (i < cols.length - 1) {
+                clause.append(" AND ");
+            }
+        }
+        clause.append(")");
+        return clause.toString();
+    }
+    
 //    private void setMapKey(int c, String v) throws Exception {
 //        if (c > 0) {
 //            mapKey.append(",");

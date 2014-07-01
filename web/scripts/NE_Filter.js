@@ -2,18 +2,20 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-var MAX_CELLS = 250;
-var REGION_RNC_NAME_ID = "regionRNC";
-var RNC_RNC_NAME_ID = "rnc";
-var BSC_BSC_NAME_ID = "bsc";
-var RNC_WBTS_NAME_ID = "wBts";
-var BSC_BTS_NAME_ID = "bts";
+//var MAX_CELLS = 250;
+//var REGION_RNC_NAME_ID = "regionRNC";
+//var RNC_RNC_NAME_ID = "rnc";
+//var BSC_BSC_NAME_ID = "bsc";
+//var RNC_WBTS_NAME_ID = "wBts";
+//var BSC_BTS_NAME_ID = "bts";
 var checkedRncs = [];
 var checkedBscs = [];
 var checkedWbts = [];
 var checkedBts = [];
 var btsNames = new Array();
 var wbtsNames = new Array();
+var zjhbbtsNames = new Array();
+var zjhbwbtsNames = new Array();
 var selectedCells = new Array();
 var selectedCellsGroups = new Array();
 var selected2GNSNCells = new Array();
@@ -27,12 +29,17 @@ var enabledCellGroups = new Array();
 
 
 function setCheckedNEs() {
+    var id = getTabIndex();
     clearArrays();
-    getCheckedRncsFromElements(REGION_RNC_NAME_ID);
-    getCheckedRncsFromElements(RNC_RNC_NAME_ID);
-    getCheckedBscsFromElements(BSC_BSC_NAME_ID);
-    getCheckedWBtsFromElements(RNC_WBTS_NAME_ID);
-    getCheckedBtsFromElements(BSC_BTS_NAME_ID);
+    checkedRncs = removeEmptiesFromArray(selectedControllerNames[id]);
+    checkedBscs = removeEmptiesFromArray(selectedControllerNames[id]);
+    checkedWbts = selectedCellNames[id];
+    checkedBts = selectedCellNames[id];
+//    getCheckedRncsFromElements(REGION_RNC_NAME_ID);
+//    getCheckedRncsFromElements(RNC_RNC_NAME_ID);
+//    getCheckedBscsFromElements(BSC_BSC_NAME_ID);
+//    getCheckedWBtsFromElements(RNC_WBTS_NAME_ID);
+//    getCheckedBtsFromElements(BSC_BTS_NAME_ID);
 }
 function clearArrays() {
     checkedRncs = [];
@@ -149,6 +156,41 @@ function setWBtsNames() {
         xmlhttp.send(null);
     }
 }
+function setZjhbBtsNames() {
+    console.log(zjhbbtsNames.length);
+    if (zjhbbtsNames.length === 0) {
+        xmlhttp = getHttpObject();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState === 4) {
+                var ar = xmlhttp.responseText.split("<~>");
+                var arLen = ar.length;
+                for (var i = 0; i < arLen; i++) {
+                    zjhbbtsNames.push(ar[i]);
+                }
+                populateListboxWithArray("ZjhbbtsNamesListBox", zjhbbtsNames);
+            }
+        };
+        xmlhttp.open("GET", "ZjhbBtsNamesServlet");
+        xmlhttp.send(null);
+    }
+}
+function setZjhbWBtsNames() {
+    if (zjhbwbtsNames.length === 0) {
+        xmlhttp = getHttpObject();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState === 4) {
+                var ar = xmlhttp.responseText.split("<~>");
+                var arLen = ar.length;
+                for (var i = 0; i < arLen; i++) {
+                    zjhbwbtsNames.push(ar[i]);
+                }
+                populateListboxWithArray("ZjhbwbtsNamesListBox", zjhbwbtsNames);
+            }
+        };
+        xmlhttp.open("GET", "ZjhbWBtsNamesServlet");
+        xmlhttp.send(null);
+    }
+}
 
 function populateListboxWithArray(listboxid, ar) {
 //    console.log("Loading data");
@@ -179,59 +221,115 @@ function getFilteredArrayFromArray(ar, filter) {
 //    console.log("filteredAr: " + filteredAr);
     return filteredAr;
 }
-function showFilters(tabName) {
+function tabClicked(tabName) {
     selectedTabTitle = tabName;
-    document.getElementById("filterTable").style.display = "block";
-    hideAllFilters();
-//    console.log(tabName);
-//    console.log(filterLevel);
-    if (tabName === "2G SLA KPI" || tabName === "2G Revenue/Site") {
+    if (tabName === "2G SLA KPI") {
         technology[0] = "2G";
         vendor[0] = "NSN";
-        if (filterLevel === "BSC/RNC") {
-//            console.log("works");
-            document.getElementById("BSCfilter").style.display = "block";
-            document.getElementById("2Gcell_Filters_search").style.display = "none";
-            document.getElementById("cell_Filters2G_listbox_div").style.display = "none";
-            document.getElementById("selectedCellsTable").innerHTML = "";
-        } else if (filterLevel === "Cell") {
-            loadBTS_NamesIntoListBoxes();
-            document.getElementById("BSCfilter").style.display = "none";
-            document.getElementById("2Gcell_Filters_search").style.display = "block";
-            document.getElementById("cell_Filters2G_listbox_div").style.display = "block";
-            displayDijitButton("aggregate2GCellsButton", true);
-            addSelectedCellsToGroup("btsNamesListBox", false);
-        }
-    }
-    if (tabName === "3G SLA KPI" || tabName === "3G Revenue/Site") {
+    } else if (tabName === "3G SLA KPI") {
         technology[0] = "3G";
         vendor[0] = "NSN";
-        if (filterLevel === "BSC/RNC") {
-            document.getElementById("RNCfilter").style.display = "block";
-            document.getElementById("3Gcell_Filters_search").style.display = "none";
-            document.getElementById("cell_Filters3G_listbox_div").style.display = "none";
-            document.getElementById("selectedCellsTable").innerHTML = "";
-        } else if (filterLevel === "Cell") {
-            loadBTS_NamesIntoListBoxes();
-            document.getElementById("RNCfilter").style.display = "none";
-            document.getElementById("3Gcell_Filters_search").style.display = "block";
-            document.getElementById("cell_Filters3G_listbox_div").style.display = "block";
-            displayDijitButton("aggregate3GCellsButton", true);
-            addSelectedCellsToGroup("wbtsNamesListBox", false);
-        }
+    } else if (tabName === "ZTE-JHB 2G SLA KPI") {
+        technology[0] = "2G";
+        vendor[0] = "ZJHB";
     }
-    if (tabName === "Welcome") {
-        document.getElementById("filterTable").style.display = "none";
+    if (tabName === "ZTE-JHB 3G SLA KPI") {
+        technology[0] = "3G";
+        vendor[0] = "ZJHB";
     }
+//    document.getElementById("resultTable" + getDivId()).style.display = "none";
 }
+//function showFilters(tabName) {
+//    selectedTabTitle = tabName;
+//    document.getElementById("filterTable").style.display = "block";
+//    hideAllFilters();
+//    console.log(tabName);
+//    console.log(filterLevel);
+//    if (tabName === "2G SLA KPI" || tabName === "2G Revenue/Site") {
+//        technology[0] = "2G";
+//        vendor[0] = "NSN";
+//        if (filterLevel === "BSC/RNC") {
+//            document.getElementById("BSCfilter").style.display = "block";
+//            document.getElementById("2Gcell_Filters_search").style.display = "none";
+//            document.getElementById("cell_Filters2G_listbox_div").style.display = "none";
+//            document.getElementById("selectedCellsTable").innerHTML = "";
+//        } else if (filterLevel === "Cell") {
+//            loadBTS_NamesIntoListBoxes();
+//            document.getElementById("BSCfilter").style.display = "none";
+//            document.getElementById("2Gcell_Filters_search").style.display = "block";
+//            document.getElementById("cell_Filters2G_listbox_div").style.display = "block";
+//            displayDijitButton("aggregate2GCellsButton", true);
+//            addSelectedCellsToGroup("btsNamesListBox", false);
+//        }
+//    }
+//    if (tabName === "3G SLA KPI" || tabName === "3G Revenue/Site") {
+//        technology[0] = "3G";
+//        vendor[0] = "NSN";
+//        if (filterLevel === "BSC/RNC") {
+//            document.getElementById("RNCfilter").style.display = "block";
+//            document.getElementById("3Gcell_Filters_search").style.display = "none";
+//            document.getElementById("cell_Filters3G_listbox_div").style.display = "none";
+//            document.getElementById("selectedCellsTable").innerHTML = "";
+//        } else if (filterLevel === "Cell") {
+//            loadBTS_NamesIntoListBoxes();
+//            document.getElementById("RNCfilter").style.display = "none";
+//            document.getElementById("3Gcell_Filters_search").style.display = "block";
+//            document.getElementById("cell_Filters3G_listbox_div").style.display = "block";
+//            displayDijitButton("aggregate3GCellsButton", true);
+//            addSelectedCellsToGroup("wbtsNamesListBox", false);
+//        }
+//    }
+//    if (tabName === "ZTE-JHB 2G SLA KPI") {
+//        technology[0] = "2G";
+//        vendor[0] = "ZJHB";
+//        if (filterLevel === "BSC/RNC") {
+//            document.getElementById("ZjhbBSCfilter").style.display = "block";
+//            document.getElementById("zjhb2cell_Filters_search").style.display = "none";
+//            document.getElementById("zjhb2cell_Filters_listbox_div").style.display = "none";
+//            document.getElementById("selectedCellsTable").innerHTML = "";
+//        } else if (filterLevel === "Cell") {
+//            loadBTS_NamesIntoListBoxes();
+//            document.getElementById("ZjhbBSCfilter").style.display = "none";
+//            document.getElementById("zjhb2cell_Filters_search").style.display = "block";
+//            document.getElementById("zjhb2cell_Filters_listbox_div").style.display = "block";
+////            displayDijitButton("aggregate2GCellsButton", true);
+//            addSelectedCellsToGroup("ZjhbbtsNamesListBox", false);
+//        }
+//    }
+//    if (tabName === "ZTE-JHB 3G SLA KPI") {
+//        technology[0] = "3G";
+//        vendor[0] = "ZJHB";
+//        if (filterLevel === "BSC/RNC") {
+//            document.getElementById("ZjhbRNCfilter").style.display = "block";
+//            document.getElementById("zjhb3cell_Filters_search").style.display = "none";
+//            document.getElementById("zjhb3cell_Filters_listbox_div").style.display = "none";
+//            document.getElementById("selectedCellsTable").innerHTML = "";
+//        } else if (filterLevel === "Cell") {
+//            loadBTS_NamesIntoListBoxes();
+//            document.getElementById("ZjhbRNCfilter").style.display = "none";
+//            document.getElementById("zjhb3cell_Filters_search").style.display = "block";
+//            document.getElementById("zjhb3cell_Filters_listbox_div").style.display = "block";
+////            displayDijitButton("aggregate2GCellsButton", true);
+//            addSelectedCellsToGroup("ZjhbbtsNamesListBox", false);
+//        }
+//    }
+//    if (tabName === "Welcome") {
+//        document.getElementById("filterTable").style.display = "none";
+//    }
+//}
 function loadBTS_NamesIntoListBoxes() {
     var btsListCount = document.getElementById("btsNamesListBox").options.length;
     var wbtsListCount = document.getElementById("wbtsNamesListBox").options.length;
+    var zjhbbtsListCount = document.getElementById("ZjhbbtsNamesListBox").options.length;
+    var zjhbwbtsListCount = document.getElementById("ZjhbwbtsNamesListBox").options.length;
     if (btsListCount === 0 && selectedTabTitle === "2G SLA KPI") {
         setBtsNames();
-    }
-    if (wbtsListCount === 0 && selectedTabTitle === "3G SLA KPI") {
+    } else if (wbtsListCount === 0 && selectedTabTitle === "3G SLA KPI") {
         setWBtsNames();
+    } else if (zjhbbtsListCount === 0 && selectedTabTitle === "ZTE-JHB 2G SLA KPI") {
+        setZjhbBtsNames();
+    } else if (zjhbwbtsListCount === 0 && selectedTabTitle === "ZTE-JHB 3G SLA KPI") {
+        setZjhbWBtsNames();
     }
 }
 
@@ -243,6 +341,14 @@ function hideAllFilters() {
     document.getElementById("RNCfilter").style.display = "none";
     document.getElementById("3Gcell_Filters_search").style.display = "none";
     document.getElementById("cell_Filters3G_listbox_div").style.display = "none";
+
+    document.getElementById("ZjhbBSCfilter").style.display = "none";
+    document.getElementById("ZjhbRNCfilter").style.display = "none";
+    document.getElementById("zjhb2cell_Filters_search").style.display = "none";
+    document.getElementById("zjhb3cell_Filters_search").style.display = "none";
+    document.getElementById("zjhb2cell_Filters_listbox_div").style.display = "none";
+    document.getElementById("zjhb3cell_Filters_listbox_div").style.display = "none";
+
     displayDijitButton("aggregate2GCellsButton", false);
     displayDijitButton("aggregate3GCellsButton", false);
 }
@@ -252,14 +358,11 @@ function displayDijitButton(id, display) {
         domStyle.set(registry.byId(id).domNode, 'display', state);
     });
 }
-function addSelectedCellsToGroup(listId, addSelectedValues) {
-//    clearSelected2GNSNCellsGroups();
-//    clearSelected3GNSNCellsGroups();
+function addSelectedCellsToGroup(addSelectedValues) {
     if (addSelectedValues) {
-        var values = getSelectedValuesFromSelect(listId);
+        var values = getSelectedCellNames();
         addValuesToCellGroup(values);
     }
-    getCellGroups();
     var html = "<TABLE class='blingTable2' cellspacing='0'>"
             + "<thead>"
             + "<tr>"
@@ -268,16 +371,14 @@ function addSelectedCellsToGroup(listId, addSelectedValues) {
             + "<th width='80%' align='center' >Cells</th>"
             + "</tr>"
             + "</thead>";
-    for (var i = 0; i < selectedCellsGroups.length; i++) {
-//        clearEnabledCellGroups();
+    for (var i = 0; i < cellGroupCounters[getTabIndex()].length - 1; i++) {
         html += "<tbody>";
         html += "<tr>";
-//        html += "<td><input type='checkbox' id='chkBoxGroup_" + i + "' checked='checked' onclick='toggleCellGroup(\"chkBoxGroup_" + i + "\"," + i + ");'/></td>";
-        html += "<td><input type='checkbox' class='cellsChkBox_" + vendor[0] + "_" + technology[0] + "' id=enabledBoxGroup_" + i + " checked='checked'/></td>";
+        html += "<td><input type='checkbox' onClick=\"deactivateCellGroup(" + i  + ")\" id=enabledBoxGroup_" + i + " checked='checked'/></td>";
         html += "<td><label>Group_" + i + "</label></td>";
         html += "<td>";
-        for (var j = 0; j < selectedCells.length; j++) {
-            var ar = selectedCells[j].split("~");
+        for (var j = 1; j < cellGroups[getTabIndex()].length; j++) {
+            var ar = cellGroups[getTabIndex()][j].split("~");
             if (parseInt(ar[1]) === i) {
                 html += ar[0] + "<br>";
             } else {
@@ -289,61 +390,97 @@ function addSelectedCellsToGroup(listId, addSelectedValues) {
     html += "</tbody>";
     html += "</TABLE>";
     html += "</TABLE>";
-    document.getElementById("selectedCellsTable").innerHTML = html;
-}
-function getCellGroups() {
-    if (vendor[0] === "NSN" && technology[0] === "2G") {
-        selectedCells = selected2GNSNCells;
-        selectedCellsGroups = selected2GNSNCellsGroups;
-    }
-    if (vendor[0] === "NSN" && technology[0] === "3G") {
-        selectedCells = selected3GNSNCells;
-        selectedCellsGroups = selected3GNSNCellsGroups;
-    }
+    document.getElementById("selectedCellsTable" + getDivId()).innerHTML = html;
 }
 function addValuesToCellGroup(values) {
-    if (vendor[0] === "NSN" && technology[0] === "2G") {
-        addArraytoArray(selected2GNSNCells, values, selected2GNSNCellsGroups.length);
-        selected2GNSNCellsGroups.push(selected2GNSNCellsGroups.length + 1);
-    }
-    if (vendor[0] === "NSN" && technology[0] === "3G") {
-        addArraytoArray(selected3GNSNCells, values, selected3GNSNCellsGroups.length);
-        selected3GNSNCellsGroups.push(selected3GNSNCellsGroups.length + 1);
-    }
+    addArraytoArray(cellGroups[getTabIndex()], values, cellGroupCounters[getTabIndex()].length - 1);
+    cellGroupCounters[getTabIndex()].push(cellGroupCounters[getTabIndex()].length);
+}
+function addValuesToCtrlGroup(values) {
+    addArraytoArray(ctrlGroups[getTabIndex()], values, ctrlGroupCounters[getTabIndex()].length - 1);
+    ctrlGroupCounters[getTabIndex()].push(ctrlGroupCounters[getTabIndex()].length);
 }
 function addArraytoArray(dest, source, groupId) {
     for (var i = 0; i < source.length; i++) {
         dest.push(source[i] + "~" + groupId);
     }
 }
-function clearSelected2GNSNCellsGroups() {
-    var size = selected2GNSNCellsGroups.length;
-//    console.log(selected2GNSNCellsGroups);
-    for (var i = 0; i < size; i++) {
-        selected2GNSNCellsGroups.pop();
+
+
+function addSelectedControllersToGroup(addSelectedValues) {
+    if (addSelectedValues) {
+        var values = getSelectedControllerNames();
+        addValuesToCtrlGroup(values);
     }
+    var html = "<TABLE class='blingTable2' cellspacing='0'>"
+            + "<thead>"
+            + "<tr>"
+            + "<th width='10%' align='center'>Enabled</th>"
+            + "<th width='10%' align='center'>Group Name</th>"
+            + "<th width='80%' align='center' >Controllers</th>"
+            + "</tr>"
+            + "</thead>";
+    for (var i = 0; i < ctrlGroupCounters[getTabIndex()].length - 1; i++) {
+        html += "<tbody>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"deactivateCtrlGroup(" + i + ")\" checked='checked'/></td>";
+        html += "<td><label>Group_" + i + "</label></td>";
+        html += "<td>";
+        for (var j = 1; j < ctrlGroups[getTabIndex()].length; j++) {
+            var ar = ctrlGroups[getTabIndex()][j].split("~");
+            if (parseInt(ar[1]) === i) {
+                html += ar[0] + "<br>";
+            } else {
+            }
+        }
+        html += "</td>";
+        html += "</tr>";
+    }
+    html += "</tbody>";
+    html += "</TABLE>";
+    html += "</TABLE>";
+    document.getElementById("selectedControllersTable" + getDivId()).innerHTML = html;
 }
 
-function clearSelected3GNSNCellsGroups() {
-    var size = selected3GNSNCellsGroups.length;
-//    console.log(selected3GNSNCellsGroups);
-    for (var i = 0; i < size; i++) {
-        selected3GNSNCellsGroups.pop();
-    }
-}
+//function clearSelected2GNSNCellsGroups() {
+//    var size = selected2GNSNCellsGroups.length;
+//    for (var i = 0; i < size; i++) {
+//        selected2GNSNCellsGroups.pop();
+//    }
+//}
 
-function clearSelectedCells() {
-    var size = selectedCells.length;
-//    console.log(selectedCells);
-    for (var i = 0; i < size; i++) {
-        selectedCells.pop();
-    }
-}
+//function clearSelected3GNSNCellsGroups() {
+//    var size = selected3GNSNCellsGroups.length;
+//    for (var i = 0; i < size; i++) {
+//        selected3GNSNCellsGroups.pop();
+//    }
+//}
 
-function clearEnabledCellGroups() {
-    var size = enabledCellGroups.length;
-//    console.log(selectedCells);
-    for (var i = 0; i < size; i++) {
-        enabledCellGroups.pop();
+//function clearSelectedCells() {
+//    var size = selectedCells.length;
+////    console.log(selectedCells);
+//    for (var i = 0; i < size; i++) {
+//        selectedCells.pop();
+//    }
+//}
+
+//function clearEnabledCellGroups() {
+//    var size = enabledCellGroups.length;
+////    console.log(selectedCells);
+//    for (var i = 0; i < size; i++) {
+//        enabledCellGroups.pop();
+//    }
+//}
+
+function checkUnCheckAll() {
+    var check = document.getElementById("selectAllCkBox" + getDivId()).checked;
+    var checkboxes = new Array();
+    console.log(check);
+    checkboxes = document.getElementsByTagName('input');
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].type === 'checkbox' && checkboxes[i].className === "ctrlChBox" + getDivId()) {
+            checkboxes[i].checked = check;
+            storeController(checkboxes[i]);
+        }
     }
 }

@@ -5,6 +5,7 @@
 package za.co.cellc.synix.view.html.graphs;
 
 import java.util.List;
+import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.controllers.FormuladefPojo;
 import za.co.cellc.synix.controllers.graphconstruct.GraphConstructPojo;
 import za.co.cellc.synix.controllers.graphconstruct.highchart.HighChartGraphConstructPojo;
@@ -71,7 +72,9 @@ public class HighChartContentMaker {
         addTooltip();
         addPlotOptions();
         addSeries();
-        addShowHideButton(chartIndex);
+        addShowAllCheckBox(chartIndex);
+        addHidePointMarkersButton(chartIndex);
+//        addShowHideButton(chartIndex);
         addIsolateSeriesMethod();
         sb.append("});");
         return sb;
@@ -175,29 +178,32 @@ public class HighChartContentMaker {
                 //                + "                            alert ('Category: '+ this.category +', value: '+ this.y);\n"
                 + "                        }\n"
                 + "                    }\n"
-                + "                },\n"
-                //                + "             line: {"
-                //                + "                 lineWidth: 1,"
-                //                + "                 animation: false,"
-                //                + "                 allowPointSelect: false,"
-                //                + "                 marker: {"
-                //                + "                     enabled: false"
-                //                + "                 },"
-                //                + "             }"
-                + "            },\n"
-                + "            area: {\n"
-                + "                marker: {\n"
-                + "                    radius: 1\n"
-                + "                },\n"
-                + "                lineWidth: 1,\n"
-                + "                states: {\n"
-                + "                    hover: {\n"
-                + "                        lineWidth: 1\n"
-                + "                    }\n"
-                + "                },\n"
-                + "                threshold: null\n"
-                + "            }\n"
+                + "                },\n");
+        addMarker();
+        sb.append("},\n"
+                //                + "            area: {\n"
+                //                + "                marker: {\n"
+                //                + "                    radius: 1,"
+                //                + "                     enabled: false\n"
+                //                + "                },\n"
+                //                + "                lineWidth: 1,\n"
+                //                + "                states: {\n"
+                //                + "                    hover: {\n"
+                //                + "                        lineWidth: 1\n"
+                //                + "                    }\n"
+                //                + "                },\n"
+                //                + "                threshold: null\n"
+                //                + "            }\n"
                 + "        },");
+    }
+
+    private void addMarker() {
+        if (htmlIp.getPeriod().equals(Constants.Periods.DAILY.value())) {
+            sb.append("marker: {\n"
+                    + "                radius: 3,\n"
+                    + "                enabled: true\n"
+                    + "            },");
+        }
     }
 
     private void addSeries() {
@@ -258,6 +264,45 @@ public class HighChartContentMaker {
         return p != null || !p.getData().isEmpty();
     }
 
+    private void addShowAllCheckBox(int chartIndex) {
+        String divId = "'#div" + (chartIndex + 1) + "_" + divIndex + "'";
+        String chkBId = "'#s_h_chk" + (chartIndex + 1) + "_" + divIndex + "'";
+        sb.append("var chart = $(").append(divId).append(").highcharts(),\n"
+                + "        $chkBox = $(").append(chkBId).append(");\n"
+                        + "    $chkBox.click(function () {\n"
+                        + "        var series = chart.series[0];\n"
+                        + "        if (!this.checked) {\n"
+                        + "            $(chart.series).each(function () {\n"
+                        + "                this.setVisible(false, false);\n"
+                        + "            });\n"
+                        + "            chart.redraw();\n"
+                        + "        } else {\n"
+                        + "            $(chart.series).each(function () {\n"
+                        + "                this.setVisible(true, false);\n"
+                        + "            });\n"
+                        + "            chart.redraw();\n"
+                        + "        }\n"
+                        + "    });");
+    }
+
+    private void addHidePointMarkersButton(int chartIndex) {
+        String divId = "'#div" + (chartIndex + 1) + "_" + divIndex + "'";
+        String buttonId = "'#s_h_button" + (chartIndex + 1) + "_" + divIndex + "'";
+        sb.append("var chart = $(" + divId + ").highcharts(),\n"
+                + "        $button = $(" + buttonId + ");\n"
+                + "    $button.click(function () {\n"
+                + "        var series = chart.series[0];\n"
+                + "        console.log(series.options.marker);\n"
+                + "        $(chart.series).each(function () {\n"
+                + "            $.each(this.data, function (i, point) {\n"
+                + "                if (point.graphic) {\n"
+                + "                    point.graphic = point.graphic.destroy();\n"
+                + "                }\n"
+                + "            });\n"
+                + "        });\n"
+                + "    });");
+    }
+
     private void addShowHideButton(int chartIndex) {
         String divId = "'#div" + (chartIndex + 1) + "_" + divIndex + "'";
         String buttonId = "'#s_h_button" + (chartIndex + 1) + "_" + divIndex + "'";
@@ -287,7 +332,7 @@ public class HighChartContentMaker {
     private void addIsolateSeriesMethod() {
         sb.append(" function isolateSeries(preserveSeriesName) {\n"
                 + "        var series = chart.series[0];\n"
-                + "        if (series.visible) {\n"
+                + "        if (series.visible) {\n" ///bug: doesn't work with 1st series
                 + "            chart.tooltip.Shared=\"false\";"
                 + "            $(chart.series).each(function () {\n"
                 + "                if (this.name !== preserveSeriesName) {\n"

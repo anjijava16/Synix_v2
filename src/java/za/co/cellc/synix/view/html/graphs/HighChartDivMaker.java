@@ -17,7 +17,7 @@ public class HighChartDivMaker {
     private int WIDTH = 95; /// PERCENT
     private int divIndex;
     private String TD_WIDTH = "95%";
-    private String TD_HEIGHT = "600px";
+    private String TD_HEIGHT = "500px";
     private String header = "";
     private String footer = "";
 
@@ -40,23 +40,34 @@ public class HighChartDivMaker {
 
         if (!gcp.getData().isEmpty()) {
             String divId = "div" + (chartIndex + 1) + "_" + divIndex;
-            out.append("<tr>"
-                    + "<td width='" + TD_WIDTH + "' height='" + TD_HEIGHT + "'>"
+            if (toAddNewTableRow(chartIndex)) {
+                out.append("<tr>");
+            }
+            out.append("<td width='" + TD_WIDTH + "' height='" + TD_HEIGHT + "'>"
                     + "<div class=\"many \"id=\"" + divId + "\" style='height:95%';>"
                     + "</div>\n");
             out.append(getShowHideButton(chartIndex));
+            if (toAddNewTableRow(chartIndex)) {
+                out.append("</tr>");
+            }
             out.append(getHorizontalLine());
         }
         return out.toString();
     }
 
+    private boolean toAddNewTableRow(int chartIndex) {
+        int r = chartIndex % 2;
+        return r == 0;
+    }
+
     private String getShowHideButton(int chartIndex) {
+        String checkBoxId = "s_h_chk" + (chartIndex + 1) + "_" + divIndex;
         String buttonId = "s_h_button" + (chartIndex + 1) + "_" + divIndex;
         return "<tr>"
                 + "<td align='center'>"
-                + "<input id=\"" + buttonId + "\" type=\"button\" value=\"Show / Hide All\">"
-                + "</td>"
-                + "</tr>";
+                + "<input id=\"" + checkBoxId + "\" type=\"checkbox\" checked>Show All</input>"
+                //                + "&nbsp&nbsp&nbsp&nbsp&nbsp<input id=\"" + buttonId + "\" type=\"button\" value=\"Hide point markers\"></input>"
+                + "</td>";
     }
 
     private String getHorizontalLine() {

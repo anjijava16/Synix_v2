@@ -10,9 +10,12 @@ html, body {
     height: 100%;
 }
 #leftCol {
-    width: 20em;
+    width: 19em;
+    /*overflow: hidden;*/
 }
-
+.configTree{
+    width: 15em;
+}
 .claro .demoLayout .edgePanel {
     background-color: #E6E6E6;
     padding: 0px;

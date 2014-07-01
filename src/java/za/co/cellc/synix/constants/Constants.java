@@ -11,6 +11,7 @@ package za.co.cellc.synix.constants;
  */
 public class Constants {
 
+    public static final String MULTI_ID_DELIMITER = "!";
     public static final int MAX_CELLS = 17;
     public static final int HOURS = 60;
     public static final int ELEMENT_NAMES_EXPIRY_HOURS = 2 * HOURS;
@@ -56,6 +57,16 @@ public class Constants {
     public static final int VIEW_SITE_MONTHLY = 18;
     public static final int UNIT = 19;
     public static final String GROUP_DELIMITER = "~";
+    public static final String N2_CELLS_SQL = "select distinct BTS_NAME from N2_CELLS_2G where BTS_NAME != 'null' and rownum< 250 order by BTS_NAME";
+    public static final String N2_CONTROLLERS_SQL = "select distinct BSC_NAME from N2_CONTROLLERS_2G order by BSC_NAME";
+    public static final String N3_CELLS_SQL = "select distinct WCEL_NAME from N2_CELLS_3G where WCEL_NAME != 'null' and rownum< 250 order by WCEL_NAME";
+    public static final String N3_CONTROLLERS_SQL = "select distinct RNC_NAME from N2_CONTROLLERS_3G order by RNC_NAME";
+    public static final String ZJHB2_CONTROLLERS_SQL = "select USERLABEL from ZJ_CONTROLLERS_2G order by USERLABEL";
+    public static final String ZJHB3_CONTROLLERS_SQL = "select USERLABEL from ZJ_CONTROLLERS_3G order by USERLABEL";
+    public static final String ZJHB2_CELLS_SQL = "select LOCATIONNAME from ZJ_CELLS_2G where rownum< 250 order by LOCATIONNAME";
+    public static final String ZJHB3_CELLS_SQL = "select USERLABEL from ZJ_CELLS_3G where rownum< 250 order by USERLABEL";
+    public static final String TECHNOLOGY_2G = "2G";
+    public static final String TECHNOLOGY_3G = "3G";
 
     public static String[] FORMULA_DEFS_FIELDS = {
         "CHART_TITLE",
@@ -133,4 +144,20 @@ public class Constants {
             return value;
         }
     }
+
+    public enum Vendors {
+
+        NSN("NSN"),
+        ZJHB("ZJHB");
+        private final String value;
+
+        private Vendors(String value) {
+            this.value = value;
+        }
+
+        public String value() {
+            return value;
+        }
+    }
+
 }

@@ -73,8 +73,10 @@ function showEditorTab(location, dijitID) {
         if (typeof editorTabs[i] !== "undefined" && editorTabs[i].id === dijitID) {
             if (!childExists(dijitID)) {
                 dijit.byId('editorWindow').addChild(editorTabs[i], location);
+                tabNames[location]=dijitID;
             }
             selectTab('editorWindow', dijitID);
+            console.log("tabNames=" + tabNames);
         }
     }
 }

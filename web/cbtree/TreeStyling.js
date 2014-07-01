@@ -324,7 +324,7 @@ define([
 				array.forEach(this._itemAttr, function(attr) {
 						styling[attr] = this._initStyleElement(attr);
 					}, this);
-				styling["root"] = true;
+				styling["dirTree_R"] = true;
 			}
 			return styling;
 		},

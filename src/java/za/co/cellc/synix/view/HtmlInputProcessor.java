@@ -27,6 +27,7 @@ public class HtmlInputProcessor {
     private List<String> vendor;
     private String level;
     private String period;
+    private String divId;
     private int logicalGroup;
     private JSON_Parser jp;
     private String chartType = Constants.DEFAULT_CHART_TYPE;
@@ -44,6 +45,10 @@ public class HtmlInputProcessor {
     private String chartPageColumns;
     private String fillGraph;
     private String rollerPeriod;
+    private List<String> ctrlGroups;
+    private List<String> cellGroups;
+    private List<String> controllers;
+    private List<String> cells;
 
     public void processInput(StringBuilder selectionSb) throws Exception {
         jp = new JSON_Parser(selectionSb.toString());
@@ -57,6 +62,10 @@ public class HtmlInputProcessor {
         this.selectionSb = selectionSb;
     }
 
+    public List<String> getCtrlGroups() {
+        return ctrlGroups;
+    }
+
     public String getPeriod() {
         return period;
     }
@@ -66,18 +75,37 @@ public class HtmlInputProcessor {
         selectionSb = new StringBuilder();
         toDate = new ArrayList<>();
         networkElements = new ArrayList<>();
+        ctrlGroups = new ArrayList<>();
+        cellGroups = new ArrayList<>();
+        controllers = new ArrayList<>();
+        cells = new ArrayList<>();
         aggregated = false;
         aggregationMultiGroup = false;
         tech = new ArrayList<>();
         vendor = new ArrayList<>();
         level = "";
-        String period = "";
+        period = "";
+        divId = "";
     }
 
-//    private HtmlInputProcessor() {
-////        this.selectionSb = selectionSb;
-////        parseJSON();
-//    }
+    private void parseJSON() throws Exception {
+        tech = getDataFromJSON("TECHNOLOGY");
+        vendor = getDataFromJSON("VENDOR");
+        setLevel();
+        setCtrlGroups();
+        setCellGroups();
+        setControllers();
+        setCells();
+        setAggregated();
+        setFromDate();
+        setToDate();
+        setPeriod();
+        setLogicalGroup();
+        setChartType();
+        setDivId();
+        setNetworkElements();
+    }
+
     public List<String> getNetworkElements() {
         return networkElements;
     }
@@ -102,6 +130,10 @@ public class HtmlInputProcessor {
         return level;
     }
 
+    public String getDivId() {
+        return divId;
+    }
+
     public String getToDate() {
         return toDate.get(0);
     }
@@ -114,18 +146,32 @@ public class HtmlInputProcessor {
         return aggregationMultiGroup;
     }
 
-    private void parseJSON() throws Exception {
-        tech = getDataFromJSON("TECHNOLOGY");
-        vendor = getDataFromJSON("VENDOR");
-        setLevel();
-        setNe();
-        setAggregated(networkElements);
-//        addBasicGroupingToAggregatedElements();
-        setFromDate();
-        setToDate();
-        setPeriod();
-        setLogicalGroup();
-        setChartType();
+    public List<String> getCellGroups() {
+        return cellGroups;
+    }
+
+    public List<String> getControllers() {
+        return controllers;
+    }
+
+    public List<String> getCells() {
+        return cells;
+    }
+
+    private void setCtrlGroups() {
+        ctrlGroups = extractFromJSON("ctrlGroups");
+    }
+
+    private void setCellGroups() {
+        cellGroups = extractFromJSON("cellGroups");
+    }
+
+    private void setControllers() {
+        controllers = extractFromJSON("controllers");
+    }
+
+    private void setCells() {
+        cells = extractFromJSON("cells");
     }
 
     public String getChartType() {
@@ -136,68 +182,46 @@ public class HtmlInputProcessor {
         return logicalGroup;
     }
 
-    private void setNe() {
+    private void setAggregated() { 
         switch (level) {
-            case "CONTROLLER":
-                if (tech.get(0).equalsIgnoreCase("2G")) {
-                    networkElements.addAll(extractFromJSON("bsc"));
-                } else {
-                    networkElements.addAll(extractFromJSON("rnc"));
-                }
+            case "Controller":
+                aggregated=aggregationMultiGroup = ctrlGroups.size() > 0;
                 break;
-            case "CELL":
-                if (tech.get(0).equalsIgnoreCase("2G")) {
-                    networkElements.addAll(extractFromJSON("twoGNSNCellgroups"));
-                } else if (tech.get(0).equalsIgnoreCase("3G")) {
-                    networkElements.addAll(extractFromJSON("threeGNSNCellgroups"));
-                }
-                if (networkElements.isEmpty()) {
-                    networkElements.addAll(extractFromJSON("cells"));
-                }
+            case "Cell":
+                aggregated=aggregationMultiGroup = cellGroups.size() > 0;
                 break;
             default:
         }
     }
 
-//    private void addBasicGroupingToAggregatedElements() {
-//        String basicGrouping = Constants.GROUP_DELIMITER + "0";
-//        if (aggregated) {
-//            for (int i = 0; i < networkElements.size(); i++) {
-//                if (!elementAlreadyGrouped(networkElements.get(i))) {
-//                    networkElements.set(i, networkElements.get(i) + basicGrouping);
-//                } else {
-//                    removeUnselectedCellGroups();
-//                }
-//            }
-//        }
-//    }
-//    private void removeUnselectedCellGroups() {
-//        List<String> selectedGroups = getDataFromJSON("selectedCellGroups");
-//        for (int i = 0; i < networkElements.size(); i++) {
-//            String g = getGroupFromNE(i);
-//            if (!selectedGroups.contains(g)) {
-//                networkElements.remove(i);
-//            }
-//        }
-//    }
-//    private String getGroupFromNE(int i) {
-//        String ar[] = networkElements.get(i).split(Constants.GROUP_DELIMITER);
-//        return ar[1];
-//    }
-//
-//    private boolean elementAlreadyGrouped(String e) {
-//        return e.contains("~");
-//    }
-    private void setAggregated(List<String> lst) {
-
-        if (lst.contains("Aggregate")) {
-            lst.remove("Aggregate");
-            aggregated = true;
-        } else if (!lst.isEmpty()) {
-            aggregated = lst.get(0).contains("~");
-            aggregationMultiGroup = true;
+    private void setNetworkElements() {
+        switch (level) {
+            case "Controller":
+                if (aggregated) {
+                    networkElements = ctrlGroups;
+                } else {
+                    networkElements = controllers;
+                }
+                break;
+            case "Cell":
+                if (aggregated) {
+                    networkElements = cellGroups;
+                } else {
+                    networkElements = cells;
+                }
+                break;
+            default:
         }
     }
+//    private void setAggregated(List<String> lst) {
+////        if (lst.contains("Aggregate")) {
+////            lst.remove("Aggregate");
+////            aggregated = true;
+////        } else if (!lst.isEmpty()) {
+//        aggregated = lst.get(0).contains("~");
+//        aggregationMultiGroup = true;
+////        }
+//    }
 
     private List<String> getDataFromJSON(String object) {
         List<String> data = new ArrayList<>();
@@ -210,10 +234,9 @@ public class HtmlInputProcessor {
     }
 
     private void setLevel() {
-        if (extractFromJSON("CELLS").size() > 0) {
-            level = "CELL";
-        } else {
-            level = "CONTROLLER";
+        List<String> values = extractFromJSON("level");
+        if (values.size() > 0) {
+            level = values.get(0);
         }
     }
 
@@ -221,6 +244,13 @@ public class HtmlInputProcessor {
         List<String> values = extractFromJSON("chart_type");
         if (values.size() > 0) {
             chartType = values.get(0);
+        }
+    }
+
+    private void setDivId() {
+        List<String> values = extractFromJSON("divId");
+        if (values.size() > 0) {
+            divId = values.get(0);
         }
     }
 

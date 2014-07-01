@@ -79,36 +79,44 @@ function sessionLogout() {
 //        $('<option value="' + item + '">' + bts_names[item] + '</option>').appendTo('#btsNames');
 //    }
 //}
-function getSelectedValuesFromSelect(objectID) {
-    var values = new Array();
-    var x = document.getElementById(objectID);
-    for (var i = 0; i < x.options.length; i++) {
-        if (x.options[i].selected === true) {
-//            alert(x.options[i].text);
-            values.push(x.options[i].text);
-        }
-    }
-    return values;
-}
-function getNeFilter(fromCalendar, toCalendar, periodId) {
+//function getSelectedValuesFromSelect(objectID) {
+//    var values = new Array();
+//    var x = document.getElementById(objectID);
+//    for (var i = 0; i < x.options.length; i++) {
+//        if (x.options[i].selected === true) {
+////            alert(x.options[i].text);
+//            values.push(x.options[i].text);
+//        }
+//    }
+//    return values;
+//}
+function getNeFilter() {
 
+    var tabIx = getTabIndex();
+    var dId = getDivId();
+    var level = dijit.byId("comboLevel" + dId).get('value')
     var fromDate = [];
     var toDate = [];
     var divC = [];
     var chartPageColumns = [];
     var fillGraph = [];
     var period = [];
+    var divId = [];
+    var levelAr = [];
     var chartRollerPeriod = [];
-    fromDate.push(getFromDate(fromCalendar));
-    toDate.push(getToDate(toCalendar));
-    if (technology[0] === "2G") {
-        divC.push(chartDivCounterNSN2G);
-    }
-    if (technology[0] === "3G") {
-        divC.push(chartDivCounterNSN3G);
-    }
+    levelAr.push(level);
+    divId.push(dId);
+    fromDate.push(getFromDate("filterFromDate" + dId));
+    toDate.push(getToDate("filterToDate" + dId));
+//    if (technology[0] === "2G") {
+    divC.push(getTabIndex());
+//    }
+//    if (technology[0] === "3G") {
+//        divC.push(chartDivCounterNSN3G);
+//    }
     chartPageColumns.push(2);
-    period.push(dijit.byId(periodId).get('value'));
+//    console.log("dijit.byId"+dijit.byId("'" +periodId + "'"));
+    period.push(dijit.byId("comboPeriodID" + dId).get('value'));
     fillGraph.push(false);
     chartRollerPeriod.push(1);
     var neFilter = new Object();
@@ -119,21 +127,27 @@ function getNeFilter(fromCalendar, toCalendar, periodId) {
     neFilter.fillGraph = fillGraph;
     neFilter.chartRollerPeriod = chartRollerPeriod;
     neFilter.chartType = chartType;
-    if (filterLevel === "BSC/RNC") {
-        neFilter.rnc = checkedRncs;
-        neFilter.bsc = checkedBscs;
-    } else {
-        if (technology[0] === "2G") {
-            neFilter.cells = getSelectedValuesFromSelect("btsNamesListBox");
-            neFilter.twoGNSNCellgroups = getSelectedCellGroups();
-        }
-        if (technology[0] === "3G") {
-            neFilter.cells = getSelectedValuesFromSelect("wbtsNamesListBox");
-            neFilter.threeGNSNCellgroups = selected3GNSNCells;
-        }
-    }
-    neFilter.wBts = checkedWbts;
-    neFilter.bts = checkedBts;
+    neFilter.divId = divId;
+    neFilter.level = levelAr;//comboLevel_0.value
+
+//    if (ctrlGroupCounters[tabIx].length > 0) {
+    neFilter.ctrlGroups = getCtrlGroups(ctrlGroups[tabIx]);
+//    }
+//    if (level === "Controller") {
+    neFilter.controllers = removeEmptiesFromArray(selectedControllerNames[tabIx]);
+//        neFilter.bsc = checkedBscs;
+//    } else {
+//        if (level === "Cell" && technology[0] === "2G") {
+    neFilter.cells = removeEmptiesFromArray(selectedCellNames[tabIx]);
+    neFilter.cellGroups = getCellGroups(cellGroups[tabIx]);
+//        }
+//        if (level === "Cell" && technology[0] === "3G") {
+//            neFilter.cells = checkedWbts;
+//            neFilter.threeGNSNCellgroups = selected3GNSNCells;
+//        }
+//    }
+//    neFilter.wBts = checkedWbts;
+//    neFilter.bts = checkedBts;
     neFilter.vendor = vendor;
     neFilter.technology = technology;
     neFilter.selectedCellGroups = getSelectedCellGroupIndexes();
@@ -421,6 +435,7 @@ function drawNSN2G() {
     document.getElementById("chartResult").innerHTML = "";
     setCheckedNEs();
     var neFilter = new Object();
+    console.log("comboPeriodID" + dijit.byId('comboPeriodID'));
     neFilter = getNeFilter('filterFromDate', 'filterToDate', 'comboPeriodID');
 //                    console.log(neFilter);
     $.ajax({
@@ -470,6 +485,64 @@ function drawNSN3G() {
             alert(errorThrown);
             document.getElementById("loaderDiv_NSN_3G").style.display = "none";
 //            document.getElementById("plot_nsn_3g_button").disabled = false;
+        }
+    });
+}
+
+function drawZJHB3() {
+    vendor.pop();
+    vendor.push("ZJHB");
+    technology.pop();
+    technology.push("3G");
+    document.getElementById("ZJHB3loaderDiv").style.display = "block";
+    document.getElementById("chartResultZJHB3").style.display = "none";
+    document.getElementById("chartResultZJHB3").innerHTML = "";
+    setCheckedNEs();
+    var neFilter = new Object();
+    neFilter = getNeFilter('filterFromDateZJHB3', 'filterToDateZJHB3', 'comboPeriodIDZJHB3');
+    $.ajax({
+        type: 'POST',
+        url: 'ChartServlet',
+        data: JSON.stringify(neFilter),
+        dataType: "text",
+        success: function(response) {
+            document.getElementById("ZJHB3loaderDiv").style.display = "none";
+            document.getElementById("chartResultZJHB3").style.display = "block";
+            $('#chartResultZJHB3').html(response);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            console.log("error");
+            alert(errorThrown);
+            document.getElementById("ZJHB3loaderDiv").style.display = "none";
+        }
+    });
+}
+
+function drawZJHB2() {
+    vendor.pop();
+    vendor.push("ZJHB");
+    technology.pop();
+    technology.push("2G");
+    document.getElementById("ZJH2BloaderDiv").style.display = "block";
+    document.getElementById("chartResultZJHB2").style.display = "none";
+    document.getElementById("chartResultZJHB2").innerHTML = "";
+    setCheckedNEs();
+    var neFilter = new Object();
+    neFilter = getNeFilter('filterFromDateZJHB2', 'filterToDateZJHB2', 'comboPeriodIDZJHB2');
+    $.ajax({
+        type: 'POST',
+        url: 'ChartServlet',
+        data: JSON.stringify(neFilter),
+        dataType: "text",
+        success: function(response) {
+            document.getElementById("ZJH2BloaderDiv").style.display = "none";
+            document.getElementById("chartResultZJHB2").style.display = "block";
+            $('#chartResultZJHB2').html(response);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            console.log("error");
+            alert(errorThrown);
+            document.getElementById("ZJH2BloaderDiv").style.display = "none";
         }
     });
 }

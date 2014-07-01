@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package za.co.cellc.synix.model.network.elements;
+package za.co.cellc.synix.model.network.elements.nsn;
 
 import java.util.Date;
-import static za.co.cellc.synix.model.network.elements.ElementNameSingleton.dateTimeCreated;
+import za.co.cellc.synix.model.network.elements.ElementNameSingleton;
 
 /**
  *
@@ -26,6 +26,7 @@ public class WbtsNameSingleton extends ElementNameSingleton {
     }
 
     private WbtsNameSingleton() {
+        super("WCEL_ID");
         loadLists();
     }
 }
