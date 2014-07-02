@@ -33,9 +33,9 @@ public class MultiEntryQueryMapBuilder extends QueryMapBuilder {
 //            setLevel();
 //            setPeriod();
 //            setNetworkElementColumnName();
-            List<String> networkElements = getNeElements();
+            List<String> networkElements = getNeElementIds();
             for (String ne : networkElements) {
-                setNetworkElementID(ne);
+//                setNetworkElementID(ne);
                 setSelectClause();
                 setFromClause();
                 setDateClause();

@@ -16,6 +16,10 @@
         <servlet-name>NeHtmlServlet</servlet-name>
         <servlet-class>za.co.cellc.synix.view.NeHtmlServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CellNamesServlet</servlet-name>
+        <servlet-class>za.co.cellc.synix.view.CellNamesServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HCServlet</servlet-name>
         <url-pattern>/HCServlet</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>NeHtmlServlet</servlet-name>
         <url-pattern>/NeHtmlServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CellNamesServlet</servlet-name>
+        <url-pattern>/CellNamesServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

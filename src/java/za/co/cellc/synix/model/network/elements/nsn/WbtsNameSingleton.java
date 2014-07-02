@@ -5,6 +5,7 @@
 package za.co.cellc.synix.model.network.elements.nsn;
 
 import java.util.Date;
+import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.model.network.elements.ElementNameSingleton;
 
 /**
@@ -16,7 +17,7 @@ public class WbtsNameSingleton extends ElementNameSingleton {
     private static WbtsNameSingleton instance;
 
     public static synchronized WbtsNameSingleton getInstance(boolean test_) {
-        QUERY = "select distinct WBTS_NAME,CO_GID from N2_CELLS_3G where WBTS_NAME != 'null'";
+        QUERY = Constants.N3_CELLS_SQL;
         test = test_;
         if (instance == null || isExpired()) {
             instance = new WbtsNameSingleton();

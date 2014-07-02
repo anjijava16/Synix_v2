@@ -87,8 +87,20 @@
                     </td>
                 </tr>
                 <tr>
+                    <td align="center">
+                        <button id="showCells<%=divid%>" type="button" onclick="showCellDiv()" style="display: block;">Show Cells</button>                        
+                    </td>
+                <tr>
                     <td>
-                        <div id="testResult<%=divid%>" style="width: 100%;display: block;"></div>
+                        <div id="cellsLoader<%=divid%>" style="display: none;">
+                            <div class="loadingImg"></div>
+                        </div>                        
+                    </td>
+                </tr>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="neFilterTable<%=divid%>" style="width: 100%;display: block;"></div>
                     </td>
                 </tr>
             </tbody>

@@ -20,8 +20,8 @@ import za.co.cellc.synix.view.HtmlInputProcessor;
  */
 public class AggregatedGroupingQueryMapBuilder extends QueryMapBuilder {
 
-    public AggregatedGroupingQueryMapBuilder(HtmlInputProcessor htmlIp,FormuladefPojo defPojo, boolean test) throws Exception {
-        super(htmlIp,defPojo, test);
+    public AggregatedGroupingQueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, boolean test) throws Exception {
+        super(htmlIp, defPojo, test);
         this.defPojo = defPojo;
     }
 
@@ -32,7 +32,7 @@ public class AggregatedGroupingQueryMapBuilder extends QueryMapBuilder {
         try {
             List<String> groupingNumbers = getGroupingNumbers();
             for (String groupingNumber : groupingNumbers) {
-                List<String> elementNames = getElementNamesFromGroup(groupingNumber);
+                List<String> elementNames = getElementIdsFromGroup(groupingNumber);
                 setSelectClause();
                 setFromClause();
                 setDateClause();
@@ -60,16 +60,32 @@ public class AggregatedGroupingQueryMapBuilder extends QueryMapBuilder {
         return mapKey.toString();
     }
 
-    private List<String> getElementNamesFromGroup(String groupId) {
-        List<String> groupMemebers = new ArrayList<>();
+//    private List<String> getElementNamesFromGroup(String groupId) {
+//        List<String> groupMembers = new ArrayList<>();
+//        List<String> names = htmlIp.getNetworkElements();
+//        for (String n : names) {
+//            if (n.endsWith("~" + groupId)) {
+//                String s = stripGroupingHyphen(n);
+//                groupMembers.add(s);
+//            }
+//        }
+//        return groupMembers;
+//    }
+
+    private List<String> getElementIdsFromGroup(String groupId) {
+        List<String> groupMembers = new ArrayList<>();
+        List<String> elementIds = new ArrayList<>();
         List<String> names = htmlIp.getNetworkElements();
         for (String n : names) {
             if (n.endsWith("~" + groupId)) {
                 String s = stripGroupingHyphen(n);
-                groupMemebers.add(s);
+                groupMembers.add(s);
             }
         }
-        return groupMemebers;
+        for (String ne : groupMembers) {
+            elementIds.addAll(elementNameSingleton.getGids(ne));
+        }
+        return elementIds;
     }
 
     private String stripGroupingHyphen(String s) {
@@ -155,6 +171,7 @@ public class AggregatedGroupingQueryMapBuilder extends QueryMapBuilder {
     private String makeNetworkElementWhereClause() {
         StringBuilder clause = new StringBuilder("(");
         String cols[] = networkElementColumnName.split(elementNameSingleton.getMultiIdDelimiter());
+//        for (String ne : networkElementID) {
         String ids[] = networkElementID.split(elementNameSingleton.getMultiIdDelimiter());
         for (int i = 0; i < cols.length; i++) {
             clause.append(cols[i]);
@@ -165,10 +182,11 @@ public class AggregatedGroupingQueryMapBuilder extends QueryMapBuilder {
                 clause.append(" AND ");
             }
         }
+//        }
         clause.append(")");
         return clause.toString();
     }
-    
+
 //    private void setMapKey(int c, String v) throws Exception {
 //        if (c > 0) {
 //            mapKey.append(",");

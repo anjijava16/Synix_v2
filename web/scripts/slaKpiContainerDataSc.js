@@ -38,18 +38,75 @@ function initMultiArrays() {
 //    console.log(ar);
 //    return ar;
 //}
+function cellSearchBoxKeyUp() {
+    var divId = getDivId();
+    var val = document.getElementById("cellSearchBox" + divId).value;
+    if (val.length > 2 || val.length === 0) {
+        var btsNames = [];
+        xmlhttp = getHttpObject();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState === 4) {
+                var ar = xmlhttp.responseText.split("<~>");
+                var arLen = ar.length;
+                for (var i = 0; i < arLen; i++) {
+                    btsNames.push(ar[i]);
+                }
+                populateListboxWithArray("cellNames" + divId, btsNames);
+                document.getElementById("cellDiv" + getDivId()).style.display = "block";
+                document.getElementById("neFilterTable" + getDivId()).style.display = "block";
+                document.getElementById("cellsLoader" + getDivId()).style.display = "none";
+            }
+        };
+        xmlhttp.open("GET", "CellNamesServlet?Vendor=" + vendor[0] + "&Technology=" + technology[0] + "&searchStr=" + val);
+        xmlhttp.send(null);
+    }
+}
+
+function getFilteredArrayFromArray(ar, filter) {
+
+    var filteredAr = new Array();
+    console.log("size: " + ar.length);
+    for (var i = 0; i < ar.length; i++) {
+        if (ar[i].toString().toLowerCase().indexOf(filter.toString().toLowerCase()) > -1) {
+            filteredAr.push(ar[i]);
+        }
+    }
+//    console.log("filteredAr: " + filteredAr);
+    return filteredAr;
+}
+
+
 function removeEmptiesFromArray(array) {
     var ar = [];
     var count = array.length;
-    for (var i = 1; i < count; i++) {
-        var val = array[i] + "";
-        if (array[i] !== "" && (val.indexOf("-deactivated") === -1)) {
+    for (var i = 0; i < count; i++) {
+        if (array[i] !== "") {
             ar.push(array[i]);
         }
     }
-//    console.log(ar);
     return ar;
 }
+
+function removeIndexFromArray(array) {
+    var ar = [];
+    var count = array.length;
+    for (var i = 1; i < count; i++) {
+        ar.push(array[i]);
+    }
+    return ar;
+}
+//function clearArray(array) {
+//    var ar = [];
+//    var count = array.length;
+//    for (var i = 0; i < count; i++) {
+//        var val = array[i] + "";
+//        if (array[i] !== "" && array[i] !== 0 && (val.indexOf("-deactivated") === -1)) {
+//            ar.push(array[i]);
+//        }
+//    }
+////    console.log(ar);
+//    return ar;
+//}
 
 function getCtrlGroups() {
     var ar = [];
@@ -151,9 +208,11 @@ function storeController(checkBox) {
     if (checkBox.checked === true) {
         selectedControllerNames[id].push(checkBox.name);
     } else {
-        var ix = selectedControllerNames[id].indexOf(checkBox.name);
-        //delete selectedControllerNames[id][ix];
-        selectedControllerNames[id][ix] = "";
+        for (var i = 0; i < selectedControllerNames[id].length; i++) {
+            if (selectedControllerNames[id][i] === checkBox.name) {
+                selectedControllerNames[id][i] = "";
+            }
+        }
     }
 }
 
@@ -181,7 +240,7 @@ function loadLists() {
         data: JSON.stringify(neFilter),
         dataType: "text",
         success: function(response) {
-            $("#testResult" + divId).html(response);
+            $("#neFilterTable" + divId).html(response);
         },
         error: function(xhr, textStatus, errorThrown) {
             console.log("error");
@@ -195,7 +254,7 @@ function plotCharts() {
     document.getElementById("loaderDiv" + divId).style.display = "block";
     document.getElementById("chartResult" + divId).style.display = "none";
     document.getElementById("resultTable" + divId).style.display = "block";
-    setCheckedNEs();
+//    setCheckedNEs();
     var neFilter = new Object();
     console.log("comboPeriodID" + dijit.byId('comboPeriodID'));
     neFilter = getNeFilter();
@@ -221,9 +280,10 @@ function toggleFilterTableVisibility(visible) {
     var button = document.getElementById("showHideFilterTable" + getDivId());
     toggleButtonTitle(button, visible);
     toggleLabelTitle("showHideLabel" + getDivId(), visible);
-    toggleFilterTableVisible(document.getElementById("testResult" + getDivId()), visible);
+    toggleFilterTableVisible(document.getElementById("neFilterTable" + getDivId()), visible);
     toggleFilterTableVisible(document.getElementById("aggCtrl" + getDivId()), visible);
     toggleFilterTableVisible(document.getElementById("aggCell" + getDivId()), visible);
+    toggleFilterTableVisible(document.getElementById("showCells" + getDivId()), visible);
 }
 
 function toggleFilterTableVisible(object, visible) {
@@ -263,4 +323,10 @@ function toggleLabelTitle(label, visible) {
     } else {
         l.innerHTML = "Hide filters&nbsp;&nbsp;";
     }
+}
+
+function showCellDiv() {
+    document.getElementById("neFilterTable" + getDivId()).style.display = "none";
+    document.getElementById("cellsLoader" + getDivId()).style.display = "block";
+    cellSearchBoxKeyUp();
 }

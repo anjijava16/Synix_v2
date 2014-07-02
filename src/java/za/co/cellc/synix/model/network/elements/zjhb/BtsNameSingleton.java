@@ -25,7 +25,7 @@ public class BtsNameSingleton extends ElementNameSingleton {
     private static BtsNameSingleton instance;
 
     public static synchronized BtsNameSingleton getInstance(boolean test_) {
-        QUERY = "select distinct LOCATIONNAME,BSSFUNCTIONID,BTSSITEMGRID,GSMCELLID from ZJ_CELLS_2G order by LOCATIONNAME";
+        QUERY = Constants.ZJHB2_CELLS_SQL;//"select distinct LOCATIONNAME,BSSFUNCTIONID,BTSSITEMGRID,GSMCELLID from ZJ_CELLS_2G order by LOCATIONNAME";
         test = test_;
         if (instance == null || isExpired()) {
             instance = new BtsNameSingleton();
@@ -48,6 +48,7 @@ public class BtsNameSingleton extends ElementNameSingleton {
             while (rs.next()) {
                 names.add(rs.getString(1).toUpperCase());
                 id.add(rs.getString(2) + multiIdDelimiter + rs.getString(3) + multiIdDelimiter + rs.getString(4));
+                addDistinctName(rs.getString(1).toUpperCase());
             }
             rs.close();
             stmnt.close();

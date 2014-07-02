@@ -5,6 +5,7 @@
  */
 package za.co.cellc.synix.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import za.co.cellc.synix.constants.Constants;
@@ -72,7 +73,7 @@ public class QueryMapBuilder {
 //        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("3G")) {
 //            networkElementID = elementNameSingleton.getGID(neId);
 //        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.ZJHB.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
-        networkElementID = elementNameSingleton.getGID(neId);
+        networkElementID = neId;
 //        } else {
 //            throw new Exception("Invalid network element ID: " + neId);
 //        }
@@ -91,6 +92,21 @@ public class QueryMapBuilder {
             }
         }
         return elementNames;
+    }
+
+    protected List<String> getNeElementIds() throws Exception {
+        List<String> elementNames = htmlIp.getNetworkElements();
+        List<String> elementIds = new ArrayList<>();
+        if (htmlIp.isAggregated()) {
+            for (int i = 0; i < elementNames.size(); i++) {
+                String updatedEn = removeGroupingFromAggregatedNe(elementNames.get(i));
+                elementNames.set(i, updatedEn);
+            }
+        }
+        for (String ne : elementNames) {
+            elementIds.addAll(elementNameSingleton.getGids(ne));
+        }
+        return elementIds;
     }
 
     private String removeGroupingFromAggregatedNe(String neId) {

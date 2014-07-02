@@ -11,6 +11,7 @@ and open the template in the editor.
 <!DOCTYPE HTML>
 <html lang="en">
     <%
+        int levelVal = -1;
         String theLogin = (String) session.getAttribute("theLogin");
         String thePassword = (String) session.getAttribute("loginpassword");
         String theLevel = (String) session.getAttribute("level");
@@ -39,6 +40,9 @@ and open the template in the editor.
                 session.setAttribute("loginname", login);
                 session.setAttribute("password", password);
             }
+        }
+        if (theLevel != null && theLevel.length() > 0) {
+            levelVal = Integer.parseInt(theLevel);
         }
 //        String isAdmin = (String) session.getAttribute("isAdmin");
 //        String level = (String) session.getAttribute("level");
@@ -341,6 +345,30 @@ and open the template in the editor.
                                 <tr>
                                     <td>
                                         <div id="tree"></div>
+                                        <div id="configTree" class="configTree" style="height:69%;"> 
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </TABLE>
+
+                    </div>
+                    <div data-dojo-type="dojox.layout.ContentPane" data-dojo-props='selected:false, title:"Sanity Check"'>
+                        <img class="imgleft" id="oracleImage" src="images/oraclesmall.png" alt="" />
+                        <TABLE class="blingBackGroundTable" cellspacing="0" width='70%'>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div id="tree"></div>
+                                        <%    if (theIsAdmin != null && theIsAdmin.equalsIgnoreCase("TRUE")) {
+                                        %>                                        
+                                        <a href="sanity.jsp">Synix Sanity Check</a>
+                                        <%   } else {
+                                        %>      
+                                        <h4>this function is not available to you</h4>
+                                        <%   }
+                                        %>   
+                                        <br><br>Level : <%=levelVal%>			
                                         <div id="configTree" class="configTree" style="height:69%;"> 
                                         </div>
                                     </td>

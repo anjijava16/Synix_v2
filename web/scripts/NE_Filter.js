@@ -8,6 +8,7 @@
 //var BSC_BSC_NAME_ID = "bsc";
 //var RNC_WBTS_NAME_ID = "wBts";
 //var BSC_BTS_NAME_ID = "bts";
+var MAX_CELLS = 255;
 var checkedRncs = [];
 var checkedBscs = [];
 var checkedWbts = [];
@@ -28,19 +29,19 @@ var enabledCellGroups = new Array();
 //var selected2GNSNCellsGroupIndexes = new Array();
 
 
-function setCheckedNEs() {
-    var id = getTabIndex();
-    clearArrays();
-    checkedRncs = removeEmptiesFromArray(selectedControllerNames[id]);
-    checkedBscs = removeEmptiesFromArray(selectedControllerNames[id]);
-    checkedWbts = selectedCellNames[id];
-    checkedBts = selectedCellNames[id];
-//    getCheckedRncsFromElements(REGION_RNC_NAME_ID);
-//    getCheckedRncsFromElements(RNC_RNC_NAME_ID);
-//    getCheckedBscsFromElements(BSC_BSC_NAME_ID);
-//    getCheckedWBtsFromElements(RNC_WBTS_NAME_ID);
-//    getCheckedBtsFromElements(BSC_BTS_NAME_ID);
-}
+//function setCheckedNEs() {
+//    var id = getTabIndex();
+//    clearArrays();
+//    checkedRncs = removeEmptiesFromArray(selectedControllerNames[id]);
+//    checkedBscs = removeEmptiesFromArray(selectedControllerNames[id]);
+//    checkedWbts = selectedCellNames[id];
+//    checkedBts = selectedCellNames[id];
+////    getCheckedRncsFromElements(REGION_RNC_NAME_ID);
+////    getCheckedRncsFromElements(RNC_RNC_NAME_ID);
+////    getCheckedBscsFromElements(BSC_BSC_NAME_ID);
+////    getCheckedWBtsFromElements(RNC_WBTS_NAME_ID);
+////    getCheckedBtsFromElements(BSC_BTS_NAME_ID);
+//}
 function clearArrays() {
     checkedRncs = [];
     checkedBscs = [];
@@ -193,15 +194,14 @@ function setZjhbWBtsNames() {
 }
 
 function populateListboxWithArray(listboxid, ar) {
-//    console.log("Loading data");
     var object = document.getElementById(listboxid);
     object.innerHTML = '';
     var loopSize = ar.length;
     loopSize = ar.length > MAX_CELLS ? MAX_CELLS : ar.length;
     for (var i = 0; i < loopSize; i++) {
-        object.options[i] = new Option(ar[i], i);
+//        console.log(ar[i]);
+        object.options[i] = new Option(ar[i], ar[i]);
     }
-//    console.log(ar);
 }
 //function populateWBTS_NamesList() {
 //    var object = document.getElementById("wbtsNamesListBox");
@@ -209,18 +209,18 @@ function populateListboxWithArray(listboxid, ar) {
 //        object.options[i] = new Option(wbtsNames[i], i);
 //    }
 //}
-function getFilteredArrayFromArray(ar, filter) {
-
-    var filteredAr = new Array();
-    console.log("size: " + ar.length);
-    for (var i = 0; i < ar.length; i++) {
-        if (ar[i].toString().toLowerCase().indexOf(filter.toString().toLowerCase()) > -1) {
-            filteredAr.push(ar[i]);
-        }
-    }
-//    console.log("filteredAr: " + filteredAr);
-    return filteredAr;
-}
+//function getFilteredArrayFromArray(ar, filter) {
+//
+//    var filteredAr = new Array();
+//    console.log("size: " + ar.length);
+//    for (var i = 0; i < ar.length; i++) {
+//        if (ar[i].toString().toLowerCase().indexOf(filter.toString().toLowerCase()) > -1) {
+//            filteredAr.push(ar[i]);
+//        }
+//    }
+////    console.log("filteredAr: " + filteredAr);
+//    return filteredAr;
+//}
 function tabClicked(tabName) {
     selectedTabTitle = tabName;
     if (tabName === "2G SLA KPI") {
@@ -374,13 +374,13 @@ function addSelectedCellsToGroup(addSelectedValues) {
     for (var i = 0; i < cellGroupCounters[getTabIndex()].length - 1; i++) {
         html += "<tbody>";
         html += "<tr>";
-        html += "<td><input type='checkbox' onClick=\"deactivateCellGroup(" + i  + ")\" id=enabledBoxGroup_" + i + " checked='checked'/></td>";
+        html += "<td><input type='checkbox' onClick=\"deactivateCellGroup(" + i + ")\" id=enabledBoxGroup_" + i + " checked='checked'/></td>";
         html += "<td><label>Group_" + i + "</label></td>";
         html += "<td>";
         for (var j = 1; j < cellGroups[getTabIndex()].length; j++) {
             var ar = cellGroups[getTabIndex()][j].split("~");
             if (parseInt(ar[1]) === i) {
-                html += ar[0] + "<br>";
+                html += ar[0] + ",&nbsp;";
             } else {
             }
         }
@@ -390,6 +390,7 @@ function addSelectedCellsToGroup(addSelectedValues) {
     html += "</tbody>";
     html += "</TABLE>";
     html += "</TABLE>";
+    html += "<button id=\"clearCellsButton" + divId + "\" type=\"button\" onclick=\"clearCellGroups()\" style=\"display: block;\">Clear list</button>";
     document.getElementById("selectedCellsTable" + getDivId()).innerHTML = html;
 }
 function addValuesToCellGroup(values) {
@@ -408,6 +409,7 @@ function addArraytoArray(dest, source, groupId) {
 
 
 function addSelectedControllersToGroup(addSelectedValues) {
+    var divId = getDivId();
     if (addSelectedValues) {
         var values = getSelectedControllerNames();
         addValuesToCtrlGroup(values);
@@ -415,7 +417,7 @@ function addSelectedControllersToGroup(addSelectedValues) {
     var html = "<TABLE class='blingTable2' cellspacing='0'>"
             + "<thead>"
             + "<tr>"
-            + "<th width='10%' align='center'>Enabled</th>"
+//            + "<th width='10%' align='center'>Enabled</th>"
             + "<th width='10%' align='center'>Group Name</th>"
             + "<th width='80%' align='center' >Controllers</th>"
             + "</tr>"
@@ -423,13 +425,14 @@ function addSelectedControllersToGroup(addSelectedValues) {
     for (var i = 0; i < ctrlGroupCounters[getTabIndex()].length - 1; i++) {
         html += "<tbody>";
         html += "<tr>";
-        html += "<td><input type='checkbox' onClick=\"deactivateCtrlGroup(" + i + ")\" checked='checked'/></td>";
+//        html += "<td><input type='checkbox' onClick=\"deactivateCtrlGroup(" + i + ")\" checked='checked'/></td>";
         html += "<td><label>Group_" + i + "</label></td>";
+//        html += "<td style=\"width: 500px\">";
         html += "<td>";
         for (var j = 1; j < ctrlGroups[getTabIndex()].length; j++) {
             var ar = ctrlGroups[getTabIndex()][j].split("~");
             if (parseInt(ar[1]) === i) {
-                html += ar[0] + "<br>";
+                html += ar[0] + ",&nbsp;";
             } else {
             }
         }
@@ -439,9 +442,30 @@ function addSelectedControllersToGroup(addSelectedValues) {
     html += "</tbody>";
     html += "</TABLE>";
     html += "</TABLE>";
+    html += "<button id=\"clearCtrlsButton" + divId + "\" type=\"button\" onclick=\"clearCtrlGroups()\" style=\"display: block;\">Clear list</button>";
     document.getElementById("selectedControllersTable" + getDivId()).innerHTML = html;
+    unCheckAll();
 }
 
+function clearCtrlGroups() {
+    document.getElementById("selectedControllersTable" + getDivId()).innerHTML = "";
+    ctrlGroups[getTabIndex()] = [];
+    ctrlGroupCounters[getTabIndex()] = [];
+    ctrlGroups[getTabIndex()].push(0);
+    ctrlGroupCounters[getTabIndex()].push(0);
+}
+
+function clearCellGroups() {
+    document.getElementById("selectedCellsTable" + getDivId()).innerHTML = "";
+    cellGroups[getTabIndex()] = [];
+    cellGroupCounters[getTabIndex()] = [];
+    cellGroups[getTabIndex()].push(0);
+    cellGroupCounters[getTabIndex()].push(0);
+}
+
+//function objectExists(id) {
+//    return document.getElementById(id) !== null;
+//}
 //function clearSelected2GNSNCellsGroups() {
 //    var size = selected2GNSNCellsGroups.length;
 //    for (var i = 0; i < size; i++) {
@@ -475,7 +499,6 @@ function addSelectedControllersToGroup(addSelectedValues) {
 function checkUnCheckAll() {
     var check = document.getElementById("selectAllCkBox" + getDivId()).checked;
     var checkboxes = new Array();
-    console.log(check);
     checkboxes = document.getElementsByTagName('input');
     for (var i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].type === 'checkbox' && checkboxes[i].className === "ctrlChBox" + getDivId()) {
@@ -483,4 +506,16 @@ function checkUnCheckAll() {
             storeController(checkboxes[i]);
         }
     }
+}
+
+function unCheckAll() {
+    var checkboxes = new Array();
+    checkboxes = document.getElementsByTagName('input');
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].type === 'checkbox' && checkboxes[i].className === "ctrlChBox" + getDivId()) {
+            checkboxes[i].checked = false;
+            storeController(checkboxes[i]);
+        }
+    }
+    document.getElementById("selectAllCkBox" + getDivId()).checked = false;
 }

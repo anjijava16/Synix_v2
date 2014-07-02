@@ -25,7 +25,7 @@ public class WcellNameSingleton extends ElementNameSingleton {
     private static WcellNameSingleton instance;
 
     public static synchronized WcellNameSingleton getInstance(boolean test_) {
-        QUERY = "select distinct USERLABEL,OMMNEID,NODEBNO,CID from ZJ_CELLS_3G order by USERLABEL";
+        QUERY = Constants.ZJHB3_CELLS_SQL;//"select distinct USERLABEL,OMMNEID,NODEBNO,CID from ZJ_CELLS_3G order by USERLABEL";
         test = test_;
         if (instance == null || isExpired()) {
             instance = new WcellNameSingleton();
@@ -48,6 +48,7 @@ public class WcellNameSingleton extends ElementNameSingleton {
             while (rs.next()) {
                 names.add(rs.getString(1).toUpperCase());
                 id.add(rs.getString(2) + multiIdDelimiter + rs.getString(3) + multiIdDelimiter + rs.getString(4));
+                addDistinctName(rs.getString(1).toUpperCase());
             }
             rs.close();
             stmnt.close();

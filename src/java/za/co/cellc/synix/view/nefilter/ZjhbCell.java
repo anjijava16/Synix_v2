@@ -24,6 +24,6 @@ public class ZjhbCell extends NE_Node {
 
     private void buildSelectHTML() {
         html.append("<select class=\"btsNamesListBox\" id=\"ZjhbbtsNamesListBox\" size=\"");
-        html.append(Constants.MAX_CELLS).append("\" multiple=\"multiple\"></select>");
+        html.append(Constants.MAX_CELLS_LINES).append("\" multiple=\"multiple\"></select>");
     }
 }

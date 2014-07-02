@@ -7,6 +7,7 @@ package za.co.cellc.synix.view;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,7 +58,9 @@ public class NeHtmlServlet extends HttpServlet {
             ctrlCount = neList.size();
             closeData();
             openData();
-            neList = NeListFactory.create(vendor, technology, "CELL");
+
+//            html.append("<br>");
+            neList = new ArrayList<>();//NeListFactory.create(vendor, technology, "CELL");
             makeOptionListTable(neList);
             makeCellAggregationButton();
             closeData();
@@ -99,15 +102,21 @@ public class NeHtmlServlet extends HttpServlet {
         html.append("<thead>\n"
                 + "                <tr>\n"
                 + "                    <th width=\"20%\" align=\"left\" >");
+//        makeLoaderGif();
         html.append("<input name='Select All' id=\"selectAllCkBox").append(hip.getDivId());
         html.append("\" value='Select All' type='checkbox'");
         html.append("onClick=\"checkUnCheckAll()\"");
-        html.append(">Select All</input>");
-        html.append("&nbsp;&nbsp;&nbsp;&nbsp;Controllers</th>\n"
-                + "                    <th width=\"40%\" align=\"center\" >Cells</th>"
+        html.append(">Select All</input></th>\n"
+                + "                    <th id=\"cellDiv" + hip.getDivId() + "\" style=\"display: none;\" width=\"40%\" align=\"left\" >" + getCellSearchBox() + "&nbsp;&nbsp;&nbsp;&nbsp;</th>"
                 //                + "                    <th width=\"40%\" align=\"center\" ></th>\n"
                 + "                </tr>\n"
                 + "            </thead>");
+    }
+
+    private void makeLoaderGif() {
+        html.append("<div id=\"loaderDiv" + hip.getDivId() + "\" style=\"display: block;\">\n"
+                + "                        <div class=\"loadingImg\"></div>\n"
+                + "                    </div>");
     }
 
     private void openTable() {
@@ -146,9 +155,13 @@ public class NeHtmlServlet extends HttpServlet {
         html.append("<button id=\"aggregateCellsButton1").append(hip.getDivId()).append("\" type=\"button\" onclick=\"addSelectedCellsToGroup(true)\">Aggregate cells</button>");
     }
 
+    private String getCellSearchBox() {
+        return "<label>Cell Search:&nbsp;&nbsp;</label><input id=\"cellSearchBox" + hip.getDivId() + "\" type=\"text\" onKeyUp=\"cellSearchBoxKeyUp()\" style=\"width:90px;\">";
+    }
+
     private void makeOptionListTable(List<String> neList) {
         double padding = 1.5;
-        int rows = Constants.MAX_CELLS < (ctrlCount * padding) ? (int) (ctrlCount * padding) : Constants.MAX_CELLS;
+        int rows = Constants.MAX_CELLS_LINES < (ctrlCount * padding) ? (int) (ctrlCount * padding) : Constants.MAX_CELLS_LINES;
         html.append("<select id=\"cellNames").append(hip.getDivId()).append("\" class=\"cellsListBox\" size=\"");
         html.append(rows).append("\" multiple=\"multiple\" ");
         html.append(" onmouseup=\"storeCells('cellNames");
@@ -158,7 +171,8 @@ public class NeHtmlServlet extends HttpServlet {
         html.append(hip.getDivId());
         html.append("')\"");
         html.append(">");
-        for (String ne : neList) {
+        for (int i = 0; i < (neList.size() > Constants.MAX_CELLS_ITEMS ? Constants.MAX_CELLS_ITEMS : neList.size()); i++) {
+            String ne = neList.get(i);
             html.append("<option value=\"").append(ne).append("\"");
             html.append(" onClick=\"storeCells('cellNames");
             html.append(hip.getDivId());

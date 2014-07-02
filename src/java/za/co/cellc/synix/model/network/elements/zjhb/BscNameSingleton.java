@@ -5,6 +5,7 @@
 package za.co.cellc.synix.model.network.elements.zjhb;
 
 import java.util.Date;
+import za.co.cellc.synix.constants.Constants;
 import za.co.cellc.synix.model.network.elements.ElementNameSingleton;
 
 /**
@@ -17,7 +18,7 @@ public class BscNameSingleton extends ElementNameSingleton {
 //    private final String QUERY = "select distinct BSC_NAME,BSC_GID from S_TWOG_CELLS";
 
     public static synchronized ElementNameSingleton getInstance(boolean test_) {
-        QUERY = "select distinct USERLABEL,BSSFUNCTIONID from ZJ_CONTROLLERS_2G order by USERLABEL";
+        QUERY = Constants.ZJHB2_CONTROLLERS_SQL;//"select distinct USERLABEL,BSSFUNCTIONID from ZJ_CONTROLLERS_2G order by USERLABEL";
         test = test_;
         if (instance == null || isExpired()) {
             instance = new BscNameSingleton();

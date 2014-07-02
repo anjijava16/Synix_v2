@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,10 +33,14 @@ public class ElementNameSingleton {
     private static ElementNameSingleton instance;
     protected static String QUERY = null;
     protected List<String> names = new ArrayList<>();
+    protected List<String> distinctNames = new LinkedList<>();
     protected List<String> id = new ArrayList<>();
     public static boolean test = false;
 
-//    private static HtmlInputProcessor htmlIp;
+    public List<String> getDistinctNames() {
+        return distinctNames;
+    }
+
     public ElementNameSingleton(String elementColumnNames) {
         this.elementColumnNames = elementColumnNames;
     }
@@ -52,8 +57,14 @@ public class ElementNameSingleton {
         return null;
     }
 
-    public String getGID(String bsc_name) {
-        return id.get(names.indexOf(bsc_name.toUpperCase()));
+    public List<String> getGids(String name) {
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < names.size(); i++) {
+            if (names.get(i).equalsIgnoreCase(name)) {
+                ids.add(id.get(i));
+            }
+        }
+        return ids;
     }
 
     public String getName(String id_) {
@@ -68,11 +79,18 @@ public class ElementNameSingleton {
             while (rs.next()) {
                 names.add(rs.getString(1).toUpperCase());
                 id.add(rs.getString(2));
+                addDistinctName(rs.getString(1).toUpperCase());
             }
             rs.close();
             stmnt.close();
         } catch (SQLException ex) {
             Logger.getLogger(BscNameSingleton.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    protected void addDistinctName(String name) {
+        if (!distinctNames.contains(name)) {
+            distinctNames.add(name);
         }
     }
 

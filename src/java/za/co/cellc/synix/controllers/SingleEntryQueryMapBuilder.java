@@ -82,7 +82,7 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
 
     private void setWhereClause() throws Exception {
         int counter = 0;
-        List<String> networkElements = getNeElements();
+        List<String> networkElements = getNeElementIds();
         StringBuilder sb = new StringBuilder();
         sb.append(" WHERE ");
         sb.append(dateClause);
@@ -110,16 +110,18 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
     private String makeNetworkElementWhereClause() {
         StringBuilder clause = new StringBuilder("(");
         String cols[] = networkElementColumnName.split(elementNameSingleton.getMultiIdDelimiter());
-        String ids[] = networkElementID.split(elementNameSingleton.getMultiIdDelimiter());
-        for (int i = 0; i < cols.length; i++) {
-            clause.append(cols[i]);
-            clause.append("='");
-            clause.append(ids[i]);
-            clause.append("'");
-            if (i < cols.length - 1) {
-                clause.append(" AND ");
+//        for (String ne : networkElementID) {
+            String ids[] = networkElementID.split(elementNameSingleton.getMultiIdDelimiter());
+            for (int i = 0; i < cols.length; i++) {
+                clause.append(cols[i]);
+                clause.append("='");
+                clause.append(ids[i]);
+                clause.append("'");
+                if (i < cols.length - 1) {
+                    clause.append(" AND ");
+                }
             }
-        }
+//        }
         clause.append(")");
         return clause.toString();
     }

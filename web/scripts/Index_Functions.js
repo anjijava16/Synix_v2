@@ -134,7 +134,7 @@ function getNeFilter() {
     neFilter.ctrlGroups = getCtrlGroups(ctrlGroups[tabIx]);
 //    }
 //    if (level === "Controller") {
-    neFilter.controllers = removeEmptiesFromArray(selectedControllerNames[tabIx]);
+    neFilter.controllers = removeIndexFromArray(removeEmptiesFromArray(selectedControllerNames[tabIx]));
 //        neFilter.bsc = checkedBscs;
 //    } else {
 //        if (level === "Cell" && technology[0] === "2G") {
