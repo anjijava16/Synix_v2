@@ -1,20 +1,20 @@
 {
     "name": "2G",
-    "id": "ZJHB_2G_KPI_Charts",
+    "id": "ZKZN_2G_KPI_Charts",
     "children": [
                     {
                         "name": "Accessibility",
-                        "id": "ZJHB2_Accessibility",
+                        "id": "ZKZN2_Accessibility",
                         "type":"ZTEchild"
                     },
                     {
                         "name": "Retainability",
-                        "id": "ZJHB2_Retainability",
+                        "id": "ZKZN2_Retainability",
                         "type":"ZTEchild"
                     },
                     {
                         "name": "Traffic",
-                        "id": "ZJHB2_Traffic",
+                        "id": "ZKZN2_Traffic",
                         "type":"ZTEchild"
                     }
                         ]

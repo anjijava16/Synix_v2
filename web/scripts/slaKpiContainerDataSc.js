@@ -7,8 +7,8 @@ var tabNames = [];
 var currentTabIndex = 0;
 var NSN_2G_IX = 0;
 var NSN_3G_IX = 1;
-var ZJHB_2G_IX = 2;
-var ZJHB_3G_IX = 3;
+//var ZJHB_2G_IX = 2;
+//var ZJHB_3G_IX = 3;
 var selectedControllerNames = [];
 var selectedSiteNames = [];
 var selectedCellNames = [];
@@ -221,14 +221,66 @@ function  getDivId() {
 }
 
 function getTabIndex() {
-    if (vendor[0] === "NSN" && technology[0] === "2G") {
-        return NSN_2G_IX;
-    } else if (vendor[0] === "NSN" && technology[0] === "3G") {
-        return NSN_3G_IX;
-    } else if (vendor[0] === "ZJHB" && technology[0] === "2G") {
-        return ZJHB_2G_IX;
-    } else if (vendor[0] === "ZJHB" && technology[0] === "3G") {
-        return ZJHB_3G_IX;
+    if (vendor[0] === "NSN" && technology[0] === "2G" && subGroup === "A") {
+        return TAB_IX_NSN2_A;
+    } else if (vendor[0] === "NSN" && technology[0] === "3G" && subGroup === "A") {
+        return TAB_IX_NSN3_A;
+    } else if (vendor[0] === "NSN" && technology[0] === "2G" && subGroup === "R") {
+        return TAB_IX_NSN2_R;
+    } else if (vendor[0] === "NSN" && technology[0] === "3G" && subGroup === "R") {
+        return TAB_IX_NSN3_R;
+    } else if (vendor[0] === "NSN" && technology[0] === "2G" && subGroup === "T") {
+        return TAB_IX_NSN2_T;
+    } else if (vendor[0] === "NSN" && technology[0] === "3G" && subGroup === "T") {
+        return TAB_IX_NSN3_T;
+    } else if (vendor[0] === "ZJHB" && technology[0] === "2G" && subGroup === "A") {
+        return TAB_IX_ZJHB2_A;
+    } else if (vendor[0] === "ZJHB" && technology[0] === "3G" && subGroup === "A") {
+        return TAB_IX_ZJHB3_A;
+    } else if (vendor[0] === "ZJHB" && technology[0] === "2G" && subGroup === "R") {
+        return TAB_IX_ZJHB2_R;
+    } else if (vendor[0] === "ZJHB" && technology[0] === "3G" && subGroup === "R") {
+        return TAB_IX_ZJHB3_R;
+    } else if (vendor[0] === "ZJHB" && technology[0] === "2G" && subGroup === "T") {
+        return TAB_IX_ZJHB2_T;
+    } else if (vendor[0] === "ZJHB" && technology[0] === "3G" && subGroup === "T") {
+        return TAB_IX_ZJHB3_T;
+    } else if (vendor[0] === "ZBFN" && technology[0] === "2G" && subGroup === "A") {
+        return TAB_IX_ZBFN2_A;
+    } else if (vendor[0] === "ZBFN" && technology[0] === "3G" && subGroup === "A") {
+        return TAB_IX_ZBFN3_A;
+    } else if (vendor[0] === "ZBFN" && technology[0] === "2G" && subGroup === "R") {
+        return TAB_IX_ZBFN2_R;
+    } else if (vendor[0] === "ZBFN" && technology[0] === "3G" && subGroup === "R") {
+        return TAB_IX_ZBFN3_R;
+    } else if (vendor[0] === "ZBFN" && technology[0] === "2G" && subGroup === "T") {
+        return TAB_IX_ZBFN2_T;
+    } else if (vendor[0] === "ZBFN" && technology[0] === "3G" && subGroup === "T") {
+        return TAB_IX_ZBFN3_T;
+    }else if (vendor[0] === "ZKZN" && technology[0] === "2G"&& subGroup==="A") {
+        return TAB_IX_ZKZN2_A;
+    }else if (vendor[0] === "ZKZN" && technology[0] === "3G"&& subGroup==="A") {
+        return TAB_IX_ZKZN3_A;
+    }else if (vendor[0] === "ZKZN" && technology[0] === "2G"&& subGroup==="R") {
+        return TAB_IX_ZKZN2_R;
+    }else if (vendor[0] === "ZKZN" && technology[0] === "3G"&& subGroup==="R") {
+        return TAB_IX_ZKZN3_R;
+    }else if (vendor[0] === "ZKZN" && technology[0] === "2G"&& subGroup==="T") {
+        return TAB_IX_ZKZN2_T;
+    }else if (vendor[0] === "ZKZN" && technology[0] === "3G"&& subGroup==="T") {
+        return TAB_IX_ZKZN3_T;
+    } else if (vendor[0] === "ZCPT" && technology[0] === "2G" && subGroup === "A") {
+        return TAB_IX_ZCPT2_A;
+    } else if (vendor[0] === "ZCPT" && technology[0] === "3G" && subGroup === "A") {
+        return TAB_IX_ZCPT3_A;
+    } else if (vendor[0] === "ZCPT" && technology[0] === "2G" && subGroup === "R") {
+        return TAB_IX_ZCPT2_R;
+    } else if (vendor[0] === "ZCPT" && technology[0] === "3G" && subGroup === "R") {
+        return TAB_IX_ZCPT3_R;
+    } else if (vendor[0] === "ZCPT" && technology[0] === "2G" && subGroup === "T") {
+        return TAB_IX_ZCPT2_T;
+    } else if (vendor[0] === "ZCPT" && technology[0] === "3G" && subGroup === "T") {
+        return TAB_IX_ZCPT3_T;
     }
 }
 function loadLists() {

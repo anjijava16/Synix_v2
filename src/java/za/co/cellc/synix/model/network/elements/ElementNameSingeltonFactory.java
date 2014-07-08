@@ -31,6 +31,30 @@ public class ElementNameSingeltonFactory {
             return za.co.cellc.synix.model.network.elements.zjhb.BtsNameSingleton.getInstance(test);
         } else if (vendor.equalsIgnoreCase(Constants.Vendors.ZJHB.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("3G")) {
             return za.co.cellc.synix.model.network.elements.zjhb.WcellNameSingleton.getInstance(test);
+        } else if (vendor.equalsIgnoreCase(Constants.Vendors.ZBFN.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
+            return za.co.cellc.synix.model.network.elements.zbfn.BscNameSingleton.getInstance(test);
+        } else if (vendor.equalsIgnoreCase(Constants.Vendors.ZBFN.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("3G")) {
+            return za.co.cellc.synix.model.network.elements.zbfn.RncNameSingleton.getInstance(test);
+        } else if (vendor.equalsIgnoreCase(Constants.Vendors.ZBFN.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("2G")) {
+            return za.co.cellc.synix.model.network.elements.zbfn.BtsNameSingleton.getInstance(test);
+        } else if (vendor.equalsIgnoreCase(Constants.Vendors.ZBFN.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("3G")) {
+            return za.co.cellc.synix.model.network.elements.zbfn.WcellNameSingleton.getInstance(test);
+        } else if (vendor.equalsIgnoreCase(Constants.Vendors.ZKZN.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
+            return za.co.cellc.synix.model.network.elements.zkzn.BscNameSingleton.getInstance(test);
+        } else if (vendor.equalsIgnoreCase(Constants.Vendors.ZKZN.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("3G")) {
+            return za.co.cellc.synix.model.network.elements.zkzn.RncNameSingleton.getInstance(test);
+        } else if (vendor.equalsIgnoreCase(Constants.Vendors.ZKZN.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("2G")) {
+            return za.co.cellc.synix.model.network.elements.zkzn.BtsNameSingleton.getInstance(test);
+        } else if (vendor.equalsIgnoreCase(Constants.Vendors.ZKZN.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("3G")) {
+            return za.co.cellc.synix.model.network.elements.zkzn.WcellNameSingleton.getInstance(test);
+        } else if (vendor.equalsIgnoreCase(Constants.Vendors.ZCPT.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
+            return za.co.cellc.synix.model.network.elements.zcpt.BscNameSingleton.getInstance(test);
+        } else if (vendor.equalsIgnoreCase(Constants.Vendors.ZCPT.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("3G")) {
+            return za.co.cellc.synix.model.network.elements.zcpt.RncNameSingleton.getInstance(test);
+        } else if (vendor.equalsIgnoreCase(Constants.Vendors.ZCPT.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("2G")) {
+            return za.co.cellc.synix.model.network.elements.zcpt.BtsNameSingleton.getInstance(test);
+        } else if (vendor.equalsIgnoreCase(Constants.Vendors.ZCPT.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("3G")) {
+            return za.co.cellc.synix.model.network.elements.zcpt.WcellNameSingleton.getInstance(test);
         } else {
             throw new InvalidParameterException("Invalid parameters: " + technology + "," + level);
         }

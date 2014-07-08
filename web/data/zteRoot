@@ -1,15 +1,25 @@
 {
     "name": "SLA KPI's",
     "id": "zteRoot",
-    "children": [
+    "children": [        
+        {
+            "name": "BFN",
+            "id": "zBfnRoot",
+            "children": true
+        },
+        {
+            "name": "CPT",
+            "id": "zCptRoot",
+            "children": true
+        },
         {
             "name": "JHB",
             "id": "zJhbRoot",
             "children": true
         },
         {
-            "name": "ALL",
-            "id": "zteAllRoot",
+            "name": "KZN",
+            "id": "zKznRoot",
             "children": true
         }
     ]

@@ -68,15 +68,17 @@
                         <td style="text-align:center">ZTE</td>
                         <td style="text-align:center">2G</td>
                         <td style="text-align:center">Daily/Hourly</td>
-                        <td style="text-align:center"></td>
-                        <td style="text-align:center">0%</td>
+                        <td style="text-align:center">BSC & Cell</td>
+                        <td style="text-align:center">95%</td>
+                        <td style="text-align:center">Undergoing unit testing</td>
                     </tr>
                     <tr>
                         <td style="text-align:center">ZTE</td>
                         <td style="text-align:center">3G</td>
                         <td style="text-align:center">Daily/Hourly</td>
-                        <td style="text-align:center"></td>
-                        <td style="text-align:center">0%</td>
+                        <td style="text-align:center">RNC & Cell</td>
+                        <td style="text-align:center">95%</td>
+                        <td style="text-align:center">Undergoing unit testing</td>
                     </tr>
                 </tbody>
             </table>

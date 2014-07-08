@@ -4,15 +4,18 @@
     "children": [
                     {
                         "name": "Accessibility",
-                        "id": "N3_Accessibility"
+                        "id": "N3_Accessibility",
+                        "type":"NSNchild"
                     },
                     {
                         "name": "Retainability",
-                        "id": "N3_Retainability"
+                        "id": "N3_Retainability",
+                        "type":"NSNchild"
                     },
                     {
                         "name": "Traffic",
-                        "id": "N3_Traffic"
+                        "id": "N3_Traffic",
+                        "type":"NSNchild"
                     }
                         ]
 } 

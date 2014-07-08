@@ -1,15 +1,15 @@
 {
     "name": "SLA KPI's",
-    "id": "nsnRoot",
+    "id": "zBfnRoot",
     "children": [
         {
             "name": "2G",
-            "id": "NSN_2G_KPI_Charts",
+            "id": "ZBFN_2G_KPI_Charts",
             "children": true
         },
         {
             "name": "3G",
-            "id": "NSN_3G_KPI_Charts",
+            "id": "ZBFN_3G_KPI_Charts",
             "children": true
         }
 

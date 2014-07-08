@@ -5,12 +5,16 @@ html, body {
     overflow: hidden;
     padding: 0;
 }
+/*.kpiChartsLayout{
+    font-size: 6px;
+    
+}*/
 
 #appLayout {
     height: 100%;
 }
 #leftCol {
-    width: 19em;
+    width: 20em;
     /*overflow: hidden;*/
 }
 .configTree{
@@ -82,8 +86,32 @@ li.collapsibleListClosed{
     height: 18px;
     text-align: center;
 }
+.NSNchild {
+    background-image: url('../images/chart4.png'); 
+    width: 25px;
+    height: 10px;
+    background-position: -352px 50%;
+}
+.ZTEchild {
+    background-image: url('../images/chart4.png'); 
+    width: 25px;
+    height: 10px;
+    background-position: -352px 50%;
+}
+.NSNroot{
+    background-image: url('../images/nsn2.png'); 
+    width: 35px;
+    height: 15px;
+    background-position: -13px 40%;
+}
+.ZTEroot{
+    background-image: url('../images/zte3.png'); 
+    width: 45px;
+    height: 15px;
+    background-position: 0px 50%;
+}
 .dijitLeaf { 
-    background-image: url('../images/chart0.png'); 
+    background-image: url('../images/chart4.png'); 
     /*background-repeat: no-repeat;*/
     width: 25px;
     height: 10px;

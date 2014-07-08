@@ -66,6 +66,18 @@ public class Constants {
     public static final String ZJHB3_CONTROLLERS_SQL = "select USERLABEL,EMSRDNID from ZJ_CONTROLLERS_3G order by USERLABEL";
     public static final String ZJHB2_CELLS_SQL = "select LOCATIONNAME,BSSFUNCTIONID,BTSSITEMGRID,GSMCELLID from ZJ_CELLS_2G order by LOCATIONNAME";
     public static final String ZJHB3_CELLS_SQL = "select USERLABEL,OMMNEID,NODEBNO,CID from ZJ_CELLS_3G order by USERLABEL";
+    public static final String ZBFN2_CONTROLLERS_SQL = "select USERLABEL,BSSFUNCTIONID from ZB_CONTROLLERS_2G order by USERLABEL";
+    public static final String ZBFN3_CONTROLLERS_SQL = "select USERLABEL,EMSRDNID from ZB_CONTROLLERS_3G order by USERLABEL";
+    public static final String ZBFN2_CELLS_SQL = "select LOCATIONNAME,BSSFUNCTIONID,BTSSITEMGRID,GSMCELLID from ZB_CELLS_2G order by LOCATIONNAME";
+    public static final String ZBFN3_CELLS_SQL = "select USERLABEL,OMMNEID,NODEBNO,CID from ZB_CELLS_3G order by USERLABEL";
+    public static final String ZKZN2_CONTROLLERS_SQL = "select USERLABEL,BSSFUNCTIONID from ZK_CONTROLLERS_2G order by USERLABEL";
+    public static final String ZKZN3_CONTROLLERS_SQL = "select USERLABEL,EMSRDNID from ZK_CONTROLLERS_3G order by USERLABEL";
+    public static final String ZKZN2_CELLS_SQL = "select LOCATIONNAME,BSSFUNCTIONID,BTSSITEMGRID,GSMCELLID from ZK_CELLS_2G order by LOCATIONNAME";
+    public static final String ZKZN3_CELLS_SQL = "select USERLABEL,OMMNEID,NODEBNO,CID from ZK_CELLS_3G order by USERLABEL";
+    public static final String ZCPT2_CONTROLLERS_SQL = "select USERLABEL,BSSFUNCTIONID from ZC_CONTROLLERS_2G order by USERLABEL";
+    public static final String ZCPT3_CONTROLLERS_SQL = "select USERLABEL,EMSRDNID from ZC_CONTROLLERS_3G order by USERLABEL";
+    public static final String ZCPT2_CELLS_SQL = "select LOCATIONNAME,BSSFUNCTIONID,BTSSITEMGRID,GSMCELLID from ZC_CELLS_2G order by LOCATIONNAME";
+    public static final String ZCPT3_CELLS_SQL = "select USERLABEL,OMMNEID,NODEBNO,CID from ZJ_CELLS_3G order by USERLABEL";
     public static final String TECHNOLOGY_2G = "2G";
     public static final String TECHNOLOGY_3G = "3G";
 
@@ -149,7 +161,10 @@ public class Constants {
     public enum Vendors {
 
         NSN("NSN"),
-        ZJHB("ZJHB");
+        ZJHB("ZJHB"),
+        ZBFN("ZBFN"),
+        ZKZN("ZKZN"),
+        ZCPT("ZCPT");
         private final String value;
 
         private Vendors(String value) {

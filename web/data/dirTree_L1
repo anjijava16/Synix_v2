@@ -3,13 +3,15 @@
     "id": "dirTree_L1",
     "children": [
         {
-            "name": "NSN",
+            "name": "",
             "id": "nsnRoot",
+            "type": "NSNroot",
             "children": true
         },
         {
-            "name": "ZTE",
+            "name": "",
             "id": "zteRoot",
+            "type": "ZTEroot",
             "children": true
         }
     ]

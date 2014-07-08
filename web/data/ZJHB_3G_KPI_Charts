@@ -4,15 +4,18 @@
     "children": [
                     {
                         "name": "Accessibility",
-                        "id": "ZJHB3_Accessibility"
+                        "id": "ZJHB3_Accessibility",
+                        "type":"ZTEchild"
                     },
                     {
                         "name": "Retainability",
-                        "id": "ZJHB3_Retainability"
+                        "id": "ZJHB3_Retainability",
+                        "type":"ZTEchild"
                     },
                     {
                         "name": "Traffic",
-                        "id": "ZJHB3_Traffic"
+                        "id": "ZJHB3_Traffic",
+                        "type":"ZTEchild"
                     }
                         ]
 } 

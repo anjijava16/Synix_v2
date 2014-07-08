@@ -6,11 +6,12 @@
             "name": "SLA KPI's",
             "id": "dirTree_L1",
             "children": true
-        },
-        {
-            "name": "Revenue/Site",
-            "id": "dirTree_L2",
-            "children": true
         }
+// ,
+//        {
+//            "name": "Revenue/Site",
+//            "id": "dirTree_L2",
+//            "children": true
+//        }
     ],
 }

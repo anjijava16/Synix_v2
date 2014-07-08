@@ -16,9 +16,9 @@ import za.co.cellc.synix.persistance.Database;
  *
  * @author Pierre.Venter
  */
-public class ZteCells extends CellListMaker {
+public class ZbfnControllers extends ControllerListMaker {
 
-    public ZteCells(String technology) throws SQLException {
+    public ZbfnControllers(String technology) throws SQLException {
         super(technology);
         setControllers();
     }
@@ -32,11 +32,11 @@ public class ZteCells extends CellListMaker {
     }
 
     private void set2GControllers() throws SQLException {
-        if (cells2G.isEmpty()) {
+        if (controllers2G.isEmpty()) {
             Statement stmnt = Database.getInstance(false).getCon().createStatement();
-            ResultSet rs = stmnt.executeQuery(Constants.ZJHB2_CELLS_SQL);
+            ResultSet rs = stmnt.executeQuery(Constants.ZBFN2_CONTROLLERS_SQL);
             while (rs.next()) {
-                cells2G.add(rs.getString(1));
+                controllers2G.add(rs.getString(1));
             }
             stmnt.close();
             rs.close();
@@ -44,11 +44,11 @@ public class ZteCells extends CellListMaker {
     }
 
     private void set3GControllers() throws SQLException {
-        if (cells3G.isEmpty()) {
+        if (controllers3G.isEmpty()) {
             Statement stmnt = Database.getInstance(false).getCon().createStatement();
-            ResultSet rs = stmnt.executeQuery(Constants.ZJHB3_CELLS_SQL);
+            ResultSet rs = stmnt.executeQuery(Constants.ZBFN3_CONTROLLERS_SQL);
             while (rs.next()) {
-                cells3G.add(rs.getString(1));
+                controllers3G.add(rs.getString(1));
             }
             stmnt.close();
             rs.close();
