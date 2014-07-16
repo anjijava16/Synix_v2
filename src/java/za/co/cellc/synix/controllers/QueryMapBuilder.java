@@ -64,19 +64,7 @@ public class QueryMapBuilder {
     }
 
     protected void setNetworkElementID(String neId) throws Exception {
-//        if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
-//            networkElementID = elementNameSingleton.getGID(neId);
-//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("3G")) {
-//            networkElementID = elementNameSingleton.getGID(neId);
-//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("2G")) {
-//            networkElementID = elementNameSingleton.getGID(neId);
-//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("3G")) {
-//            networkElementID = elementNameSingleton.getGID(neId);
-//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.ZJHB.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
         networkElementID = neId;
-//        } else {
-//            throw new Exception("Invalid network element ID: " + neId);
-//        }
     }
 
     private void setTechnology() {
@@ -121,21 +109,6 @@ public class QueryMapBuilder {
     }
 
     private void setNetworkElementColumnName() throws Exception {
-//        if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
-//            networkElementColumnName = "BSC_GID";
-//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("3G")) {
-//            networkElementColumnName = "RNC_ID";
-//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("2G")) {
-//            networkElementColumnName = "BTS_GID";
-//        } else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.NSN.value()) && level.equalsIgnoreCase("CELL") && technology.equalsIgnoreCase("3G")) {
-//            networkElementColumnName = "WCEL_ID";
-//        }else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.ZJHB.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("2G")) {
-//            networkElementColumnName = "SUBNETWORKID";
-//        }else if (htmlIp.getVendor().equalsIgnoreCase(Constants.Vendors.ZJHB.value()) && level.equalsIgnoreCase("CONTROLLER") && technology.equalsIgnoreCase("3G")) {
-//            networkElementColumnName = "RNCID";
-//        } else {
-//            throw new Exception("Error setting network element. Level=" + level + " technology=" + technology + " vendor=" + htmlIp.getVendor());
-//        }
         networkElementColumnName = elementNameSingleton.getElementColumnNames();
     }
 
@@ -153,9 +126,22 @@ public class QueryMapBuilder {
         return query.toString();
     }
 
+//    private void setSelectionPrefix() {
+//        if (!htmlIp.isAggregated()) {
+//            selectionPrefix.append(concatMultiIdDelimiter(networkElementColumnName));
+//            selectionPrefix.append(",");
+//        }
+//        selectionPrefix.append("to_char(");
+//        selectionPrefix.append(Constants.DATE_TIME_COL);
+//        selectionPrefix.append(",'");
+//        selectionPrefix.append(Constants.ORACLE_DATE_FORMAT);
+//        selectionPrefix.append("')");
+//    }
+//    private void setUnionizedSelectionPrefix() {
     private void setSelectionPrefix() {
         if (!htmlIp.isAggregated()) {
             selectionPrefix.append(concatMultiIdDelimiter(networkElementColumnName));
+            selectionPrefix.append(" AS ObjectID");
             selectionPrefix.append(",");
         }
         selectionPrefix.append("to_char(");
@@ -163,6 +149,7 @@ public class QueryMapBuilder {
         selectionPrefix.append(",'");
         selectionPrefix.append(Constants.ORACLE_DATE_FORMAT);
         selectionPrefix.append("')");
+        selectionPrefix.append(" AS DateTime");
     }
 
     private String concatMultiIdDelimiter(String s) {

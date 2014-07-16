@@ -39,6 +39,10 @@ function initMultiArrays() {
 //    return ar;
 //}
 function cellSearchBoxKeyUp() {
+
+    var ar = new Object();
+    var tabIx = getTabIndex();
+    ar.controllers = removeIndexFromArray(removeEmptiesFromArray(selectedControllerNames[tabIx]))
     var divId = getDivId();
     var val = document.getElementById("cellSearchBox" + divId).value;
     if (val.length > 2 || val.length === 0) {
@@ -57,7 +61,7 @@ function cellSearchBoxKeyUp() {
                 document.getElementById("cellsLoader" + getDivId()).style.display = "none";
             }
         };
-        xmlhttp.open("GET", "CellNamesServlet?Vendor=" + vendor[0] + "&Technology=" + technology[0] + "&searchStr=" + val);
+        xmlhttp.open("GET", "CellNamesServlet?Vendor=" + vendor[0] + "&Technology=" + technology[0] + "&searchStr=" + val + "&controllers=" + JSON.stringify(ar));
         xmlhttp.send(null);
     }
 }
@@ -257,17 +261,17 @@ function getTabIndex() {
         return TAB_IX_ZBFN2_T;
     } else if (vendor[0] === "ZBFN" && technology[0] === "3G" && subGroup === "T") {
         return TAB_IX_ZBFN3_T;
-    }else if (vendor[0] === "ZKZN" && technology[0] === "2G"&& subGroup==="A") {
+    } else if (vendor[0] === "ZKZN" && technology[0] === "2G" && subGroup === "A") {
         return TAB_IX_ZKZN2_A;
-    }else if (vendor[0] === "ZKZN" && technology[0] === "3G"&& subGroup==="A") {
+    } else if (vendor[0] === "ZKZN" && technology[0] === "3G" && subGroup === "A") {
         return TAB_IX_ZKZN3_A;
-    }else if (vendor[0] === "ZKZN" && technology[0] === "2G"&& subGroup==="R") {
+    } else if (vendor[0] === "ZKZN" && technology[0] === "2G" && subGroup === "R") {
         return TAB_IX_ZKZN2_R;
-    }else if (vendor[0] === "ZKZN" && technology[0] === "3G"&& subGroup==="R") {
+    } else if (vendor[0] === "ZKZN" && technology[0] === "3G" && subGroup === "R") {
         return TAB_IX_ZKZN3_R;
-    }else if (vendor[0] === "ZKZN" && technology[0] === "2G"&& subGroup==="T") {
+    } else if (vendor[0] === "ZKZN" && technology[0] === "2G" && subGroup === "T") {
         return TAB_IX_ZKZN2_T;
-    }else if (vendor[0] === "ZKZN" && technology[0] === "3G"&& subGroup==="T") {
+    } else if (vendor[0] === "ZKZN" && technology[0] === "3G" && subGroup === "T") {
         return TAB_IX_ZKZN3_T;
     } else if (vendor[0] === "ZCPT" && technology[0] === "2G" && subGroup === "A") {
         return TAB_IX_ZCPT2_A;

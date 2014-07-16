@@ -77,9 +77,9 @@ public class Orchestrator {
         }
     }
 
-    private void setFormulaDefPojos() {
+    private void setFormulaDefPojos() throws Exception {
         FormulaDefController fdc = new FormulaDefController();
-        formulaDefPojos = fdc.getFormulaDefPojos(htmlIp,test);
+        formulaDefPojos = fdc.getFormulaDefPojos(htmlIp, test);
     }
 
     private boolean allThreadsDead(List<Thread> threads) {

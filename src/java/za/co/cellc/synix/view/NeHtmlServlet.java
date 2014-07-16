@@ -107,7 +107,7 @@ public class NeHtmlServlet extends HttpServlet {
         html.append("\" value='Select All' type='checkbox'");
         html.append("onClick=\"checkUnCheckAll()\"");
         html.append(">Select All</input></th>\n"
-                + "                    <th id=\"cellDiv" + hip.getDivId() + "\" style=\"display: none;\" width=\"40%\" align=\"left\" >" + getCellSearchBox() + "&nbsp;&nbsp;&nbsp;&nbsp;</th>"
+                + "                    <th id=\"cellDiv" + hip.getDivId() + "\" style=\"display: none;\" width=\"100%\" align=\"left\" >" + getCellSearchBox() + "&nbsp;&nbsp;&nbsp;&nbsp;</th>"
                 //                + "                    <th width=\"40%\" align=\"center\" ></th>\n"
                 + "                </tr>\n"
                 + "            </thead>");
@@ -156,7 +156,7 @@ public class NeHtmlServlet extends HttpServlet {
     }
 
     private String getCellSearchBox() {
-        return "<label>Cell Search:&nbsp;&nbsp;</label><input id=\"cellSearchBox" + hip.getDivId() + "\" type=\"text\" onKeyUp=\"cellSearchBoxKeyUp()\" style=\"width:90px;\">";
+        return "<label>Cell Search:&nbsp;&nbsp;</label><input id=\"cellSearchBox" + hip.getDivId() + "\" type=\"text\" onKeyUp=\"cellSearchBoxKeyUp()\" style=\"width:80%;\">";
     }
 
     private void makeOptionListTable(List<String> neList) {

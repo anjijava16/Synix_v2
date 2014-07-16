@@ -48,6 +48,7 @@ public class WcellNameSingleton extends ElementNameSingleton {
             while (rs.next()) {
                 names.add(rs.getString(1).toUpperCase());
                 id.add(rs.getString(2) + multiIdDelimiter + rs.getString(3) + multiIdDelimiter + rs.getString(4));
+                ctrls.add(rs.getString(5));
                 addDistinctName(rs.getString(1).toUpperCase());
             }
             rs.close();

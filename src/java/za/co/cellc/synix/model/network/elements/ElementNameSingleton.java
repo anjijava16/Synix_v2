@@ -33,12 +33,21 @@ public class ElementNameSingleton {
     private static ElementNameSingleton instance;
     protected static String QUERY = null;
     protected List<String> names = new ArrayList<>();
+    protected List<String> ctrls = new ArrayList<>();
     protected List<String> distinctNames = new LinkedList<>();
     protected List<String> id = new ArrayList<>();
     public static boolean test = false;
 
     public List<String> getDistinctNames() {
         return distinctNames;
+    }
+
+    public List<String> getCtrls() {
+        return ctrls;
+    }
+
+    public List<String> getNames() {
+        return names;
     }
 
     public ElementNameSingleton(String elementColumnNames) {

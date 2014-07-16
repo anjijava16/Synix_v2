@@ -519,7 +519,7 @@ and open the template in the editor.
                         <input type="submit" value="logout" name="B1" style="width:70px;text-align: center;">
                     </form>
                     <div data-dojo-type="dojox.layout.ContentPane" data-dojo-props='selected:false, title:"KPI Charts"'>
-                        <img class="imgleft" id="oracleImage" src="images/oraclesmall.png" alt="" />
+                        <!--<img class="imgleft" id="oracleImage" src="images/oraclesmall.png" alt="" />-->
                         <TABLE class="blingBackGroundTable" cellspacing="0">
                             <tbody>
                                 <tr>

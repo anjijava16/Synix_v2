@@ -30,6 +30,8 @@ public class Constants {
     public static final int SINGLE_ENTRY_MAP_TYPE = 1;
     public static final int MULTI_ENTRY_MAP_TYPE = 2;
     public static final int AGGREGATED_GROUPING_MAP_TYPE = 3;
+    public static final int UNIONIZED_SINGLE_ENTRY_MAP_TYPE = 4;
+    public static final int ZTE_SINGLE_ENTRY_MAP_TYPE = 5;
     public static final String ORACLE_DATE_FORMAT = "yyyy/MM/dd HH24:mi:ss";
     public static final String DB_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String JAVA_DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
@@ -37,6 +39,12 @@ public class Constants {
     public static final String GRAPH_DATE_FORMAT = "yyyy/MM/dd HH:mm:ss";
     public static final String DB_CATALOG_NAME = "synix_p_resource";
     public static final String DATE_TIME_COL = "Period_Start_Time";
+    public final static String CELL = "Cell";
+    public final static String CONTROLLER = "Controller";
+    public final static String HOURLY = "Hourly";
+    public final static String DAILY = "Daily";
+    public final static String WEEKLY = "Weekly";
+    public final static String MONTHLY = "Monthly";
     public static final int CHART_TITLE = 0;
     public static final int FORMULA = 1;
     public static final int ALGORYTHM = 2;
@@ -58,26 +66,38 @@ public class Constants {
     public static final int VIEW_SITE_MONTHLY = 18;
     public static final int UNIT = 19;
     public static final String GROUP_DELIMITER = "~";
-    public static final String N2_CELLS_SQL = "select BTS_NAME,OBJ_GID from N2_CELLS_2G where BTS_NAME != 'null' order by BTS_NAME";
+    public static final String N2_CELLS_SQL = "select BTS_NAME,OBJ_GID,BSC_NAME from N2_CELLS_2G where BTS_NAME != 'null' order by BTS_NAME";
     public static final String N2_CONTROLLERS_SQL = "select BSC_NAME,BSC_GID from N2_CONTROLLERS_2G order by BSC_NAME";
-    public static final String N3_CELLS_SQL = "select WCEL_NAME,CO_GID from N2_CELLS_3G where WCEL_NAME != 'null' order by WCEL_NAME";
+    public static final String N3_CELLS_SQL = "select WCEL_NAME,CO_GID,RNC_NAME from N2_CELLS_3G where WCEL_NAME != 'null' order by WCEL_NAME";
     public static final String N3_CONTROLLERS_SQL = "select RNC_NAME,RNC_GID from N2_CONTROLLERS_3G where RNC_GID != 'null' order by RNC_NAME";
     public static final String ZJHB2_CONTROLLERS_SQL = "select USERLABEL,BSSFUNCTIONID from ZJ_CONTROLLERS_2G order by USERLABEL";
     public static final String ZJHB3_CONTROLLERS_SQL = "select USERLABEL,EMSRDNID from ZJ_CONTROLLERS_3G order by USERLABEL";
-    public static final String ZJHB2_CELLS_SQL = "select LOCATIONNAME,BSSFUNCTIONID,BTSSITEMGRID,GSMCELLID from ZJ_CELLS_2G order by LOCATIONNAME";
-    public static final String ZJHB3_CELLS_SQL = "select USERLABEL,OMMNEID,NODEBNO,CID from ZJ_CELLS_3G order by USERLABEL";
+    public static final String ZJHB2_CELLS_SQL = "SELECT DECODE(LOCATIONNAME,null,DISPLAYNAME,LOCATIONNAME) ln,ZJ_CELLS_2G.BSSFUNCTIONID,ZJ_CELLS_2G.BTSSITEMGRID,ZJ_CELLS_2G.GSMCELLID,ZJ_CONTROLLERS_2G.USERLABEL FROM ZJ_CELLS_2G\n"
+            + "JOIN ZJ_CONTROLLERS_2G ON (ZJ_CONTROLLERS_2G.BSSFUNCTIONID=ZJ_CELLS_2G.BSSFUNCTIONID) \n"
+            + "order by ln";
+    public static final String ZJHB3_CELLS_SQL = "SELECT ZJ_CELLS_3G.USERLABEL,ZJ_CELLS_3G.OMMNEID,ZJ_CELLS_3G.NODEBNO,ZJ_CELLS_3G.CID,ZJ_CONTROLLERS_3G.USERLABEL FROM ZJ_CELLS_3G \n"
+            + "join ZJ_CONTROLLERS_3G on (ZJ_CONTROLLERS_3G.EMSRDNID=ZJ_CELLS_3G.OMMNEID) ORDER BY ZJ_CELLS_3G.USERLABEL";
     public static final String ZBFN2_CONTROLLERS_SQL = "select USERLABEL,BSSFUNCTIONID from ZB_CONTROLLERS_2G order by USERLABEL";
     public static final String ZBFN3_CONTROLLERS_SQL = "select USERLABEL,EMSRDNID from ZB_CONTROLLERS_3G order by USERLABEL";
-    public static final String ZBFN2_CELLS_SQL = "select LOCATIONNAME,BSSFUNCTIONID,BTSSITEMGRID,GSMCELLID from ZB_CELLS_2G order by LOCATIONNAME";
-    public static final String ZBFN3_CELLS_SQL = "select USERLABEL,OMMNEID,NODEBNO,CID from ZB_CELLS_3G order by USERLABEL";
+    public static final String ZBFN2_CELLS_SQL = "SELECT DECODE(LOCATIONNAME,null,DISPLAYNAME,LOCATIONNAME) ln,ZB_CELLS_2G.BSSFUNCTIONID,ZB_CELLS_2G.BTSSITEMGRID,ZB_CELLS_2G.GSMCELLID,ZB_CONTROLLERS_2G.USERLABEL FROM ZB_CELLS_2G\n"
+            + "JOIN ZB_CONTROLLERS_2G ON (ZB_CONTROLLERS_2G.BSSFUNCTIONID=ZB_CELLS_2G.BSSFUNCTIONID) \n"
+            + "order by ln";
+    public static final String ZBFN3_CELLS_SQL = "SELECT ZB_CELLS_3G.USERLABEL,ZB_CELLS_3G.OMMNEID,ZB_CELLS_3G.NODEBNO,ZB_CELLS_3G.CID,ZB_CONTROLLERS_3G.USERLABEL FROM ZB_CELLS_3G \n"
+            + "join ZB_CONTROLLERS_3G on (ZB_CONTROLLERS_3G.EMSRDNID=ZB_CELLS_3G.OMMNEID) ORDER BY ZB_CELLS_3G.USERLABEL";
     public static final String ZKZN2_CONTROLLERS_SQL = "select USERLABEL,BSSFUNCTIONID from ZK_CONTROLLERS_2G order by USERLABEL";
     public static final String ZKZN3_CONTROLLERS_SQL = "select USERLABEL,EMSRDNID from ZK_CONTROLLERS_3G order by USERLABEL";
-    public static final String ZKZN2_CELLS_SQL = "select LOCATIONNAME,BSSFUNCTIONID,BTSSITEMGRID,GSMCELLID from ZK_CELLS_2G order by LOCATIONNAME";
-    public static final String ZKZN3_CELLS_SQL = "select USERLABEL,OMMNEID,NODEBNO,CID from ZK_CELLS_3G order by USERLABEL";
+    public static final String ZKZN2_CELLS_SQL = "SELECT DECODE(LOCATIONNAME,null,DISPLAYNAME,LOCATIONNAME) ln,ZK_CELLS_2G.BSSFUNCTIONID,ZK_CELLS_2G.BTSSITEMGRID,ZK_CELLS_2G.GSMCELLID,ZK_CONTROLLERS_2G.USERLABEL FROM ZK_CELLS_2G\n"
+            + "JOIN ZK_CONTROLLERS_2G ON (ZK_CONTROLLERS_2G.BSSFUNCTIONID=ZK_CELLS_2G.BSSFUNCTIONID) \n"
+            + "order by ln";
+    public static final String ZKZN3_CELLS_SQL = "SELECT ZK_CELLS_3G.USERLABEL,ZK_CELLS_3G.OMMNEID,ZK_CELLS_3G.NODEBNO,ZK_CELLS_3G.CID,ZK_CONTROLLERS_3G.USERLABEL FROM ZK_CELLS_3G \n"
+            + "join ZK_CONTROLLERS_3G on (ZK_CONTROLLERS_3G.EMSRDNID=ZK_CELLS_3G.OMMNEID) ORDER BY ZK_CELLS_3G.USERLABEL";
     public static final String ZCPT2_CONTROLLERS_SQL = "select USERLABEL,BSSFUNCTIONID from ZC_CONTROLLERS_2G order by USERLABEL";
     public static final String ZCPT3_CONTROLLERS_SQL = "select USERLABEL,EMSRDNID from ZC_CONTROLLERS_3G order by USERLABEL";
-    public static final String ZCPT2_CELLS_SQL = "select LOCATIONNAME,BSSFUNCTIONID,BTSSITEMGRID,GSMCELLID from ZC_CELLS_2G order by LOCATIONNAME";
-    public static final String ZCPT3_CELLS_SQL = "select USERLABEL,OMMNEID,NODEBNO,CID from ZJ_CELLS_3G order by USERLABEL";
+    public static final String ZCPT2_CELLS_SQL = "SELECT DECODE(LOCATIONNAME,null,DISPLAYNAME,LOCATIONNAME) ln,ZC_CELLS_2G.BSSFUNCTIONID,ZC_CELLS_2G.BTSSITEMGRID,ZC_CELLS_2G.GSMCELLID,ZC_CONTROLLERS_2G.USERLABEL FROM ZC_CELLS_2G\n"
+            + "JOIN ZC_CONTROLLERS_2G ON (ZC_CONTROLLERS_2G.BSSFUNCTIONID=ZC_CELLS_2G.BSSFUNCTIONID) \n"
+            + "order by ln";
+    public static final String ZCPT3_CELLS_SQL = "SELECT ZC_CELLS_3G.USERLABEL,ZC_CELLS_3G.OMMNEID,ZC_CELLS_3G.NODEBNO,ZC_CELLS_3G.CID,ZC_CONTROLLERS_3G.USERLABEL FROM ZC_CELLS_3G \n"
+            + "join ZC_CONTROLLERS_3G on (ZC_CONTROLLERS_3G.EMSRDNID=ZC_CELLS_3G.OMMNEID) ORDER BY ZC_CELLS_3G.USERLABEL";
     public static final String TECHNOLOGY_2G = "2G";
     public static final String TECHNOLOGY_3G = "3G";
 

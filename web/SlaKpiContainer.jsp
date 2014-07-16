@@ -165,7 +165,7 @@
             </TABLE>
         </div>
         <br>
-        <a href="#top<%=divid%>">Back to top</a>
+        <!--<a href="#top<%=divid%>">Back to top</a>-->
     </body>
 
 </html>

@@ -223,20 +223,159 @@ function populateListboxWithArray(listboxid, ar) {
 //}
 function tabClicked(tabName) {
     selectedTabTitle = tabName;
-    if (tabName === "2G SLA KPI") {
+    if (tabName === "NSN 2G Accessibility") {
         technology[0] = "2G";
         vendor[0] = "NSN";
-    } else if (tabName === "3G SLA KPI") {
+        subGroup = "A";
+    }
+    if (tabName === "NSN 2G Retainability") {
+        technology[0] = "2G";
+        vendor[0] = "NSN";
+        subGroup = "R";
+    }
+    if (tabName === "NSN 2G Traffic") {
+        technology[0] = "2G";
+        vendor[0] = "NSN";
+        subGroup = "T";
+    }
+    if (tabName === "NSN 3G Accessibility") {
         technology[0] = "3G";
         vendor[0] = "NSN";
-    } else if (tabName === "ZTE-JHB 2G SLA KPI") {
+        subGroup = "A";
+    }
+    if (tabName === "NSN 3G Retainability") {
+        technology[0] = "3G";
+        vendor[0] = "NSN";
+        subGroup = "R";
+    }
+    if (tabName === "NSN 3G Traffic") {
+        technology[0] = "3G";
+        vendor[0] = "NSN";
+        subGroup = "T";
+    }
+    if (tabName === "ZTE BFN 2G Accessibility") {
+        technology[0] = "2G";
+        vendor[0] = "ZBFN";
+        subGroup = "A";
+    }
+    if (tabName === "ZTE BFN 2G Retainability") {
+        technology[0] = "2G";
+        vendor[0] = "ZBFN";
+        subGroup = "R";
+    }
+    if (tabName === "ZTE BFN 2G Traffic") {
+        technology[0] = "2G";
+        vendor[0] = "ZBFN";
+        subGroup = "T";
+    }
+    if (tabName === "ZTE BFN 3G Accessibility") {
+        technology[0] = "3G";
+        vendor[0] = "ZBFN";
+        subGroup = "A";
+    }
+    if (tabName === "ZTE BFN 3G Retainability") {
+        technology[0] = "3G";
+        vendor[0] = "ZBFN";
+        subGroup = "R";
+    }
+    if (tabName === "ZTE BFN 3G Traffic") {
+        technology[0] = "3G";
+        vendor[0] = "ZBFN";
+        subGroup = "T";
+    }
+    if (tabName === "ZTE CPT 2G Accessibility") {
+        technology[0] = "2G";
+        vendor[0] = "ZCPT";
+        subGroup = "A";
+    }
+    if (tabName === "ZTE CPT 2G Retainability") {
+        technology[0] = "2G";
+        vendor[0] = "ZCPT";
+        subGroup = "R";
+    }
+    if (tabName === "ZTE CPT 2G Traffic") {
+        technology[0] = "2G";
+        vendor[0] = "ZCPT";
+        subGroup = "T";
+    }
+    if (tabName === "ZTE CPT 3G Accessibility") {
+        technology[0] = "3G";
+        vendor[0] = "ZCPT";
+        subGroup = "A";
+    }
+    if (tabName === "ZTE CPT 3G Retainability") {
+        technology[0] = "3G";
+        vendor[0] = "ZCPT";
+        subGroup = "R";
+    }
+    if (tabName === "ZTE CPT 3G Traffic") {
+        technology[0] = "3G";
+        vendor[0] = "ZCPT";
+        subGroup = "T";
+    }
+    if (tabName === "ZTE JHB 2G Accessibility") {
         technology[0] = "2G";
         vendor[0] = "ZJHB";
+        subGroup = "A";
     }
-    if (tabName === "ZTE-JHB 3G SLA KPI") {
+    if (tabName === "ZTE JHB 2G Retainability") {
+        technology[0] = "2G";
+        vendor[0] = "ZJHB";
+        subGroup = "R";
+    }
+    if (tabName === "ZTE JHB 2G Traffic") {
+        technology[0] = "2G";
+        vendor[0] = "ZJHB";
+        subGroup = "T";
+    }
+    if (tabName === "ZTE JHB 3G Accessibility") {
         technology[0] = "3G";
         vendor[0] = "ZJHB";
+        subGroup = "A";
     }
+    if (tabName === "ZTE JHB 3G Retainability") {
+        technology[0] = "3G";
+        vendor[0] = "ZJHB";
+        subGroup = "R";
+    }
+    if (tabName === "ZTE JHB 3G Traffic") {
+        technology[0] = "3G";
+        vendor[0] = "ZJHB";
+        subGroup = "T";
+    }
+    if (tabName === "ZTE KZN 2G Accessibility") {
+        technology[0] = "2G";
+        vendor[0] = "ZKZN";
+        subGroup = "A";
+    }
+    if (tabName === "ZTE KZN 2G Retainability") {
+        technology[0] = "2G";
+        vendor[0] = "ZKZN";
+        subGroup = "R";
+    }
+    if (tabName === "ZTE KZN 2G Traffic") {
+        technology[0] = "2G";
+        vendor[0] = "ZKZN";
+        subGroup = "T";
+    }
+    if (tabName === "ZTE KZN 3G Accessibility") {
+        technology[0] = "3G";
+        vendor[0] = "ZKZN";
+        subGroup = "A";
+    }
+    if (tabName === "ZTE KZN 3G Retainability") {
+        technology[0] = "3G";
+        vendor[0] = "ZKZN";
+        subGroup = "R";
+    }
+    if (tabName === "ZTE KZN 3G Traffic") {
+        technology[0] = "3G";
+        vendor[0] = "ZKZN";
+        subGroup = "T";
+    }
+
+
+
 //    document.getElementById("resultTable" + getDivId()).style.display = "none";
 }
 //function showFilters(tabName) {
@@ -341,14 +480,12 @@ function hideAllFilters() {
     document.getElementById("RNCfilter").style.display = "none";
     document.getElementById("3Gcell_Filters_search").style.display = "none";
     document.getElementById("cell_Filters3G_listbox_div").style.display = "none";
-
     document.getElementById("ZjhbBSCfilter").style.display = "none";
     document.getElementById("ZjhbRNCfilter").style.display = "none";
     document.getElementById("zjhb2cell_Filters_search").style.display = "none";
     document.getElementById("zjhb3cell_Filters_search").style.display = "none";
     document.getElementById("zjhb2cell_Filters_listbox_div").style.display = "none";
     document.getElementById("zjhb3cell_Filters_listbox_div").style.display = "none";
-
     displayDijitButton("aggregate2GCellsButton", false);
     displayDijitButton("aggregate3GCellsButton", false);
 }

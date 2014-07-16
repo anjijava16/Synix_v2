@@ -73,7 +73,7 @@ public class QueryManagerThread implements Runnable {
         try {
 //            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss:SS");
             Date d1 = new Date();
-            System.out.println("Thread " + devPojo.getChartTitle() + " starting. " + (d1));
+//            System.out.println("Thread " + devPojo.getChartTitle() + " starting. " + (d1));
 
             setHours();
             setQueriesMap();
@@ -105,11 +105,20 @@ public class QueryManagerThread implements Runnable {
         if (htmlIp.isAggregated()) {
             if (htmlIp.isAggregationMultiGroup()) {
                 return Constants.AGGREGATED_GROUPING_MAP_TYPE;
+            } else if (isZte()) {
+                return Constants.ZTE_SINGLE_ENTRY_MAP_TYPE;
             } else {
                 return Constants.SINGLE_ENTRY_MAP_TYPE;
             }
+//        } else if (isZte()) {
+//            return Constants.ZTE_SINGLE_ENTRY_MAP_TYPE;
+        } else {
+            return Constants.SINGLE_ENTRY_MAP_TYPE;
         }
-        return Constants.SINGLE_ENTRY_MAP_TYPE;
+    }
+
+    private boolean isZte() {
+        return htmlIp.getVendor().startsWith("Z");
     }
 
     private void buildGraphDataPojos() throws Exception {
@@ -117,7 +126,7 @@ public class QueryManagerThread implements Runnable {
         int count = 0;
         for (Map.Entry<String, String> entry : queriesMap.entrySet()) {
             String query = entry.getValue();
-            System.out.println(hUtil.timeStamp() + " start loop: " + count + " " + query + "\n");
+//            System.out.println(hUtil.timeStamp() + " start loop: " + count + " " + query + "\n");
             setRsFromQuery(query);
             int fc = getFactoryChoice();
             String gn = extractGroupNameFromMapKey(entry.getKey());

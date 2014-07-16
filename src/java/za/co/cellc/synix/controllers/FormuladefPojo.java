@@ -124,4 +124,15 @@ public class FormuladefPojo {
     public String getValue(String key) {
         return map.get(key);
     }
+
+    public String toString() {
+        return getChartTitle() + "|" + getViewCellHourly()
+                + "|" + getViewCellDaily()
+                + "|" + getViewControllerHourly()
+                + "|" + getViewControllerDaily()
+                + "|" + getViewCellWeekly()
+                + "|" + getViewCellMonthly()
+                + "|" + getViewControllerWeekly()
+                + "|" + getViewControllerMonthly();
+    }
 }

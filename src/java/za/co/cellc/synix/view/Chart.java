@@ -91,7 +91,7 @@ public class Chart {
         hip.clear();
     }
 
-    private void setFormulaDefPojos() {
+    private void setFormulaDefPojos() throws Exception {
         FormulaDefController fdc = new FormulaDefController();
         formulaDefPojos = fdc.getFormulaDefPojos(hip, test);
     }
