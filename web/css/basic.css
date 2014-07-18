@@ -132,5 +132,13 @@ thead.fixedHeader  {
     height: 40px;
     z-index: 100;
 }
+.imgMenu{
+    /* display: block; */
+    margin:0 auto;
+    text-align: right;
+    /* top: 5px; */
+    height: 55px;
+    z-index: 100;
+}
 /*.comboPeriodClass { width: 50px; 
                     background-color: #F5F5F5;}*/

@@ -38,11 +38,13 @@ public class QueryMapBuilder {
     protected FormuladefPojo defPojo;
     protected HtmlInputProcessor htmlIp;
     protected HoursUtility hUtil;
+    protected int mapType;
 
-    public QueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, boolean test) throws Exception {
+    public QueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, int mapType, boolean test) throws Exception {
         this.htmlIp = htmlIp;
         this.defPojo = defPojo;
         this.test = test;
+        this.mapType = mapType;
         hUtil = new HoursUtility(htmlIp);
         System.out.println(hUtil.timeStamp() + " QueryBuilder singletons start");
         setTechnology();
@@ -73,7 +75,7 @@ public class QueryMapBuilder {
 
     protected List<String> getNeElements() throws Exception {
         List<String> elementNames = htmlIp.getNetworkElements();
-        if (htmlIp.isAggregated()) {
+        if (mapType == Constants.AGGREGATED_GROUPING_MAP_TYPE) {
             for (int i = 0; i < elementNames.size(); i++) {
                 String updatedEn = removeGroupingFromAggregatedNe(elementNames.get(i));
                 elementNames.set(i, updatedEn);
@@ -83,9 +85,24 @@ public class QueryMapBuilder {
     }
 
     protected List<String> getNeElementIds() throws Exception {
-        List<String> elementNames = htmlIp.getNetworkElements();
+        List<String> elementNames = null;
+        if (mapType == Constants.SINGLE_ENTRY_MAP_TYPE) {
+            if (htmlIp.getLevel().equalsIgnoreCase(Constants.CONTROLLER)) {
+                elementNames = htmlIp.getControllers();
+            } else if (htmlIp.getLevel().equalsIgnoreCase(Constants.CELL)) {
+                elementNames = htmlIp.getCells();
+            }
+        } else if (mapType == Constants.AGGREGATED_GROUPING_MAP_TYPE) {
+            if (htmlIp.getLevel().equalsIgnoreCase(Constants.CONTROLLER)) {
+                elementNames = htmlIp.getCtrlGroups();
+            } else if (htmlIp.getLevel().equalsIgnoreCase(Constants.CELL)) {
+                elementNames = htmlIp.getCellGroups();
+            }
+        } else {
+            throw new Exception("Unknown mapType: " + mapType);
+        }
         List<String> elementIds = new ArrayList<>();
-        if (htmlIp.isAggregated()) {
+        if (mapType == Constants.AGGREGATED_GROUPING_MAP_TYPE) {
             for (int i = 0; i < elementNames.size(); i++) {
                 String updatedEn = removeGroupingFromAggregatedNe(elementNames.get(i));
                 elementNames.set(i, updatedEn);
@@ -139,7 +156,7 @@ public class QueryMapBuilder {
 //    }
 //    private void setUnionizedSelectionPrefix() {
     private void setSelectionPrefix() {
-        if (!htmlIp.isAggregated()) {
+        if (mapType == Constants.SINGLE_ENTRY_MAP_TYPE) {
             selectionPrefix.append(concatMultiIdDelimiter(networkElementColumnName));
             selectionPrefix.append(" AS ObjectID");
             selectionPrefix.append(",");
@@ -163,11 +180,11 @@ public class QueryMapBuilder {
     }
 
     private void setGroupingParameter() {
-        if (!htmlIp.isAggregated()) {
+        if (mapType == Constants.SINGLE_ENTRY_MAP_TYPE) {
             groupingParamter.append(replaceMultiIdDelimiter(networkElementColumnName));
             groupingParamter.append(",");
             groupingParamter.append(Constants.DATE_TIME_COL);
-        } else if (htmlIp.isAggregated()) {
+        } else if (mapType == Constants.AGGREGATED_GROUPING_MAP_TYPE) {
             groupingParamter.append(Constants.DATE_TIME_COL);
         }
     }

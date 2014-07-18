@@ -20,7 +20,7 @@
 
     </head>
     <body>
-        <div>
+        <div>            
             <label>Technology Road Map:</label>
             <TABLE class="blingTable" cellspacing="0">
                 <thead>
@@ -69,7 +69,7 @@
                         <td style="text-align:center">2G</td>
                         <td style="text-align:center">Daily/Hourly</td>
                         <td style="text-align:center">BSC & Cell</td>
-                        <td style="text-align:center">95%</td>
+                        <td style="text-align:center">100%</td>
                         <td style="text-align:center">Undergoing unit testing</td>
                     </tr>
                     <tr>
@@ -77,7 +77,7 @@
                         <td style="text-align:center">3G</td>
                         <td style="text-align:center">Daily/Hourly</td>
                         <td style="text-align:center">RNC & Cell</td>
-                        <td style="text-align:center">95%</td>
+                        <td style="text-align:center">100%</td>
                         <td style="text-align:center">Undergoing unit testing</td>
                     </tr>
                 </tbody>

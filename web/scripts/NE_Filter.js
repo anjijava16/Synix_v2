@@ -373,7 +373,14 @@ function tabClicked(tabName) {
         vendor[0] = "ZKZN";
         subGroup = "T";
     }
-
+    logicalGroup = [];
+    if (subGroup === "A") {
+        logicalGroup.push(ACCESS_LOGICAL_GROUP_ID);
+    } else if (subGroup === "R") {
+        logicalGroup.push(RETAIN_LOGICAL_GROUP_ID);
+    } else if (subGroup === "T") {
+        logicalGroup.push(TRAFFIC_LOGICAL_GROUP_ID);
+    }
 
 
 //    document.getElementById("resultTable" + getDivId()).style.display = "none";

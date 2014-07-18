@@ -272,7 +272,7 @@ root {
     font-size:10px;
     text-shadow: 1px 1px 0px #fff;
     background:#eaebec;
-    margin:2px;
+    /* margin:2px; */
     border:#ccc 1px solid;
 
     -moz-border-radius:3px;

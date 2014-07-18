@@ -22,8 +22,8 @@ public class UnionizedSingleEntryQueryMapBuilder extends QueryMapBuilder {
 
     private StringBuilder mapKey = new StringBuilder();
 
-    public UnionizedSingleEntryQueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, boolean test) throws Exception {
-        super(htmlIp, defPojo, test);
+    public UnionizedSingleEntryQueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo,int mapType, boolean test) throws Exception {
+        super(htmlIp, defPojo,mapType, test);
         this.defPojo = defPojo;
     }
 

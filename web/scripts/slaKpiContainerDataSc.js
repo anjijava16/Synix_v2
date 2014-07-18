@@ -211,6 +211,13 @@ function storeController(checkBox) {
     var id = getTabIndex();
     if (checkBox.checked === true) {
         selectedControllerNames[id].push(checkBox.name);
+//        var btn = document.getElementById("showCells" + getDivId());
+//        if(controllerSelected()){
+//            $(btn).prop('disabled', false); 
+//        }
+//        else{
+//            $(btn).prop('disabled', true);
+//        }
     } else {
         for (var i = 0; i < selectedControllerNames[id].length; i++) {
             if (selectedControllerNames[id][i] === checkBox.name) {
@@ -219,7 +226,11 @@ function storeController(checkBox) {
         }
     }
 }
-
+function controllerSelected() {
+    var id = getTabIndex();
+    var ctrls = removeIndexFromArray(removeEmptiesFromArray(selectedControllerNames[id]))
+    return ctrls.length > 0;
+}
 function  getDivId() {
     return "_" + getTabIndex();
 }

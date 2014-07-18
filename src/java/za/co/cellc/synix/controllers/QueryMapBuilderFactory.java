@@ -16,15 +16,15 @@ public class QueryMapBuilderFactory {
 
     public static QueryMapBuilder create(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, int mapType, boolean test) throws Exception {
         if (mapType == Constants.SINGLE_ENTRY_MAP_TYPE) {
-            return new SingleEntryQueryMapBuilder(htmlIp, defPojo, test);
+            return new SingleEntryQueryMapBuilder(htmlIp, defPojo,mapType, test);
         } else if (mapType == Constants.MULTI_ENTRY_MAP_TYPE) {
-            return new MultiEntryQueryMapBuilder(htmlIp, defPojo, test);
+            return new MultiEntryQueryMapBuilder(htmlIp, defPojo,mapType, test);
         } else if (mapType == Constants.AGGREGATED_GROUPING_MAP_TYPE) {
-            return new AggregatedGroupingQueryMapBuilder(htmlIp, defPojo, test);
+            return new AggregatedGroupingQueryMapBuilder(htmlIp, defPojo,mapType, test);
         } else if (mapType == Constants.UNIONIZED_SINGLE_ENTRY_MAP_TYPE) {
-            return new UnionizedSingleEntryQueryMapBuilder(htmlIp, defPojo, test);
-        }else if (mapType == Constants.ZTE_SINGLE_ENTRY_MAP_TYPE) {
-            return new ZteSingleEntryQueryMapBuilder(htmlIp, defPojo, test);
+            return new UnionizedSingleEntryQueryMapBuilder(htmlIp, defPojo,mapType, test);
+        } else if (mapType == Constants.ZTE_SINGLE_ENTRY_MAP_TYPE) {
+            return new ZteSingleEntryQueryMapBuilder(htmlIp, defPojo,mapType, test);
         } else {
             throw new Exception("Invalid map type: " + mapType);
         }

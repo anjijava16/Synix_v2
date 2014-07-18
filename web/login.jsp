@@ -53,29 +53,30 @@
                 </td>
             </tr>
             <tr>
-                <td style="text-align: right">
+                <td style="text-align: left">
+                    <a href="helpFile.jsp" target="blank_">Synix Online Help</a>
                 </td>
-              <td style="text-align: right" colspan="1">
-                             <a href="mailto:pierre.venter@cellc.co.za?Subject=Application%20for%20logon%20access%20to%20Synix&Body=Please add me to Synix!%0D%0DPreferred user name:%0DPreferred password:" target="_top">Click here to request access!</a>
-              <input type="submit" value="Submit" name="B1" style="text-align: center">
+                <td style="text-align: right" colspan="1">
+                    <a href="mailto:pierre.venter@cellc.co.za?Subject=Application%20for%20logon%20access%20to%20Synix&Body=Please add me to Synix!%0D%0DPreferred user name:%0DPreferred password:" target="_top">Click here to request access!</a>
+                    <input type="submit" value="Submit" name="B1" style="text-align: center">
                 </td>
-              </tr>
+            </tr>
             <tr style="border: 1px #000000">
                 <td colspan="2" style="text-align: center">
                     <h3><%=theErrorMessage%></h3>
                 </td>
             </tr>
-<!--            <tr style="border: 1px #000000">
-                <td colspan="2">
-                </td>
-            </tr>-->
-<!--            <tr>
-                <td style="text-align: center" colspan="2">                    
-                    <b>
-                        <a href="mailto:pierre.venter@cellc.co.za?Subject=Application%20for%20logon%20access%20to%20Synix&Body=Please add me to Synix!%0D%0DPreferred user name:%0DPreferred password:" target="_top">Click here to request access!</a>
-                    </b>
-                </td>
-            </tr>-->
+            <!--            <tr style="border: 1px #000000">
+                            <td colspan="2">
+                            </td>
+                        </tr>-->
+            <!--            <tr>
+                            <td style="text-align: center" colspan="2">                    
+                                <b>
+                                    <a href="mailto:pierre.venter@cellc.co.za?Subject=Application%20for%20logon%20access%20to%20Synix&Body=Please add me to Synix!%0D%0DPreferred user name:%0DPreferred password:" target="_top">Click here to request access!</a>
+                                </b>
+                            </td>
+                        </tr>-->
         </table>
     </form>
 

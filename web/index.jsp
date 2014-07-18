@@ -237,14 +237,14 @@ and open the template in the editor.
         </script>  
 
 
-<!--        <script type="dojo/method" data-dojo-event="getIconClass" data-dojo-args="item, opened">
-            alert(this);
-            if(item == this.model.root){
-            return (opened ? "customFolderOpenedIcon" : "customFolderClosedIcon");
-            }else{
-            return myStore.getValue(item, "type") + "Icon";
-            }
-        </script>-->
+        <!--        <script type="dojo/method" data-dojo-event="getIconClass" data-dojo-args="item, opened">
+                    alert(this);
+                    if(item == this.model.root){
+                    return (opened ? "customFolderOpenedIcon" : "customFolderClosedIcon");
+                    }else{
+                    return myStore.getValue(item, "type") + "Icon";
+                    }
+                </script>-->
 
 
     </head>
@@ -276,11 +276,17 @@ and open the template in the editor.
                 <div class="wwClass" id="welcomeWindow" data-dojo-type="dojox/layout/ContentPane" 
                      data-dojo-props='title:"Welcome",iconClass:"dijitCommonsIcon dijitUserIcon"'>
                     <!--<form id="testFRM" action="ChartFilterServlet" method="post">-->
-                    <table border='1' cellpadding='0' cellspacing='0' width='100%' class='scrollTable'>
+                    <table border='0' cellpadding='0' cellspacing='0' width='100%' class='scrollTable'>
                         <tr>
-                        <h1>Welcome to Synix</h1>
+                            <td style="text-align: left">
+                                <h1>Welcome to Synix</h1>
+                            </td>
+                            <td style="text-align: right">
+                                <a href="helpFile.jsp" target="blank_"><img class="imgMenu" src="images/synixHelp/help-button.png" /></a>
+                            </td>
                         </tr>
                     </table>
+                    <hr>
                     <br>
                     <p>
                     <div id="welcome_Div" preload="true" extractContent="true"
@@ -508,7 +514,7 @@ and open the template in the editor.
             </div>
 
             <div class="header" data-dojo-type="dojox/layout/ContentPane" data-dojo-props="region: 'top'">
-                <img class="imgcenter" src="images/logo5.png" />
+                <img class="imgcenter" src="images/logo6.png" />
             </div>
             <div id="leftCol" class="edgePanel" data-dojo-type="dojox/layout/ContentPane" data-dojo-props="region: 'left'">
                 <div data-dojo-type="dijit.layout.AccordionContainer" data-dojo-props="region:'leading', splitter:true"

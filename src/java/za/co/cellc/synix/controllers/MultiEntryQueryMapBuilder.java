@@ -19,8 +19,8 @@ import za.co.cellc.synix.view.HtmlInputProcessor;
  */
 public class MultiEntryQueryMapBuilder extends QueryMapBuilder {
 
-    public MultiEntryQueryMapBuilder(HtmlInputProcessor htmlIp,FormuladefPojo defPojo, boolean test) throws Exception {
-        super(htmlIp,defPojo, test);
+    public MultiEntryQueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, int mapType, boolean test) throws Exception {
+        super(htmlIp, defPojo, mapType, test);
         this.defPojo = defPojo;
     }
 

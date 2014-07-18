@@ -21,8 +21,8 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
 
     private StringBuilder mapKey = new StringBuilder();
 
-    public SingleEntryQueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, boolean test) throws Exception {
-        super(htmlIp, defPojo, test);
+    public SingleEntryQueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, int mapType, boolean test) throws Exception {
+        super(htmlIp, defPojo, mapType, test);
         this.defPojo = defPojo;
     }
 
@@ -111,16 +111,16 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
         StringBuilder clause = new StringBuilder("(");
         String cols[] = networkElementColumnName.split(elementNameSingleton.getMultiIdDelimiter());
 //        for (String ne : networkElementID) {
-            String ids[] = networkElementID.split(elementNameSingleton.getMultiIdDelimiter());
-            for (int i = 0; i < cols.length; i++) {
-                clause.append(cols[i]);
-                clause.append("='");
-                clause.append(ids[i]);
-                clause.append("'");
-                if (i < cols.length - 1) {
-                    clause.append(" AND ");
-                }
+        String ids[] = networkElementID.split(elementNameSingleton.getMultiIdDelimiter());
+        for (int i = 0; i < cols.length; i++) {
+            clause.append(cols[i]);
+            clause.append("='");
+            clause.append(ids[i]);
+            clause.append("'");
+            if (i < cols.length - 1) {
+                clause.append(" AND ");
             }
+        }
 //        }
         clause.append(")");
         return clause.toString();
@@ -131,7 +131,7 @@ public class SingleEntryQueryMapBuilder extends QueryMapBuilder {
         mapKey.append("'");
         mapKey.append(Constants.DATE_TIME_COL);
         mapKey.append("'");
-        if (htmlIp.isAggregated()) {
+        if (mapType == Constants.AGGREGATED_GROUPING_MAP_TYPE) {
             mapKey.append(",'Grouping'");
         } else {
             for (String ne : networkElements) {

@@ -22,8 +22,8 @@ public class ZteSingleEntryQueryMapBuilder extends QueryMapBuilder {
     private StringBuilder mapKey = new StringBuilder();
     private String UNIQUE_WHERE_CHECK = " AND NODEBID != '99999'";
 
-    public ZteSingleEntryQueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, boolean test) throws Exception {
-        super(htmlIp, defPojo, test);
+    public ZteSingleEntryQueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo,int mapType, boolean test) throws Exception {
+        super(htmlIp, defPojo,mapType, test);
         this.defPojo = defPojo;
     }
 

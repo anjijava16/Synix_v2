@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -37,10 +38,12 @@ import za.co.cellc.synix.view.HtmlInputProcessor;
 public class QueryManagerThread implements Runnable {
 
 //    private int MAP_TYPE = Constants.SINGLE_ENTRY_MAP_TYPE;//or MULTI_ENTRY_MAP_TYPE
+    private String GROUPING_FLAG = "Group_";
     private boolean test = false;
     private List<String> hours = new ArrayList<>();
     private FormuladefPojo devPojo;
-    private Map<String, String> queriesMap;
+//        private Map<String, String> queriesMap;
+    private Map<String, String> queriesMap = new HashMap<String, String>();
     private List<GraphData> gdObjects = new ArrayList<>();
     private List<String> labelNames = new ArrayList<>();
 //   private List<GraphLabelObject> glObjects = new ArrayList<>();
@@ -96,14 +99,22 @@ public class QueryManagerThread implements Runnable {
     }
 
     private void setQueriesMap() throws Exception {
-        int mapType = getMapType();
-        QueryMapBuilder qmb = QueryMapBuilderFactory.create(htmlIp, devPojo, mapType, test);
-        queriesMap = qmb.getQueriesMap();
+        List<Integer> mapTypes = getMapTypes();
+//        int mapType = getMapType();
+        for (Integer mapType : mapTypes) {
+            QueryMapBuilder qmb = QueryMapBuilderFactory.create(htmlIp, devPojo, mapType, test);
+            Map<String, String> m = qmb.getQueriesMap();
+//            queriesMap = qmb.getQueriesMap();
+            for (Map.Entry<String, String> entry : m.entrySet()) {
+                queriesMap.put(entry.getKey(), entry.getValue());
+            }
+//            queriesMap.put(m., plotter);
+        }
     }
 
     private int getMapType() {
         if (htmlIp.isAggregated()) {
-            if (htmlIp.isAggregationMultiGroup()) {
+            if (htmlIp.isAggregated()) {
                 return Constants.AGGREGATED_GROUPING_MAP_TYPE;
             } else if (isZte()) {
                 return Constants.ZTE_SINGLE_ENTRY_MAP_TYPE;
@@ -117,6 +128,39 @@ public class QueryManagerThread implements Runnable {
         }
     }
 
+    private List<Integer> getMapTypes() {
+        List<Integer> mapTypes = new ArrayList<>();
+
+        if (!htmlIp.isAggregated()) {
+
+            mapTypes.add(Constants.SINGLE_ENTRY_MAP_TYPE);
+
+        } else {
+            if (htmlIp.isAggregated()) {
+                mapTypes.add(Constants.AGGREGATED_GROUPING_MAP_TYPE);
+            }
+            if (htmlIp.isComplexSelection()) {
+
+                mapTypes.add(Constants.SINGLE_ENTRY_MAP_TYPE);
+
+            }
+        }
+
+//        if (htmlIp.isAggregated()) {
+//            if (htmlIp.isAggregationMultiGroup()) {
+//                mapTypes.add(Constants.AGGREGATED_GROUPING_MAP_TYPE);
+//            }
+//            if (isZte()) {
+//                mapTypes.add(Constants.ZTE_SINGLE_ENTRY_MAP_TYPE);
+//            }
+//        } else if (htmlIp.isComplexSelection()) { //for singleEntry
+//            mapTypes.add(Constants.SINGLE_ENTRY_MAP_TYPE);
+//        } else {//for
+//            mapTypes.add(Constants.SINGLE_ENTRY_MAP_TYPE);
+//        }
+        return mapTypes;
+    }
+
     private boolean isZte() {
         return htmlIp.getVendor().startsWith("Z");
     }
@@ -128,7 +172,7 @@ public class QueryManagerThread implements Runnable {
             String query = entry.getValue();
 //            System.out.println(hUtil.timeStamp() + " start loop: " + count + " " + query + "\n");
             setRsFromQuery(query);
-            int fc = getFactoryChoice();
+            int fc = getFactoryChoice(entry.getKey());
             String gn = extractGroupNameFromMapKey(entry.getKey());
             Adaptor adaptor = AdaptorFactory.create(htmlIp, fc, gn, rs, test);
             labelNames.add(entry.getKey());
@@ -179,15 +223,15 @@ public class QueryManagerThread implements Runnable {
     }
 
     private String extractGroupNameFromMapKey(String key) {
-        if (htmlIp.isAggregated()) {
+        if (key.contains(GROUPING_FLAG)) {
             String ar[] = key.split(",");
             return stripQuotes(ar[ar.length - 1]);
         }
         return "";
     }
 
-    private int getFactoryChoice() {
-        if (htmlIp.isAggregated()) {
+    private int getFactoryChoice(String key) {
+        if (key.contains(GROUPING_FLAG)) {
             return Constants.AGGREGATION_ADAPTOR;
         }
         return Constants.NON_AGGREGATION_ADAPTOR;

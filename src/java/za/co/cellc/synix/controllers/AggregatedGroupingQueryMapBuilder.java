@@ -20,8 +20,8 @@ import za.co.cellc.synix.view.HtmlInputProcessor;
  */
 public class AggregatedGroupingQueryMapBuilder extends QueryMapBuilder {
 
-    public AggregatedGroupingQueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, boolean test) throws Exception {
-        super(htmlIp, defPojo, test);
+    public AggregatedGroupingQueryMapBuilder(HtmlInputProcessor htmlIp, FormuladefPojo defPojo, int mapType, boolean test) throws Exception {
+        super(htmlIp, defPojo, mapType, test);
         this.defPojo = defPojo;
     }
 
@@ -71,7 +71,6 @@ public class AggregatedGroupingQueryMapBuilder extends QueryMapBuilder {
 //        }
 //        return groupMembers;
 //    }
-
     private List<String> getElementIdsFromGroup(String groupId) {
         List<String> groupMembers = new ArrayList<>();
         List<String> elementIds = new ArrayList<>();

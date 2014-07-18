@@ -22,7 +22,7 @@ public class HtmlInputProcessor {
     private List<String> toDate;
     private List<String> networkElements = new ArrayList<>();
     private boolean aggregated = false;
-    private boolean aggregationMultiGroup = false;
+//    private boolean aggregationMultiGroup = false;
     private List<String> tech;
     private List<String> vendor;
     private String level;
@@ -80,7 +80,7 @@ public class HtmlInputProcessor {
         controllers = new ArrayList<>();
         cells = new ArrayList<>();
         aggregated = false;
-        aggregationMultiGroup = false;
+//        aggregationMultiGroup = false;
         tech = new ArrayList<>();
         vendor = new ArrayList<>();
         level = "";
@@ -142,10 +142,9 @@ public class HtmlInputProcessor {
         return fromDate.get(0);
     }
 
-    public boolean isAggregationMultiGroup() {
-        return aggregationMultiGroup;
-    }
-
+//    public boolean isAggregationMultiGroup() {
+//        return aggregationMultiGroup;
+//    }
     public List<String> getCellGroups() {
         return cellGroups;
     }
@@ -182,13 +181,13 @@ public class HtmlInputProcessor {
         return logicalGroup;
     }
 
-    private void setAggregated() { 
+    private void setAggregated() {
         switch (level) {
             case "Controller":
-                aggregated=aggregationMultiGroup = ctrlGroups.size() > 0;
+                aggregated = ctrlGroups.size() > 0;
                 break;
             case "Cell":
-                aggregated=aggregationMultiGroup = cellGroups.size() > 0;
+                aggregated = cellGroups.size() > 0;
                 break;
             default:
         }
@@ -303,6 +302,19 @@ public class HtmlInputProcessor {
 
     public String getRollerPeriod() {
         return rollerPeriod;
+    }
+
+    public boolean isComplexSelection() {
+        if (!isAggregated()) {
+            return false;
+        } else {
+            if (level.equalsIgnoreCase("Controller") && !controllers.isEmpty()) {
+                return true;
+            } else if (level.equalsIgnoreCase("Cell") && !cells.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

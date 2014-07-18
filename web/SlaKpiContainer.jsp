@@ -88,7 +88,8 @@
                 </tr>
                 <tr>
                     <td align="center">
-                        <button id="showCells<%=divid%>" type="button" onclick="showCellDiv()" style="display: block;">Show Cells</button>                        
+                        <button id="showCells<%=divid%>" type="button" onclick="showCellDiv()">Show Cells</button>      
+<!--                        <input id="showCells<%=divid%>" type="button" onclick="showCellDiv()" value="Show Cells"/>      -->
                     </td>
                 <tr>
                     <td>
